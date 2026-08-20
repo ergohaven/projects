@@ -1,0 +1,7 @@
+{{ $ui := site.Home.Params.ui }}
+<footer class="site-footer">
+  <div class="site-footer__inner shell">
+    <p>{{ $ui.footer_prefix }} <a href="{{ site.Params.companyURL }}">{{ site.Params.companyLabel }}</a></p>
+    <p>{{ $ui.footer_stage }}</p>
+  </div>
+</footer>

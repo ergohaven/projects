@@ -1,0 +1,4 @@
+baseURL: https://projects.eh.industries/
+defaultContentLanguage: en
+disableLanguages:
+  - ru

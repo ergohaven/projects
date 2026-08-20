@@ -1,0 +1,4 @@
+baseURL: https://projects.eh.works/
+defaultContentLanguage: ru
+disableLanguages:
+  - en

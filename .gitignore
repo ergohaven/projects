@@ -1,0 +1,12 @@
+/public/
+/public-preview/
+/resources/_gen/
+/.hugo_build.lock
+/.tools/
+__pycache__/
+*.py[cod]
+
+.DS_Store
+.idea/
+.vscode/
+*.swp

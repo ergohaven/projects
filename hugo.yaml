@@ -1,0 +1,47 @@
+title: Ergohaven Projects
+baseURL: http://localhost:1313/
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: false
+enableRobotsTXT: true
+enableGitInfo: false
+disableKinds:
+  - taxonomy
+  - term
+
+outputs:
+  home:
+    - HTML
+  page:
+    - HTML
+
+minify:
+  minifyOutput: true
+
+languages:
+  en:
+    locale: en-US
+    label: English
+    contentDir: content/en
+    weight: 1
+    params:
+      localeDomain: https://projects.eh.industries/
+      alternateBaseURL: https://projects.eh.works/
+      alternateLanguage: ru
+      companyURL: https://eh.industries/
+      companyLabel: eh.industries
+  ru:
+    locale: ru-RU
+    label: Русский
+    contentDir: content/ru
+    weight: 2
+    params:
+      localeDomain: https://projects.eh.works/
+      alternateBaseURL: https://projects.eh.industries/
+      alternateLanguage: en
+      companyURL: https://eh.works/
+      companyLabel: eh.works
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: false

@@ -1,0 +1,49 @@
+{{ define "main" }}
+  <article>
+    <section class="product-hero shell" aria-labelledby="product-title">
+      <div class="product-hero__copy">
+        <p class="eyebrow">{{ .Params.eyebrow }}</p>
+        <h1 id="product-title">{{ .Params.hero_title }}</h1>
+        <p class="product-hero__intro">{{ .Params.hero_text }}</p>
+        <ul class="product-facts" aria-label="{{ .Params.facts_label }}">
+          {{ range .Params.facts }}<li>{{ . }}</li>{{ end }}
+        </ul>
+      </div>
+      <div class="product-stage" role="img" aria-label="{{ .Params.visual_alt }}">
+        <span class="product-stage__index" aria-hidden="true">{{ .Params.visual_index }}</span>
+        <span class="product-stage__label">{{ .Params.visual_label }}</span>
+      </div>
+    </section>
+
+    <section class="principles section shell" aria-labelledby="principles-title">
+      <header class="section-heading">
+        <p class="eyebrow">{{ .Params.principles_eyebrow }}</p>
+        <h2 id="principles-title">{{ .Params.principles_title }}</h2>
+      </header>
+      <ol class="principles__list">
+        {{ range $index, $item := .Params.principles }}
+          <li>
+            <span class="principles__number" aria-hidden="true">0{{ add $index 1 }}</span>
+            <div>
+              <h3>{{ $item.title }}</h3>
+              <p>{{ $item.text }}</p>
+            </div>
+          </li>
+        {{ end }}
+      </ol>
+    </section>
+
+    <section class="software section shell" aria-labelledby="software-title">
+      <div class="software__heading">
+        <p class="eyebrow">{{ .Params.software.eyebrow }}</p>
+        <h2 id="software-title">{{ .Params.software.title }}</h2>
+      </div>
+      <div class="software__body">
+        <p>{{ .Params.software.text }}</p>
+        <ul>
+          {{ range .Params.software.points }}<li>{{ . }}</li>{{ end }}
+        </ul>
+      </div>
+    </section>
+  </article>
+{{ end }}

@@ -1,0 +1,21 @@
+{{ define "main" }}
+  <section class="home-hero shell" aria-labelledby="home-title">
+    <p class="eyebrow">{{ .Params.eyebrow }}</p>
+    <h1 id="home-title">{{ .Params.hero_title }}</h1>
+    <p class="home-hero__intro">{{ .Params.hero_text }}</p>
+  </section>
+
+  <nav class="product-index shell" aria-label="{{ .Params.products_label }}">
+    {{ range $index, $product := .Params.products }}
+      <a class="product-index__item" href="{{ $product.path | relLangURL }}">
+        <span class="product-index__number" aria-hidden="true">0{{ add $index 1 }}</span>
+        <span class="product-index__copy">
+          <span class="product-index__name">{{ $product.name }}</span>
+          <span class="product-index__descriptor">{{ $product.descriptor }}</span>
+          <span class="product-index__summary">{{ $product.summary }}</span>
+        </span>
+        <span class="product-index__arrow" aria-hidden="true">↗</span>
+      </a>
+    {{ end }}
+  </nav>
+{{ end }}
