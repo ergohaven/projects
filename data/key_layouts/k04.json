@@ -1,0 +1,608 @@
+{
+  "source": {
+    "repository": "https://github.com/ergohaven/rmk",
+    "branch": "main",
+    "commit": "c84a649f6871de0b14a97ebf1400efc559f51d5d"
+  },
+  "models": [
+    {
+      "id": "standard",
+      "name": "K:04 Standard",
+      "source": {
+        "vial_path": "keyboards/k04/vial.json",
+        "vial_sha256": "ab38a886eda1d3ab1dc48433888a67d77f7fe6e72ae507925eb94bbf41439829",
+        "keymap_path": "keyboards/k04/keyboard.toml",
+        "keymap_sha256": "398bf7d14da926f9e406bf19e36fccb3ae5d40e756b19eefc6a5324207cdafab"
+      }
+    },
+    {
+      "id": "mini",
+      "name": "K:04 Mini",
+      "source": {
+        "vial_path": "keyboards/k04/vial_mini.json",
+        "vial_sha256": "5ff463d402ec58a15bce0b1cc041c18b73321691fb69c7e061b043137bfd8a1e",
+        "keymap_path": "keyboards/k04/keyboard_mini.toml",
+        "keymap_sha256": "27a87025a507d2596b9c01137fe8339ac33a814d33c9d2377be86e8c1f42de1e"
+      }
+    },
+    {
+      "id": "micro",
+      "name": "K:04 Micro",
+      "source": {
+        "vial_path": "keyboards/k04/vial_micro.json",
+        "vial_sha256": "69822c2ce4e72e3c8b411f93621f3e1a580dbb2e0c04ea1c222690c105989f63",
+        "keymap_path": "keyboards/k04/keyboard_micro.toml",
+        "keymap_sha256": "e98616c958bbe48a493b782e99f40c218c3e3a9284739fc0d6d66033fc7a2b0f"
+      }
+    }
+  ],
+  "featured_layout": {
+    "model": "standard",
+    "key_count": 58
+  },
+  "diagram": {
+    "type": "split-keyboard",
+    "unit": 100,
+    "halves": {
+      "left": {
+        "view_box": [
+          60,
+          -50,
+          820,
+          680
+        ]
+      },
+      "right": {
+        "view_box": [
+          1020,
+          -50,
+          820,
+          680
+        ]
+      }
+    },
+    "keys": [
+      {
+        "matrix": "0,5",
+        "side": "left",
+        "x": 1,
+        "y": 0.4,
+        "legend": [
+          "~"
+        ]
+      },
+      {
+        "matrix": "0,4",
+        "side": "left",
+        "x": 2,
+        "y": 0.4,
+        "legend": [
+          "1"
+        ]
+      },
+      {
+        "matrix": "0,3",
+        "side": "left",
+        "x": 3,
+        "y": -0.05,
+        "legend": [
+          "2"
+        ]
+      },
+      {
+        "matrix": "0,2",
+        "side": "left",
+        "x": 4,
+        "y": -0.15,
+        "legend": [
+          "3"
+        ]
+      },
+      {
+        "matrix": "0,1",
+        "side": "left",
+        "x": 5,
+        "y": -0.05,
+        "legend": [
+          "4"
+        ]
+      },
+      {
+        "matrix": "0,0",
+        "side": "left",
+        "x": 6,
+        "y": 0.1,
+        "legend": [
+          "5"
+        ]
+      },
+      {
+        "matrix": "1,5",
+        "side": "left",
+        "x": 1,
+        "y": 1.4,
+        "legend": [
+          "Esc"
+        ]
+      },
+      {
+        "matrix": "1,4",
+        "side": "left",
+        "x": 2,
+        "y": 1.4,
+        "legend": [
+          "Q"
+        ]
+      },
+      {
+        "matrix": "1,3",
+        "side": "left",
+        "x": 3,
+        "y": 0.95,
+        "legend": [
+          "W"
+        ]
+      },
+      {
+        "matrix": "1,2",
+        "side": "left",
+        "x": 4,
+        "y": 0.85,
+        "legend": [
+          "E"
+        ]
+      },
+      {
+        "matrix": "1,1",
+        "side": "left",
+        "x": 5,
+        "y": 0.95,
+        "legend": [
+          "R"
+        ]
+      },
+      {
+        "matrix": "1,0",
+        "side": "left",
+        "x": 6,
+        "y": 1.1,
+        "legend": [
+          "T"
+        ]
+      },
+      {
+        "matrix": "2,5",
+        "side": "left",
+        "x": 1,
+        "y": 2.4,
+        "legend": [
+          "Tab"
+        ]
+      },
+      {
+        "matrix": "2,4",
+        "side": "left",
+        "x": 2,
+        "y": 2.4,
+        "legend": [
+          "A"
+        ]
+      },
+      {
+        "matrix": "2,3",
+        "side": "left",
+        "x": 3,
+        "y": 1.95,
+        "legend": [
+          "S"
+        ]
+      },
+      {
+        "matrix": "2,2",
+        "side": "left",
+        "x": 4,
+        "y": 1.85,
+        "legend": [
+          "D"
+        ]
+      },
+      {
+        "matrix": "2,1",
+        "side": "left",
+        "x": 5,
+        "y": 1.95,
+        "legend": [
+          "F"
+        ]
+      },
+      {
+        "matrix": "2,0",
+        "side": "left",
+        "x": 6,
+        "y": 2.1,
+        "legend": [
+          "G"
+        ]
+      },
+      {
+        "matrix": "3,5",
+        "side": "left",
+        "x": 1,
+        "y": 3.4,
+        "legend": [
+          "Shift"
+        ]
+      },
+      {
+        "matrix": "3,4",
+        "side": "left",
+        "x": 2,
+        "y": 3.4,
+        "legend": [
+          "Z"
+        ]
+      },
+      {
+        "matrix": "3,3",
+        "side": "left",
+        "x": 3,
+        "y": 2.95,
+        "legend": [
+          "X"
+        ]
+      },
+      {
+        "matrix": "3,2",
+        "side": "left",
+        "x": 4,
+        "y": 2.85,
+        "legend": [
+          "C"
+        ]
+      },
+      {
+        "matrix": "3,1",
+        "side": "left",
+        "x": 5,
+        "y": 2.95,
+        "legend": [
+          "V"
+        ]
+      },
+      {
+        "matrix": "3,0",
+        "side": "left",
+        "x": 6,
+        "y": 3.1,
+        "legend": [
+          "B"
+        ]
+      },
+      {
+        "matrix": "4,5",
+        "side": "left",
+        "x": 3,
+        "y": 3.95,
+        "legend": [
+          "Del"
+        ]
+      },
+      {
+        "matrix": "4,4",
+        "side": "left",
+        "x": 4,
+        "y": 3.85,
+        "legend": [
+          "GUI"
+        ]
+      },
+      {
+        "matrix": "4,3",
+        "side": "left",
+        "x": 5.1,
+        "y": 4.15,
+        "legend": [
+          "Ctrl"
+        ],
+        "r": 8,
+        "rx": 5.6,
+        "ry": 4.65
+      },
+      {
+        "matrix": "4,2",
+        "side": "left",
+        "x": 6.1,
+        "y": 4.4,
+        "legend": [
+          "Nav"
+        ],
+        "r": 16,
+        "rx": 6.6,
+        "ry": 4.9
+      },
+      {
+        "matrix": "4,1",
+        "side": "left",
+        "x": 7.1,
+        "y": 4.75,
+        "legend": [
+          "Space"
+        ],
+        "r": 24,
+        "rx": 7.6,
+        "ry": 5.25
+      },
+      {
+        "matrix": "5,0",
+        "side": "right",
+        "x": 12,
+        "y": 0.1,
+        "legend": [
+          "6"
+        ]
+      },
+      {
+        "matrix": "5,1",
+        "side": "right",
+        "x": 13,
+        "y": -0.05,
+        "legend": [
+          "7"
+        ]
+      },
+      {
+        "matrix": "5,2",
+        "side": "right",
+        "x": 14,
+        "y": -0.15,
+        "legend": [
+          "8"
+        ]
+      },
+      {
+        "matrix": "5,3",
+        "side": "right",
+        "x": 15,
+        "y": -0.05,
+        "legend": [
+          "9"
+        ]
+      },
+      {
+        "matrix": "5,4",
+        "side": "right",
+        "x": 16,
+        "y": 0.4,
+        "legend": [
+          "0"
+        ]
+      },
+      {
+        "matrix": "5,5",
+        "side": "right",
+        "x": 17,
+        "y": 0.4,
+        "legend": [
+          "Back",
+          "space"
+        ]
+      },
+      {
+        "matrix": "6,0",
+        "side": "right",
+        "x": 12,
+        "y": 1.1,
+        "legend": [
+          "Y"
+        ]
+      },
+      {
+        "matrix": "6,1",
+        "side": "right",
+        "x": 13,
+        "y": 0.95,
+        "legend": [
+          "U"
+        ]
+      },
+      {
+        "matrix": "6,2",
+        "side": "right",
+        "x": 14,
+        "y": 0.85,
+        "legend": [
+          "I"
+        ]
+      },
+      {
+        "matrix": "6,3",
+        "side": "right",
+        "x": 15,
+        "y": 0.95,
+        "legend": [
+          "O"
+        ]
+      },
+      {
+        "matrix": "6,4",
+        "side": "right",
+        "x": 16,
+        "y": 1.4,
+        "legend": [
+          "P"
+        ]
+      },
+      {
+        "matrix": "6,5",
+        "side": "right",
+        "x": 17,
+        "y": 1.4,
+        "legend": [
+          "\\"
+        ]
+      },
+      {
+        "matrix": "7,0",
+        "side": "right",
+        "x": 12,
+        "y": 2.1,
+        "legend": [
+          "H"
+        ]
+      },
+      {
+        "matrix": "7,1",
+        "side": "right",
+        "x": 13,
+        "y": 1.95,
+        "legend": [
+          "J"
+        ]
+      },
+      {
+        "matrix": "7,2",
+        "side": "right",
+        "x": 14,
+        "y": 1.85,
+        "legend": [
+          "K"
+        ]
+      },
+      {
+        "matrix": "7,3",
+        "side": "right",
+        "x": 15,
+        "y": 1.95,
+        "legend": [
+          "L"
+        ]
+      },
+      {
+        "matrix": "7,4",
+        "side": "right",
+        "x": 16,
+        "y": 2.4,
+        "legend": [
+          ";"
+        ]
+      },
+      {
+        "matrix": "7,5",
+        "side": "right",
+        "x": 17,
+        "y": 2.4,
+        "legend": [
+          "'"
+        ]
+      },
+      {
+        "matrix": "8,0",
+        "side": "right",
+        "x": 12,
+        "y": 3.1,
+        "legend": [
+          "N"
+        ]
+      },
+      {
+        "matrix": "8,1",
+        "side": "right",
+        "x": 13,
+        "y": 2.95,
+        "legend": [
+          "M"
+        ]
+      },
+      {
+        "matrix": "8,2",
+        "side": "right",
+        "x": 14,
+        "y": 2.85,
+        "legend": [
+          ","
+        ]
+      },
+      {
+        "matrix": "8,3",
+        "side": "right",
+        "x": 15,
+        "y": 2.95,
+        "legend": [
+          "."
+        ]
+      },
+      {
+        "matrix": "8,4",
+        "side": "right",
+        "x": 16,
+        "y": 3.4,
+        "legend": [
+          "/"
+        ]
+      },
+      {
+        "matrix": "8,5",
+        "side": "right",
+        "x": 17,
+        "y": 3.4,
+        "legend": [
+          "Shift"
+        ]
+      },
+      {
+        "matrix": "9,4",
+        "side": "right",
+        "x": 14,
+        "y": 3.85,
+        "legend": [
+          "["
+        ]
+      },
+      {
+        "matrix": "9,5",
+        "side": "right",
+        "x": 15,
+        "y": 3.95,
+        "legend": [
+          "]"
+        ]
+      },
+      {
+        "matrix": "9,1",
+        "side": "right",
+        "x": 10.9,
+        "y": 4.75,
+        "legend": [
+          "Enter"
+        ],
+        "r": -24,
+        "rx": 11.4,
+        "ry": 5.25
+      },
+      {
+        "matrix": "9,2",
+        "side": "right",
+        "x": 11.9,
+        "y": 4.4,
+        "legend": [
+          "Symbols"
+        ],
+        "r": -16,
+        "rx": 12.4,
+        "ry": 4.9
+      },
+      {
+        "matrix": "9,3",
+        "side": "right",
+        "x": 12.9,
+        "y": 4.15,
+        "legend": [
+          "Alt"
+        ],
+        "r": -8,
+        "rx": 13.4,
+        "ry": 4.65
+      }
+    ]
+  }
+}

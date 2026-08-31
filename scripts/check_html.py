@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -42,6 +43,15 @@ class PageParser(HTMLParser):
         self.specs_groups = 0
         self.definition_tags: list[str] = []
         self.cta_actions = 0
+        self.immersive_heroes = 0
+        self.series_showcases = 0
+        self.series_cards = 0
+        self.layout_previews: list[str] = []
+        self.layout_preview_sources: list[str] = []
+        self.source_layout_diagrams: list[str] = []
+        self.source_layout_keys: list[str] = []
+        self.source_layout_encoders = 0
+        self.invalid_source_layouts: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
@@ -103,6 +113,24 @@ class PageParser(HTMLParser):
             self.definition_tags.append(tag)
         if "data-cta-action-pending" in values:
             self.cta_actions += 1
+        if "product-hero--immersive" in classes:
+            self.immersive_heroes += 1
+        if "series-showcase" in classes:
+            self.series_showcases += 1
+        if "series-card" in classes:
+            self.series_cards += 1
+        if "layout-preview" in classes:
+            self.layout_previews.append(values.get("data-layout-preview") or "")
+            self.layout_preview_sources.append(values.get("data-layout-source") or "")
+        if "source-layout-diagram" in classes:
+            diagram = values.get("data-source-layout-diagram") or ""
+            self.source_layout_diagrams.append(diagram)
+            if values.get("role") != "img" or not values.get("aria-label"):
+                self.invalid_source_layouts.append(diagram)
+        if "data-source-layout-key" in values:
+            self.source_layout_keys.append(values.get("data-source-layout-key") or "")
+        if "data-source-layout-encoder" in values:
+            self.source_layout_encoders += 1
         for key in ("href", "src"):
             if key in values and not values[key]:
                 self.empty_urls.append((tag, key))
@@ -159,18 +187,274 @@ PHENOM_REFERENCE_HASHES = {
     },
 }
 
+PRODUCT_CONTRACTS = {
+    "phenom": {
+        "images": 33,
+        "pictures": 5,
+        "immersive_heroes": 1,
+        "series": (1, 3),
+        "story": PHENOM_STORY,
+        "h2_ids": PHENOM_H2_IDS,
+        "placeholders": PHENOM_PLACEHOLDERS,
+        "layout": (1, 3, 3, 14, 14, 28, 0),
+        "layout_previews": ([], []),
+        "source_layout": ([], 0, 0),
+        "story_contract": (1, 4, 7, 1, 3, 1),
+        "definition_tags": ["dt", "dd"] * 7,
+        "variants": {
+            "visual-chapter--modularity": 1,
+            "visual-chapter--centered": 1,
+            "visual-chapter--bleed-edge": 2,
+            "visual-chapter--bleed-copy-left": 1,
+            "visual-chapter--split-left": 1,
+            "visual-chapter--closing": 1,
+        },
+    },
+    "k04": {
+        "images": 0,
+        "pictures": 0,
+        "immersive_heroes": 1,
+        "series": (1, 3),
+        "story": [
+            "modularity",
+            "wireless",
+            "layout",
+            "column-stagger",
+            "entropy",
+            "keycaps-switches",
+            "compact-powerful",
+            "comfort",
+            "specs",
+            "cta",
+        ],
+        "h2_ids": [
+            "series-title",
+            "k04-modularity-title",
+            "k04-wireless-title",
+            "k04-layout-title",
+            "k04-column-stagger-title",
+            "k04-entropy-title",
+            "k04-keycaps-switches-title",
+            "k04-compact-title",
+            "k04-comfort-title",
+            "k04-specs-title",
+            "k04-cta-title",
+        ],
+        "placeholders": [
+            "k04-hero",
+            "k04-series-standard",
+            "k04-series-mini",
+            "k04-series-micro",
+            "k04-modularity",
+            "k04-wireless",
+            "k04-column-stagger",
+            "k04-entropy",
+            "k04-keycaps-switches",
+            "k04-compact",
+            "k04-comfort-sculpt",
+            "k04-comfort-handrests",
+            "k04-comfort-tenting",
+            "k04-cta",
+        ],
+        "layout": (0, 0, 0, 0, 0, 0, 0),
+        "layout_previews": (
+            ["k04"],
+            ["c84a649f6871de0b14a97ebf1400efc559f51d5d"],
+        ),
+        "source_layout": (["k04"], 58, 0),
+        "story_contract": (1, 3, 7, 1, 3, 1),
+        "definition_tags": ["dt", "dd"] * 10,
+        "variants": {
+            "visual-chapter--modularity": 1,
+            "visual-chapter--bleed-edge": 3,
+            "visual-chapter--bleed-copy-left": 1,
+            "visual-chapter--split-left": 1,
+            "visual-chapter--closing": 1,
+        },
+    },
+    "macropad": {
+        "images": 0,
+        "pictures": 0,
+        "immersive_heroes": 1,
+        "series": (0, 0),
+        "story": [
+            "designed-for",
+            "display",
+            "entropy",
+            "layout",
+            "design",
+            "keycaps-switches",
+            "compact-powerful",
+            "specs",
+            "cta",
+        ],
+        "h2_ids": [
+            "macropad-designed-for-title",
+            "macropad-display-title",
+            "macropad-entropy-title",
+            "macropad-layout-title",
+            "macropad-design-title",
+            "macropad-keycaps-switches-title",
+            "macropad-compact-title",
+            "macropad-specs-title",
+            "macropad-cta-title",
+        ],
+        "placeholders": [
+            "macropad-hero",
+            "macropad-engineering",
+            "macropad-programming",
+            "macropad-gaming",
+            "macropad-display",
+            "macropad-entropy",
+            "macropad-design",
+            "macropad-keycaps-switches",
+            "macropad-compact",
+            "macropad-cta",
+        ],
+        "layout": (0, 0, 0, 0, 0, 0, 0),
+        "layout_previews": (
+            ["macropad"],
+            ["cb48b91787fc47767d2fda263286873d3e438ea5"],
+        ),
+        "source_layout": (["macropad"], 12, 1),
+        "story_contract": (1, 3, 6, 1, 3, 1),
+        "definition_tags": ["dt", "dd"] * 10,
+        "variants": {
+            "visual-chapter--bleed-copy-left": 2,
+            "visual-chapter--split-left": 1,
+            "visual-chapter--bleed-edge": 2,
+            "visual-chapter--closing": 1,
+        },
+    },
+}
 
-def check_page(path: Path, language: str, domain: str, is_phenom: bool) -> list[str]:
+
+PINNED_PREVIEW_DATA = {
+    "k04": {
+        "source": {
+            "repository": "https://github.com/ergohaven/rmk",
+            "branch": "main",
+            "commit": "c84a649f6871de0b14a97ebf1400efc559f51d5d",
+        },
+        "models": [
+            {
+                "id": "standard",
+                "name": "K:04 Standard",
+                "source": {
+                    "vial_path": "keyboards/k04/vial.json",
+                    "vial_sha256": "ab38a886eda1d3ab1dc48433888a67d77f7fe6e72ae507925eb94bbf41439829",
+                    "keymap_path": "keyboards/k04/keyboard.toml",
+                    "keymap_sha256": "398bf7d14da926f9e406bf19e36fccb3ae5d40e756b19eefc6a5324207cdafab",
+                },
+            },
+            {
+                "id": "mini",
+                "name": "K:04 Mini",
+                "source": {
+                    "vial_path": "keyboards/k04/vial_mini.json",
+                    "vial_sha256": "5ff463d402ec58a15bce0b1cc041c18b73321691fb69c7e061b043137bfd8a1e",
+                    "keymap_path": "keyboards/k04/keyboard_mini.toml",
+                    "keymap_sha256": "27a87025a507d2596b9c01137fe8339ac33a814d33c9d2377be86e8c1f42de1e",
+                },
+            },
+            {
+                "id": "micro",
+                "name": "K:04 Micro",
+                "source": {
+                    "vial_path": "keyboards/k04/vial_micro.json",
+                    "vial_sha256": "69822c2ce4e72e3c8b411f93621f3e1a580dbb2e0c04ea1c222690c105989f63",
+                    "keymap_path": "keyboards/k04/keyboard_micro.toml",
+                    "keymap_sha256": "e98616c958bbe48a493b782e99f40c218c3e3a9284739fc0d6d66033fc7a2b0f",
+                },
+            },
+        ],
+        "featured_layout": {"model": "standard", "key_count": 58},
+    },
+    "macropad": {
+        "source": {
+            "repository": "https://github.com/ergohaven/vial-qmk",
+            "branch": "ergohaven",
+            "commit": "cb48b91787fc47767d2fda263286873d3e438ea5",
+        },
+        "model": {
+            "id": "default",
+            "name": "Ergohaven Macropad",
+            "key_count": 12,
+            "source": {
+                "vial_path": "keyboards/ergohaven/macropad/keymaps/v3/vial.json",
+                "vial_sha256": "505f08fdb1481969fc7dd203e14ed47847fa31077d300849a39decfd8b47cdb7",
+                "keymap_path": "keyboards/ergohaven/macropad/keymaps/v3/keymap.c",
+                "keymap_sha256": "03f5ea9721203d7a1743cc004776d8482803f02a8f1796e4271b5bb18ec3daa6",
+                "layout_path": "keyboards/ergohaven/macropad/rev3/keyboard.json",
+                "layout_sha256": "37f1fe7a415de3b1870f266c76d79a2639d8b1bca4acf7307be0ac82f049cc1c",
+            },
+            "default_keys": [
+                ["7", "8", "9"],
+                ["4", "5", "6"],
+                ["1", "2", "3"],
+                ["0", "Previous layer", "Next layer"],
+            ],
+            "encoder": {
+                "press": "Mute",
+                "counterclockwise": "Volume down",
+                "clockwise": "Volume up",
+            },
+        },
+    },
+}
+
+PINNED_PREVIEW_DIAGRAM_HASHES = {
+    "k04": "b93afe6a8fec265e056cd3d0b2e00e3f3503b181673a1e93744f08167fe2187b",
+    "macropad": "c017e7300608b49ccdfa071e42184247eca43b468df1be1eadfef1dd6dae199e",
+}
+
+
+def check_preview_data(project: Path) -> list[str]:
+    errors: list[str] = []
+    for product, expected in PINNED_PREVIEW_DATA.items():
+        path = project / "data/key_layouts" / f"{product}.json"
+        try:
+            actual = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            errors.append(f"{path}: cannot read layout preview data: {error}")
+            continue
+        diagram = actual.get("diagram")
+        actual_contract = {key: value for key, value in actual.items() if key != "diagram"}
+        if actual_contract != expected:
+            errors.append(f"{path}: source-pinned layout preview contract changed")
+        if not isinstance(diagram, dict):
+            errors.append(f"{path}: source-derived diagram is missing")
+            continue
+        diagram_json = json.dumps(
+            diagram,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8")
+        diagram_hash = hashlib.sha256(diagram_json).hexdigest()
+        if diagram_hash != PINNED_PREVIEW_DIAGRAM_HASHES[product]:
+            errors.append(f"{path}: source-derived diagram geometry changed")
+    return errors
+
+
+def check_page(
+    path: Path,
+    language: str,
+    domain: str,
+    product: str | None,
+) -> list[str]:
     source = path.read_text(encoding="utf-8")
     parser = PageParser()
     parser.feed(source)
     errors: list[str] = []
-    expected_images = 33 if is_phenom else 0
+    contract = PRODUCT_CONTRACTS.get(product or "")
+    is_phenom = product == "phenom"
+    expected_images = contract["images"] if contract else 0
     if parser.h1_count != 1:
         errors.append(f"{path}: expected one h1, found {parser.h1_count}")
     if parser.images != expected_images:
         errors.append(f"{path}: expected {expected_images} img elements, found {parser.images}")
-    expected_pictures = 5 if is_phenom else 0
+    expected_pictures = contract["pictures"] if contract else 0
     if parser.pictures != expected_pictures or parser.webp_sources != expected_pictures:
         errors.append(
             f"{path}: expected {expected_pictures} picture/WebP pairs, found "
@@ -219,17 +503,32 @@ def check_page(path: Path, language: str, domain: str, is_phenom: bool) -> list[
     missing_labels = sorted(set(parser.labelled_by) - set(parser.ids))
     if missing_labels:
         errors.append(f"{path}: missing aria-labelledby targets: {missing_labels}")
-    if is_phenom:
-        expected_layout = (1, 3, 3, 14, 14, 28, 0)
-        if parser.story_chapters != PHENOM_STORY:
+    if contract:
+        expected_layout = contract["layout"]
+        if parser.immersive_heroes != contract["immersive_heroes"]:
             errors.append(
-                f"{path}: expected story order {PHENOM_STORY}, found {parser.story_chapters}"
+                f"{path}: expected {contract['immersive_heroes']} immersive hero, "
+                f"found {parser.immersive_heroes}"
             )
-        if parser.h2_ids != PHENOM_H2_IDS:
-            errors.append(f"{path}: expected h2 order {PHENOM_H2_IDS}, found {parser.h2_ids}")
-        if parser.media_placeholders != PHENOM_PLACEHOLDERS:
+        actual_series = (parser.series_showcases, parser.series_cards)
+        if actual_series != contract["series"]:
             errors.append(
-                f"{path}: expected placeholders {PHENOM_PLACEHOLDERS}, "
+                f"{path}: expected series contract {contract['series']}, "
+                f"found {actual_series}"
+            )
+        if parser.story_chapters != contract["story"]:
+            errors.append(
+                f"{path}: expected story order {contract['story']}, "
+                f"found {parser.story_chapters}"
+            )
+        if parser.h2_ids != contract["h2_ids"]:
+            errors.append(
+                f"{path}: expected h2 order {contract['h2_ids']}, "
+                f"found {parser.h2_ids}"
+            )
+        if parser.media_placeholders != contract["placeholders"]:
+            errors.append(
+                f"{path}: expected placeholders {contract['placeholders']}, "
                 f"found {parser.media_placeholders}"
             )
         if parser.invalid_placeholders:
@@ -245,30 +544,52 @@ def check_page(path: Path, language: str, domain: str, is_phenom: bool) -> list[
             parser.specs_groups,
             parser.cta_actions,
         )
-        if story_contract != (1, 4, 7, 1, 3, 1):
+        if story_contract != contract["story_contract"]:
             errors.append(
-                f"{path}: expected story component contract (1, 4, 7, 1, 3, 1), "
+                f"{path}: expected story component contract "
+                f"{contract['story_contract']}, "
                 f"found {story_contract}"
             )
-        expected_variants = {
-            "visual-chapter--modularity": 1,
-            "visual-chapter--centered": 1,
-            "visual-chapter--bleed-edge": 2,
-            "visual-chapter--bleed-copy-left": 1,
-            "visual-chapter--split-left": 1,
-            "visual-chapter--closing": 1,
-        }
-        for variant, expected in expected_variants.items():
+        for variant, expected in contract["variants"].items():
             actual = parser.visual_variants.count(variant)
             if actual != expected:
                 errors.append(f"{path}: expected {expected} {variant}, found {actual}")
-        if parser.definition_tags != ["dt", "dd"] * 7:
+        expected_preview_names, expected_preview_sources = contract["layout_previews"]
+        if (
+            parser.layout_previews != expected_preview_names
+            or parser.layout_preview_sources != expected_preview_sources
+        ):
             errors.append(
-                f"{path}: specifications must contain seven alternating dt/dd pairs"
+                f"{path}: expected layout previews "
+                f"{contract['layout_previews']}, found "
+                f"{(parser.layout_previews, parser.layout_preview_sources)}"
+            )
+        actual_source_layout = (
+            parser.source_layout_diagrams,
+            len(parser.source_layout_keys),
+            parser.source_layout_encoders,
+        )
+        if actual_source_layout != contract["source_layout"]:
+            errors.append(
+                f"{path}: expected source layout contract "
+                f"{contract['source_layout']}, found {actual_source_layout}"
+            )
+        if parser.invalid_source_layouts:
+            errors.append(
+                f"{path}: source layout diagrams need role=img and a localized "
+                f"aria-label: {parser.invalid_source_layouts}"
+            )
+        if parser.definition_tags != contract["definition_tags"]:
+            errors.append(
+                f"{path}: expected alternating definition tags "
+                f"{contract['definition_tags']}, found {parser.definition_tags}"
             )
     else:
         expected_layout = (0, 0, 0, 0, 0, 0, 0)
         story_contract = (
+            parser.immersive_heroes,
+            parser.series_showcases,
+            parser.series_cards,
             parser.story_chapters,
             parser.media_placeholders,
             parser.detail_sequences,
@@ -278,9 +599,16 @@ def check_page(path: Path, language: str, domain: str, is_phenom: bool) -> list[
             parser.specs_groups,
             parser.cta_actions,
             parser.definition_tags,
+            parser.layout_previews,
+            parser.layout_preview_sources,
+            parser.source_layout_diagrams,
+            parser.source_layout_keys,
+            parser.source_layout_encoders,
         )
-        if story_contract != ([], [], 0, 0, 0, 0, 0, 0, []):
-            errors.append(f"{path}: Phenom story components leaked into another page")
+        if story_contract != (
+            0, 0, 0, [], [], 0, 0, 0, 0, 0, 0, [], [], [], [], [], 0
+        ):
+            errors.append(f"{path}: product story components leaked into another page")
     actual_layout = (
         parser.key_layout_chapters,
         parser.key_layout_model_controls,
@@ -304,6 +632,7 @@ def main() -> int:
         "ru": (project / "public/ru", "ru-RU", "https://projects.eh.works/"),
     }
     errors: list[str] = []
+    errors.extend(check_preview_data(project))
     diagram_path = project / "data/key_layouts/phenom.json"
     try:
         diagram = json.loads(diagram_path.read_text(encoding="utf-8"))
@@ -602,15 +931,19 @@ def main() -> int:
             if not path.is_file():
                 errors.append(f"{root_name}: missing {relative}")
                 continue
-            errors.extend(
-                check_page(path, language, domain, relative == "phenom/index.html")
-            )
+            product = {
+                "k04/index.html": "k04",
+                "phenom/index.html": "phenom",
+                "macropad/index.html": "macropad",
+            }.get(relative)
+            errors.extend(check_page(path, language, domain, product))
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
     print(
-        "HTML contract OK: 10 pages, paired locales, Phenom imagery, "
-        "56 localized reference-exact layout assets, and chapters 04–11"
+        "HTML contract OK: 10 pages, paired locales, three immersive product "
+        "stories, source-derived K:04/Macropad diagrams, and 56 "
+        "reference-exact Phenom layout assets"
     )
     return 0
 

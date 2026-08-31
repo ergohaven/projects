@@ -1,0 +1,69 @@
+{
+  "source": {
+    "repository": "https://github.com/ergohaven/vial-qmk",
+    "branch": "ergohaven",
+    "commit": "cb48b91787fc47767d2fda263286873d3e438ea5"
+  },
+  "model": {
+    "id": "default",
+    "name": "Ergohaven Macropad",
+    "key_count": 12,
+    "source": {
+      "vial_path": "keyboards/ergohaven/macropad/keymaps/v3/vial.json",
+      "vial_sha256": "505f08fdb1481969fc7dd203e14ed47847fa31077d300849a39decfd8b47cdb7",
+      "keymap_path": "keyboards/ergohaven/macropad/keymaps/v3/keymap.c",
+      "keymap_sha256": "03f5ea9721203d7a1743cc004776d8482803f02a8f1796e4271b5bb18ec3daa6",
+      "layout_path": "keyboards/ergohaven/macropad/rev3/keyboard.json",
+      "layout_sha256": "37f1fe7a415de3b1870f266c76d79a2639d8b1bca4acf7307be0ac82f049cc1c"
+    },
+    "default_keys": [
+      ["7", "8", "9"],
+      ["4", "5", "6"],
+      ["1", "2", "3"],
+      ["0", "Previous layer", "Next layer"]
+    ],
+    "encoder": {
+      "press": "Mute",
+      "counterclockwise": "Volume down",
+      "clockwise": "Volume up"
+    }
+  },
+  "diagram": {
+    "type": "macropad",
+    "unit": 100,
+    "view_box": [0, -20, 440, 440],
+    "keys": [
+      {"matrix": "1,0", "x": 1.25, "y": 0, "legend": ["7"]},
+      {"matrix": "1,1", "x": 2.25, "y": 0, "legend": ["8"]},
+      {"matrix": "1,2", "x": 3.25, "y": 0, "legend": ["9"]},
+      {"matrix": "2,0", "x": 1.25, "y": 1, "legend": ["4"]},
+      {"matrix": "2,1", "x": 2.25, "y": 1, "legend": ["5"]},
+      {"matrix": "2,2", "x": 3.25, "y": 1, "legend": ["6"]},
+      {"matrix": "3,0", "x": 1.25, "y": 2, "legend": ["1"]},
+      {"matrix": "3,1", "x": 2.25, "y": 2, "legend": ["2"]},
+      {"matrix": "3,2", "x": 3.25, "y": 2, "legend": ["3"]},
+      {"matrix": "4,0", "x": 1.25, "y": 3, "legend": ["0"]},
+      {
+        "matrix": "4,1",
+        "x": 2.25,
+        "y": 3,
+        "legend": ["Prev", "layer"],
+        "legend_ru": ["Пред.", "слой"]
+      },
+      {
+        "matrix": "4,2",
+        "x": 3.25,
+        "y": 3,
+        "legend": ["Next", "layer"],
+        "legend_ru": ["След.", "слой"]
+      }
+    ],
+    "encoder": {
+      "x": 0.5,
+      "y": 2.5,
+      "radius": 0.44,
+      "legend": ["Mute"],
+      "legend_ru": ["Звук", "выкл."]
+    }
+  }
+}

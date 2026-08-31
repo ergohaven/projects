@@ -1,0 +1,44 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $diagram := .diagram -}}
+{{- $sectionID := $chapter.section_id -}}
+{{- if not $sectionID -}}
+  {{- errorf "Layout preview declared by %s has no section_id" $page.File.Path -}}
+{{- end -}}
+{{- if not $chapter.facts -}}
+  {{- errorf "Layout preview %q declared by %s has no facts" $chapter.id $page.File.Path -}}
+{{- end -}}
+{{- if not $diagram.source.commit -}}
+  {{- errorf "Layout preview data %q declared by %s has no source commit" $chapter.diagram $page.File.Path -}}
+{{- end -}}
+{{- if not $diagram.diagram -}}
+  {{- errorf "Layout preview data %q declared by %s has no diagram" $chapter.diagram $page.File.Path -}}
+{{- end -}}
+{{- $titleID := printf "%s-title" $sectionID -}}
+<section
+  id="{{ $sectionID }}"
+  class="layout-preview section"
+  aria-labelledby="{{ $titleID }}"
+  data-product-chapter="{{ $chapter.id }}"
+  data-layout-preview="{{ $chapter.diagram }}"
+  data-layout-source="{{ $diagram.source.commit }}"
+>
+  <div class="layout-preview__inner">
+    <header class="layout-preview__intro">
+      <p class="eyebrow">{{ $chapter.eyebrow }}</p>
+      <h2 id="{{ $titleID }}">{{ $chapter.title }}</h2>
+      <p>{{ $chapter.text }}</p>
+    </header>
+    <div class="layout-preview__stage">
+      {{ partial "product/source-layout-diagram.html" (dict "page" $page "chapter" $chapter "diagram" $diagram) }}
+      <dl class="layout-preview__facts" aria-label="{{ $chapter.facts_label }}">
+        {{- range $chapter.facts -}}
+          <div class="layout-preview__fact">
+            <dt>{{ .label }}</dt>
+            <dd>{{ .value }}</dd>
+          </div>
+        {{- end -}}
+      </dl>
+    </div>
+  </div>
+</section>

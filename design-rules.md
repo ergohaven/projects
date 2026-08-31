@@ -24,7 +24,7 @@ Build each product landing as a sequence of visual chapters:
 1. **Immersive hero** — a full-viewport product image with only the essential identity, headline, and short descriptor.
 2. **Media with side note** — one dominant image and one compact caption column, aligned left or right.
 3. **Full-bleed detail** — a single close-up or profile image with a small edge caption.
-4. **Detail sequence** — two or three related images only when they explain one shared idea.
+4. **Detail sequence** — three or four related images only when they explain one shared idea.
 5. **Software chapter** — a large interface image with a short explanation; feature lists remain secondary.
 6. **Specification strip** — a compact, scannable data block near the end of the page.
 7. **Closing frame** — a final product image with one clear action.
@@ -34,6 +34,13 @@ For Phenom, turn the current principles into visual chapters rather than text-le
 - overall form and sculpted architecture;
 - modular arrangement and configuration freedom;
 - keywell geometry shaped around the fingers.
+
+Keep the approved product-specific chapter order intact:
+
+- **K:04:** hero → series → modularity → wireless → layout → column stagger → Entropy → keycaps and switches → compact form → comfort options → specifications → CTA.
+- **Macropad:** hero → use cases → IPS display → Entropy → default layout → angled design → keycaps and switches → compact form → specifications → CTA.
+
+Until product photography is supplied for K:04 and Macropad, use labelled, localized media placeholders in the intended image positions. A placeholder must expose `role="img"` and a meaningful localized `aria-label`. Layout chapters are not photography placeholders: render their key geometry and default legends from checksum-pinned RMK/QMK sources, and do not invent missing controls.
 
 ## Typography and copy
 

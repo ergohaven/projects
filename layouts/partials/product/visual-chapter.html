@@ -18,7 +18,7 @@
     "page" $page
     "media" $chapter.media
     "class" "visual-chapter__media"
-    "placeholder_id" ($storyID | default $sectionID)
+    "placeholder_id" ($chapter.media.placeholder_id | default ($storyID | default $sectionID))
   ) }}
   <div class="visual-chapter__copy">
     <p class="eyebrow">{{ $chapter.eyebrow }}</p>

@@ -13,7 +13,9 @@ done
 for image in 01-hero.jpg 02-standard.jpg 02-mini.jpg 02-micro.jpg 03-modularity-trackballs.jpg; do
   test -f "assets/images/products/phenom/$image"
 done
-test -f data/key_layouts/phenom.json
+for layout_data in phenom k04 macropad; do
+  test -f "data/key_layouts/$layout_data.json"
+done
 test "$(find assets/images/products/phenom/layouts -mindepth 2 -maxdepth 2 -type f -name '*.svg' | wc -l)" -eq 56
 
 for product in k04 phenom macropad; do
@@ -33,19 +35,20 @@ python3 scripts/check_html.py
 
 for language in en ru; do
   for page in index.html k04/index.html phenom/index.html macropad/index.html; do
+    rg -q 'data-theme-toggle' "public/$language/$page"
+    rg -q 'class=language-link' "public/$language/$page"
     if [[ "$page" == phenom/index.html ]]; then
       rg -q '<span>phenom series</span>' "public/$language/$page"
-      rg -q 'data-theme-toggle' "public/$language/$page"
-      rg -q 'class=language-link' "public/$language/$page"
+    fi
+    if [[ "$page" != index.html ]]; then
+      rg -q 'class="product-page hero-layout-immersive"' "public/$language/$page"
+      rg -q 'class="product-hero product-hero--immersive"' "public/$language/$page"
       rg -q 'class=site-header__actions' "public/$language/$page"
       rg -q 'class=product-hero__copy><h1' "public/$language/$page"
       if rg -q 'class=site-header__facts|class=header-back' "public/$language/$page"; then
-        echo "Phenom header must contain only language and theme controls" >&2
+        echo "$page header must contain only language and theme controls" >&2
         exit 1
       fi
-    else
-      rg -q 'data-theme-toggle' "public/$language/$page"
-      rg -q 'class=language-link' "public/$language/$page"
     fi
     rg -q 'class=product-stage' "public/$language/$page" || [[ "$page" == index.html ]]
   done
@@ -118,16 +121,58 @@ for language in en ru; do
     echo "Phenom must use the approved image-led chapter sequence" >&2
     exit 1
   fi
-  if rg -q 'hero-layout-immersive|product-hero--immersive' "public/$language/k04/index.html" "public/$language/macropad/index.html"; then
-    echo "Immersive hero must remain Phenom-only" >&2
+
+  k04_page="public/$language/k04/index.html"
+  rg -q 'class="series-showcase section"' "$k04_page"
+  rg -q 'class=series-gallery' "$k04_page"
+  test "$(rg -o 'class=series-card__visual' "$k04_page" | wc -l)" -eq 3
+  if rg -q 'class=series-card__picture|class=series-card__image' "$k04_page"; then
+    echo "K:04 series cards must remain placeholder-led until product photography is supplied" >&2
     exit 1
   fi
-  if rg -q 'series-showcase|series-gallery' "public/$language/k04/index.html" "public/$language/macropad/index.html"; then
-    echo "The Phenom series showcase must not leak into other product pages" >&2
+  expected_k04_story=$(printf '%s\n' modularity wireless layout column-stagger entropy keycaps-switches compact-powerful comfort specs cta)
+  actual_k04_story=$(rg -o 'data-product-chapter=[^ >]+' "$k04_page" | cut -d= -f2)
+  diff -u <(printf '%s\n' "$expected_k04_story") <(printf '%s\n' "$actual_k04_story")
+  test "$(rg -o 'data-media-placeholder=' "$k04_page" | wc -l)" -eq 14
+  test "$(rg -o 'class=detail-sequence__item' "$k04_page" | wc -l)" -eq 3
+  test "$(rg -o 'class="visual-chapter ' "$k04_page" | wc -l)" -eq 7
+  test "$(rg -o 'class=specs-chapter__group[ >]' "$k04_page" | wc -l)" -eq 3
+  test "$(rg -o 'data-cta-action-pending' "$k04_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-layout-preview=k04' "$k04_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-layout-source=c84a649f6871de0b14a97ebf1400efc559f51d5d' "$k04_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-source-layout-diagram=k04' "$k04_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-source-layout-key=' "$k04_page" | wc -l)" -eq 58
+  test "$(rg -o 'data-source-layout-encoder' "$k04_page" | wc -l)" -eq 0
+
+  macropad_page="public/$language/macropad/index.html"
+  if rg -q 'series-showcase|series-gallery|series-card__visual' "$macropad_page"; then
+    echo "Macropad must not render a product-series gallery" >&2
     exit 1
   fi
-  if rg -q 'visual-chapter|modularity-title|key-layout-chapter|key-layout-title|data-key-layout|data-product-chapter|data-media-placeholder|detail-sequence|specs-chapter' "public/$language/k04/index.html" "public/$language/macropad/index.html"; then
-    echo "The Phenom visual chapters must not leak into other product pages" >&2
+  expected_macropad_story=$(printf '%s\n' designed-for display entropy layout design keycaps-switches compact-powerful specs cta)
+  actual_macropad_story=$(rg -o 'data-product-chapter=[^ >]+' "$macropad_page" | cut -d= -f2)
+  diff -u <(printf '%s\n' "$expected_macropad_story") <(printf '%s\n' "$actual_macropad_story")
+  test "$(rg -o 'data-media-placeholder=' "$macropad_page" | wc -l)" -eq 10
+  test "$(rg -o 'class=detail-sequence__item' "$macropad_page" | wc -l)" -eq 3
+  test "$(rg -o 'class="visual-chapter ' "$macropad_page" | wc -l)" -eq 6
+  test "$(rg -o 'class=specs-chapter__group[ >]' "$macropad_page" | wc -l)" -eq 3
+  test "$(rg -o 'data-cta-action-pending' "$macropad_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-layout-preview=macropad' "$macropad_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-layout-source=cb48b91787fc47767d2fda263286873d3e438ea5' "$macropad_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-source-layout-diagram=macropad' "$macropad_page" | wc -l)" -eq 1
+  test "$(rg -o 'data-source-layout-key=' "$macropad_page" | wc -l)" -eq 12
+  test "$(rg -o 'data-source-layout-encoder' "$macropad_page" | wc -l)" -eq 1
+
+  if rg -q 'class="principles section|class="software section' \
+    "public/$language/k04/index.html" \
+    "public/$language/phenom/index.html" \
+    "public/$language/macropad/index.html"; then
+    echo "Product pages must use the approved immersive chapter sequences" >&2
+    exit 1
+  fi
+
+  if rg -q '<img|<picture|data:image' "$k04_page" "$macropad_page"; then
+    echo "K:04 and Macropad must remain placeholder-only until product photography is supplied" >&2
     exit 1
   fi
 done
@@ -159,6 +204,28 @@ rg -q '<h2 id=phenom-cta-title>Соберите свой Phenom</h2>' public/ru/
 rg -q 'data-cta-action-pending>Choose your Phenom</span>' public/en/phenom/index.html
 rg -q 'data-cta-action-pending>Выбрать Phenom</span>' public/ru/phenom/index.html
 
+rg -q '<h1 id=product-title>Mechanical\. Split\. Wireless\.</h1>' public/en/k04/index.html
+rg -q '<h1 id=product-title>Механическая\. Сплит\. Без проводов\.</h1>' public/ru/k04/index.html
+rg -q '<h2 id=k04-layout-title>Only 58 keys\. Infinite possibilities\.</h2>' public/en/k04/index.html
+rg -q '<h2 id=k04-layout-title>Всего 58 клавиш\. Возможности без границ\.</h2>' public/ru/k04/index.html
+rg -q '<h2 id=k04-cta-title>Build your K:04</h2>' public/en/k04/index.html
+rg -q '<h2 id=k04-cta-title>Соберите свою K:04</h2>' public/ru/k04/index.html
+rg -q '<dt>Keys</dt><dd>58</dd>' public/en/k04/index.html
+rg -q '<dt>Клавиши</dt><dd>58</dd>' public/ru/k04/index.html
+
+rg -q '<h1 id=product-title>Control that adapts</h1>' public/en/macropad/index.html
+rg -q '<h1 id=product-title>Управление, которое подстраивается</h1>' public/ru/macropad/index.html
+rg -q '<h2 id=macropad-display-title>Your keys, live on screen</h2>' public/en/macropad/index.html
+rg -q '<h2 id=macropad-display-title>Назначения клавиш — прямо на экране</h2>' public/ru/macropad/index.html
+rg -q '<h2 id=macropad-layout-title>See what comes by default</h2>' public/en/macropad/index.html
+rg -q '<h2 id=macropad-layout-title>Начните с базовой раскладки</h2>' public/ru/macropad/index.html
+for fact in '<dt>Keys</dt><dd>12</dd>' '<dt>Main grid</dt><dd>0–9</dd>' '<dt>Layers</dt><dd>Previous · Next</dd>' '<dt>Encoder</dt><dd>Mute · Volume</dd>'; do
+  rg -Fq "$fact" public/en/macropad/index.html
+done
+for fact in '<dt>Клавиши</dt><dd>12</dd>' '<dt>Основная сетка</dt><dd>0–9</dd>' '<dt>Слои</dt><dd>Назад · вперёд</dd>' '<dt>Энкодер</dt><dd>Выключение звука · громкость</dd>'; do
+  rg -Fq "$fact" public/ru/macropad/index.html
+done
+
 rg -q 'href=https://projects\.eh\.works/k04/' public/en/k04/index.html
 rg -q 'href=https://projects\.eh\.industries/k04/' public/ru/k04/index.html
 rg -q 'href=https://projects\.eh\.works/' public/en/index.html
@@ -174,8 +241,8 @@ for language in en ru; do
   rg -q 'prefers-reduced-motion:reduce' "$generated_css"
 done
 
-if rg -q '<img|<picture|data:image' public/en/index.html public/en/k04 public/en/macropad public/en/404.html public/ru/index.html public/ru/k04 public/ru/macropad public/ru/404.html; then
-  echo "Product imagery must remain Phenom-only" >&2
+if rg -q '<img|<picture|data:image' public/en/index.html public/en/404.html public/ru/index.html public/ru/404.html; then
+  echo "Home and 404 pages must remain free of product imagery" >&2
   exit 1
 fi
 

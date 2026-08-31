@@ -533,6 +533,21 @@ html[data-theme="light"] .theme-toggle__moon {
   object-position: 50% 60%;
 }
 
+.product-stage__placeholder {
+  position: absolute;
+  inset: 0;
+}
+
+.product-stage__placeholder .chapter-media__placeholder-label {
+  top: clamp(7rem, 16vh, 10rem);
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  width: min(70%, 28rem);
+  transform: translateX(-50%);
+  text-align: center;
+}
+
 .product-hero--immersive .product-stage__index,
 .product-hero--immersive .product-stage__label {
   display: none;
@@ -691,10 +706,15 @@ html[data-theme="light"] .theme-toggle__moon {
 }
 
 .series-card__picture,
-.series-card__image {
+.series-card__image,
+.series-card__media {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.series-card__media {
+  position: relative;
 }
 
 .series-card__image {
@@ -1021,11 +1041,137 @@ html[data-theme="light"] .theme-toggle__moon {
   transform: rotate(-3deg);
 }
 
+.chapter-media--k04-hero .chapter-media__placeholder-graphic {
+  top: 29%;
+  left: 13%;
+  width: 31%;
+  height: 38%;
+  border-radius: 48% 34% 44% 28%;
+  box-shadow: 43vw 0 0 -1px rgb(247 244 243 / 8%), 43vw 0 0 0 rgb(247 244 243 / 62%);
+  transform: rotate(-9deg);
+}
+
+.chapter-media--macropad-hero .chapter-media__placeholder-graphic {
+  top: 22%;
+  left: 36%;
+  width: 28%;
+  height: 58%;
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(rgb(247 244 243 / 18%) 0 22%, transparent 22%),
+    repeating-linear-gradient(90deg, transparent 0 31%, rgb(247 244 243 / 18%) 31% 34%),
+    repeating-linear-gradient(0deg, transparent 0 21%, rgb(247 244 243 / 18%) 21% 24%);
+  transform: perspective(45rem) rotateX(14deg) rotateZ(-5deg);
+}
+
+[class*="chapter-media--series-"] .chapter-media__placeholder-graphic {
+  top: 31%;
+  left: 14%;
+  width: 72%;
+  height: 38%;
+  border-radius: 48% 30% 45% 24%;
+  transform: rotate(-7deg);
+}
+
+.chapter-media--series-mini .chapter-media__placeholder-graphic {
+  left: 19%;
+  width: 62%;
+}
+
+.chapter-media--series-micro .chapter-media__placeholder-graphic {
+  left: 24%;
+  width: 52%;
+}
+
+.chapter-media--modularity .chapter-media__placeholder-graphic {
+  top: 22%;
+  left: 12%;
+  width: 30%;
+  height: 56%;
+  border-radius: 48% 32% 52% 28%;
+  box-shadow: 46vw 0 0 -1px rgb(247 244 243 / 8%), 46vw 0 0 0 rgb(247 244 243 / 62%);
+  transform: rotate(-7deg);
+}
+
+.chapter-media--wireless .chapter-media__placeholder-graphic {
+  top: 18%;
+  left: 29%;
+  width: 42%;
+  height: 64%;
+  border: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 18%, rgb(247 244 243 / 55%) 18.5% 19.5%, transparent 20% 34%, rgb(247 244 243 / 42%) 34.5% 35.5%, transparent 36% 50%, rgb(247 244 243 / 30%) 50.5% 51.5%, transparent 52%);
+  transform: none;
+}
+
+.chapter-media--layout .chapter-media__placeholder-graphic {
+  top: 20%;
+  left: 10%;
+  width: 80%;
+  height: 60%;
+  border-radius: 1rem;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 7%, rgb(247 244 243 / 22%) 7% 8.5%),
+    repeating-linear-gradient(0deg, transparent 0 19%, rgb(247 244 243 / 22%) 19% 21%);
+  transform: perspective(45rem) rotateX(44deg);
+}
+
+.chapter-media--column-stagger .chapter-media__placeholder-graphic {
+  top: 12%;
+  left: 16%;
+  width: 68%;
+  height: 76%;
+  border-radius: 1rem;
+  background: repeating-linear-gradient(90deg, transparent 0 14%, rgb(247 244 243 / 22%) 14% 16%);
+  transform: skewY(-8deg) rotate(-6deg);
+}
+
+.chapter-media--display .chapter-media__placeholder-graphic {
+  top: 16%;
+  left: 17%;
+  width: 66%;
+  height: 68%;
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(90deg, rgb(247 244 243 / 16%) 0 24%, transparent 24%),
+    repeating-linear-gradient(0deg, transparent 0 14%, rgb(247 244 243 / 15%) 14% 16%);
+  transform: perspective(40rem) rotateY(-8deg);
+}
+
+.chapter-media--angled-case .chapter-media__placeholder-graphic {
+  top: 35%;
+  left: 16%;
+  width: 68%;
+  height: 32%;
+  border-radius: 18% 18% 10% 10%;
+  transform: perspective(35rem) rotateX(58deg) rotateZ(-8deg);
+}
+
+.chapter-media--compact .chapter-media__placeholder-graphic {
+  top: 25%;
+  left: 27%;
+  width: 46%;
+  height: 50%;
+  border-radius: 35% 25% 40% 22%;
+  transform: rotate(-7deg);
+}
+
+[class*="chapter-media--accessory-"] .chapter-media__placeholder-graphic {
+  top: 27%;
+  left: 22%;
+  width: 56%;
+  height: 46%;
+  border-radius: 38% 62% 44% 56%;
+  transform: rotate(-8deg);
+}
+
 .detail-sequence {
   overflow: hidden;
 }
 
 .detail-sequence__inner,
+.layout-preview__inner,
 .specs-chapter__inner {
   width: calc(100% - (2 * var(--gutter)));
   max-width: 112rem;
@@ -1033,6 +1179,7 @@ html[data-theme="light"] .theme-toggle__moon {
 }
 
 .detail-sequence__intro,
+.layout-preview__intro,
 .specs-chapter__header {
   display: grid;
   grid-template-columns: minmax(9rem, 0.4fr) minmax(18rem, 0.75fr) minmax(18rem, 0.85fr);
@@ -1044,6 +1191,9 @@ html[data-theme="light"] .theme-toggle__moon {
 .detail-sequence__intro .eyebrow,
 .detail-sequence__intro h2,
 .detail-sequence__intro > p:last-child,
+.layout-preview__intro .eyebrow,
+.layout-preview__intro h2,
+.layout-preview__intro > p:last-child,
 .specs-chapter__header .eyebrow,
 .specs-chapter__header h2,
 .specs-chapter__header > p:last-child {
@@ -1051,11 +1201,13 @@ html[data-theme="light"] .theme-toggle__moon {
 }
 
 .detail-sequence__intro h2,
+.layout-preview__intro h2,
 .specs-chapter__header h2 {
   max-width: 11ch;
 }
 
 .detail-sequence__intro > p:last-child,
+.layout-preview__intro > p:last-child,
 .specs-chapter__header > p:last-child {
   max-width: 35rem;
   color: var(--text-soft);
@@ -1065,8 +1217,16 @@ html[data-theme="light"] .theme-toggle__moon {
 
 .detail-sequence__gallery {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--detail-sequence-columns, 4), minmax(0, 1fr));
   gap: clamp(0.75rem, 1.4vw, 1.5rem);
+}
+
+.detail-sequence--3 {
+  --detail-sequence-columns: 3;
+}
+
+.detail-sequence--3 .detail-sequence__gallery {
+  align-items: start;
 }
 
 .detail-sequence__item {
@@ -1096,6 +1256,116 @@ html[data-theme="light"] .theme-toggle__moon {
 .detail-sequence__item figcaption strong {
   color: var(--text);
   font-weight: 700;
+}
+
+.layout-preview {
+  overflow: hidden;
+  background: #f4f3f0;
+}
+
+html[data-theme="dark"] .layout-preview {
+  background: var(--bg);
+}
+
+.layout-preview__stage {
+  border-top: 1px solid var(--line-strong);
+}
+
+.source-layout-diagram {
+  display: grid;
+  min-height: clamp(22rem, 44vw, 42rem);
+  padding: clamp(2rem, 5vw, 5rem);
+  background:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    var(--bg-elevated);
+  background-size: 2rem 2rem;
+  align-items: center;
+}
+
+.source-layout-diagram--split-keyboard {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 5rem);
+}
+
+.source-layout-diagram__half,
+.source-layout-diagram__pad {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.source-layout-diagram__pad {
+  width: min(100%, 34rem);
+  margin-inline: auto;
+}
+
+.source-layout-diagram__key rect {
+  fill: var(--bg-elevated);
+  stroke: var(--line-strong);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.source-layout-diagram__key text,
+.source-layout-diagram__encoder text {
+  fill: var(--text);
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-anchor: middle;
+}
+
+.source-layout-diagram__key--multiline text,
+.source-layout-diagram__encoder text {
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.source-layout-diagram__encoder circle {
+  fill: var(--accent-soft);
+  stroke: var(--accent-deep);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.layout-preview__facts {
+  display: grid;
+  margin: 0;
+  border-bottom: 1px solid var(--line-strong);
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.layout-preview__fact {
+  min-width: 0;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  border-right: 1px solid var(--line);
+}
+
+.layout-preview__fact:last-child {
+  border-right: 0;
+}
+
+.layout-preview__fact dt,
+.layout-preview__fact dd {
+  margin: 0;
+}
+
+.layout-preview__fact dt {
+  margin-bottom: 0.55rem;
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.layout-preview__fact dd {
+  color: var(--text);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 600;
 }
 
 .visual-chapter--split-left {
@@ -1695,11 +1965,13 @@ html[data-theme="dark"] .key-layout-layer__copy > p:last-child {
   }
 
   .detail-sequence__intro,
+  .layout-preview__intro,
   .specs-chapter__header {
     grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1.65fr);
   }
 
   .detail-sequence__intro > p:last-child,
+  .layout-preview__intro > p:last-child,
   .specs-chapter__header > p:last-child {
     grid-column: 2;
   }
@@ -1802,6 +2074,7 @@ html[data-theme="dark"] .key-layout-layer__copy > p:last-child {
   }
 
   .detail-sequence__intro,
+  .layout-preview__intro,
   .specs-chapter__header {
     grid-template-columns: 1fr;
     gap: 1.25rem;
@@ -1809,6 +2082,7 @@ html[data-theme="dark"] .key-layout-layer__copy > p:last-child {
   }
 
   .detail-sequence__intro > p:last-child,
+  .layout-preview__intro > p:last-child,
   .specs-chapter__header > p:last-child {
     grid-column: auto;
   }
@@ -1820,6 +2094,35 @@ html[data-theme="dark"] .key-layout-layer__copy > p:last-child {
 
   .detail-sequence__media {
     aspect-ratio: 3 / 2;
+  }
+
+  .source-layout-diagram {
+    min-height: 20rem;
+    padding: 1.25rem 0.75rem;
+  }
+
+  .source-layout-diagram--split-keyboard {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+
+  .source-layout-diagram__half {
+    width: min(100%, 32rem);
+    margin-inline: auto;
+  }
+
+  .source-layout-diagram__pad {
+    width: min(100%, 25rem);
+  }
+
+  .layout-preview__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .layout-preview__fact,
+  .layout-preview__fact:last-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 
   .specs-chapter__group,

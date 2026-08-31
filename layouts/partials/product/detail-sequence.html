@@ -11,7 +11,7 @@
 {{- $titleID := printf "%s-title" $sectionID -}}
 <section
   id="{{ $sectionID }}"
-  class="detail-sequence section"
+  class="detail-sequence detail-sequence--{{ len $items }} section"
   aria-labelledby="{{ $titleID }}"
   data-product-chapter="{{ $chapter.id }}"
 >
@@ -28,7 +28,7 @@
             "page" $page
             "media" $item
             "class" "detail-sequence__media"
-            "placeholder_id" (printf "%s-%s" $chapter.id $item.id)
+            "placeholder_id" ($item.placeholder_id | default (printf "%s-%s" $chapter.id $item.id))
           ) }}
           <figcaption>
             <span aria-hidden="true">0{{ add $itemIndex 1 }}</span>

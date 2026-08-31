@@ -1,0 +1,56 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $layout := .diagram.diagram -}}
+{{- $locale := $page.Language.Lang -}}
+{{- if not $chapter.diagram_label -}}
+  {{- errorf "Source layout diagram %q declared by %s has no diagram_label" $chapter.diagram $page.File.Path -}}
+{{- end -}}
+<div
+  class="source-layout-diagram source-layout-diagram--{{ $layout.type }}"
+  role="img"
+  aria-label="{{ $chapter.diagram_label }}"
+  data-source-layout-diagram="{{ $chapter.diagram }}"
+>
+  {{- if eq $layout.type "split-keyboard" -}}
+    {{- range $side := slice "left" "right" -}}
+      {{- $half := index $layout.halves $side -}}
+      {{- $keys := where $layout.keys "side" $side -}}
+      <svg
+        class="source-layout-diagram__half source-layout-diagram__half--{{ $side }}"
+        viewBox="{{ delimit $half.view_box " " }}"
+        aria-hidden="true"
+        focusable="false"
+      >
+        {{- partial "product/source-layout-keys.html" (dict "keys" $keys "unit" $layout.unit "locale" $locale) -}}
+      </svg>
+    {{- end -}}
+  {{- else if eq $layout.type "macropad" -}}
+    <svg
+      class="source-layout-diagram__pad"
+      viewBox="{{ delimit $layout.view_box " " }}"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {{- partial "product/source-layout-keys.html" (dict "keys" $layout.keys "unit" $layout.unit "locale" $locale) -}}
+      {{- $encoder := $layout.encoder -}}
+      {{- $unit := float $layout.unit -}}
+      {{- $encoderX := mul (float $encoder.x) $unit -}}
+      {{- $encoderY := mul (float $encoder.y) $unit -}}
+      {{- $encoderRadius := mul (float $encoder.radius) $unit -}}
+      {{- $encoderLegend := $encoder.legend -}}
+      {{- if and (eq $locale "ru") $encoder.legend_ru -}}
+        {{- $encoderLegend = $encoder.legend_ru -}}
+      {{- end -}}
+      <g class="source-layout-diagram__encoder" data-source-layout-encoder aria-hidden="true">
+        <circle cx="{{ $encoderX }}" cy="{{ $encoderY }}" r="{{ $encoderRadius }}" />
+        <text x="{{ $encoderX }}" y="{{ sub $encoderY (cond (gt (len $encoderLegend) 1) 7 -5) }}">
+          {{- range $lineIndex, $line := $encoderLegend -}}
+            <tspan x="{{ $encoderX }}" dy="{{ if eq $lineIndex 0 }}0{{ else }}16{{ end }}">{{ $line }}</tspan>
+          {{- end -}}
+        </text>
+      </g>
+    </svg>
+  {{- else -}}
+    {{- errorf "Unknown source layout diagram type %q in %s" $layout.type $page.File.Path -}}
+  {{- end -}}
+</div>

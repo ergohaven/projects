@@ -1,0 +1,31 @@
+{{- $keys := .keys -}}
+{{- $unit := float .unit -}}
+{{- $locale := .locale -}}
+{{- range $key := $keys -}}
+  {{- $x := mul (float $key.x) $unit -}}
+  {{- $y := mul (float $key.y) $unit -}}
+  {{- $centerX := add $x (div $unit 2) -}}
+  {{- $legend := $key.legend -}}
+  {{- if and (eq $locale "ru") $key.legend_ru -}}
+    {{- $legend = $key.legend_ru -}}
+  {{- end -}}
+  {{- $lineCount := len $legend -}}
+  {{- $textY := add $y (cond (gt $lineCount 1) 43 56) -}}
+  {{- $rotation := "" -}}
+  {{- with $key.r -}}
+    {{- $rotation = printf "rotate(%v %v %v)" . (mul (float $key.rx) $unit) (mul (float $key.ry) $unit) -}}
+  {{- end -}}
+  <g
+    class="source-layout-diagram__key{{ if gt $lineCount 1 }} source-layout-diagram__key--multiline{{ end }}"
+    data-source-layout-key="{{ $key.matrix }}"
+    aria-hidden="true"
+    {{- with $rotation }} transform="{{ . }}"{{ end -}}
+  >
+    <rect x="{{ add $x 5 }}" y="{{ add $y 5 }}" width="{{ sub $unit 10 }}" height="{{ sub $unit 10 }}" rx="12" />
+    <text x="{{ $centerX }}" y="{{ $textY }}">
+      {{- range $lineIndex, $line := $legend -}}
+        <tspan x="{{ $centerX }}" dy="{{ if eq $lineIndex 0 }}0{{ else }}18{{ end }}">{{ $line }}</tspan>
+      {{- end -}}
+    </text>
+  </g>
+{{- end -}}
