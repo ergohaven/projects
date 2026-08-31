@@ -1,49 +1,160 @@
 {{ define "main" }}
+  {{ $heroVariant := .Params.hero_variant | default "split" }}
+  {{ $immersiveHero := eq $heroVariant "immersive" }}
+  {{ $heroImagePath := .Params.hero_image }}
+  {{ $renderHeroImage := and $immersiveHero $heroImagePath }}
   <article>
-    <section class="product-hero shell" aria-labelledby="product-title">
+    <section class="product-hero product-hero--{{ $heroVariant | urlize }}{{ if not $immersiveHero }} shell{{ end }}" aria-labelledby="product-title">
       <div class="product-hero__copy">
-        <p class="eyebrow">{{ .Params.eyebrow }}</p>
+        {{ if not $immersiveHero }}<p class="eyebrow">{{ .Params.eyebrow }}</p>{{ end }}
         <h1 id="product-title">{{ .Params.hero_title }}</h1>
-        <p class="product-hero__intro">{{ .Params.hero_text }}</p>
-        <ul class="product-facts" aria-label="{{ .Params.facts_label }}">
-          {{ range .Params.facts }}<li>{{ . }}</li>{{ end }}
-        </ul>
-      </div>
-      <div class="product-stage" role="img" aria-label="{{ .Params.visual_alt }}">
-        <span class="product-stage__index" aria-hidden="true">{{ .Params.visual_index }}</span>
-        <span class="product-stage__label">{{ .Params.visual_label }}</span>
-      </div>
-    </section>
-
-    <section class="principles section shell" aria-labelledby="principles-title">
-      <header class="section-heading">
-        <p class="eyebrow">{{ .Params.principles_eyebrow }}</p>
-        <h2 id="principles-title">{{ .Params.principles_title }}</h2>
-      </header>
-      <ol class="principles__list">
-        {{ range $index, $item := .Params.principles }}
-          <li>
-            <span class="principles__number" aria-hidden="true">0{{ add $index 1 }}</span>
-            <div>
-              <h3>{{ $item.title }}</h3>
-              <p>{{ $item.text }}</p>
-            </div>
-          </li>
+        <p class="product-hero__intro">
+          {{ if reflect.IsSlice .Params.hero_text }}
+            {{ range .Params.hero_text }}<span class="product-hero__intro-line">{{ . }}</span>{{ end }}
+          {{ else }}
+            {{ .Params.hero_text }}
+          {{ end }}
+        </p>
+        {{ if not $immersiveHero }}
+          <ul class="product-facts" aria-label="{{ .Params.facts_label }}">
+            {{ range .Params.facts }}<li>{{ . }}</li>{{ end }}
+          </ul>
         {{ end }}
-      </ol>
+      </div>
+      <div class="product-stage"{{ if not $renderHeroImage }} role="img" aria-label="{{ .Params.visual_alt }}"{{ end }}>
+        {{ if $renderHeroImage }}
+          {{ $source := resources.Get $heroImagePath }}
+          {{ if not $source }}
+            {{ errorf "Hero image %q declared by %s was not found" $heroImagePath .File.Path }}
+          {{ end }}
+          {{ $webp720 := $source.Resize "720x webp q88" }}
+          {{ $webp1280 := $source.Resize "1280x webp q90" }}
+          {{ $webp1920 := $source.Resize "1920x webp q91" }}
+          {{ $webp2560 := $source.Resize "2560x webp q92" }}
+          {{ $jpeg720 := $source.Resize "720x jpg q88" }}
+          {{ $jpeg1280 := $source.Resize "1280x jpg q89" }}
+          {{ $jpeg1920 := $source.Resize "1920x jpg q90" }}
+          {{ $jpeg2560 := $source.Resize "2560x jpg q91" }}
+          <picture class="product-stage__picture">
+            <source
+              type="image/webp"
+              srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w, {{ $webp2560.RelPermalink }} 2560w"
+              sizes="100vw"
+            >
+            <img
+              class="product-stage__image"
+              src="{{ $jpeg1920.RelPermalink }}"
+              srcset="{{ $jpeg720.RelPermalink }} 720w, {{ $jpeg1280.RelPermalink }} 1280w, {{ $jpeg1920.RelPermalink }} 1920w, {{ $jpeg2560.RelPermalink }} 2560w"
+              sizes="100vw"
+              width="{{ $source.Width }}"
+              height="{{ $source.Height }}"
+              alt="{{ .Params.visual_alt }}"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            >
+          </picture>
+        {{ else }}
+          <span class="product-stage__index" aria-hidden="true">{{ .Params.visual_index }}</span>
+          <span class="product-stage__label">{{ .Params.visual_label }}</span>
+        {{ end }}
+      </div>
     </section>
 
-    <section class="software section shell" aria-labelledby="software-title">
-      <div class="software__heading">
-        <p class="eyebrow">{{ .Params.software.eyebrow }}</p>
-        <h2 id="software-title">{{ .Params.software.title }}</h2>
-      </div>
-      <div class="software__body">
-        <p>{{ .Params.software.text }}</p>
-        <ul>
-          {{ range .Params.software.points }}<li>{{ . }}</li>{{ end }}
-        </ul>
-      </div>
-    </section>
+    {{ with .Params.series }}
+      <section class="series-showcase section" aria-labelledby="series-title">
+        <header class="series-showcase__intro">
+          <p class="eyebrow">{{ .eyebrow }}</p>
+          <h2 id="series-title">{{ .title }}</h2>
+          <p>{{ .text }}</p>
+        </header>
+        <div class="series-gallery" role="list" aria-label="{{ .gallery_label }}">
+          {{ range $index, $item := .items }}
+            {{ $source := resources.Get $item.image }}
+            {{ if not $source }}
+              {{ errorf "Series image %q declared by %s was not found" $item.image $.File.Path }}
+            {{ end }}
+            {{ $webp720 := $source.Resize "720x webp q88" }}
+            {{ $webp1280 := $source.Resize "1280x webp q90" }}
+            {{ $webp1920 := $source.Resize "1920x webp q91" }}
+            {{ $jpeg720 := $source.Resize "720x jpg q88" }}
+            {{ $jpeg1280 := $source.Resize "1280x jpg q89" }}
+            {{ $jpeg1920 := $source.Resize "1920x jpg q90" }}
+            <article class="series-card" role="listitem">
+              <div class="series-card__visual">
+                <picture class="series-card__picture">
+                  <source
+                    type="image/webp"
+                    srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w"
+                    sizes="(max-width: 700px) 100vw, 33vw"
+                  >
+                  <img
+                    class="series-card__image"
+                    src="{{ $jpeg1280.RelPermalink }}"
+                    srcset="{{ $jpeg720.RelPermalink }} 720w, {{ $jpeg1280.RelPermalink }} 1280w, {{ $jpeg1920.RelPermalink }} 1920w"
+                    sizes="(max-width: 700px) 100vw, 33vw"
+                    width="{{ $source.Width }}"
+                    height="{{ $source.Height }}"
+                    alt="{{ $item.image_alt }}"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                </picture>
+                <span class="series-card__index" aria-hidden="true">0{{ add $index 1 }}</span>
+              </div>
+              <h3>{{ $item.name }}</h3>
+            </article>
+          {{ end }}
+        </div>
+      </section>
+    {{ else }}
+      <section class="principles section shell" aria-labelledby="principles-title">
+        <header class="section-heading">
+          <p class="eyebrow">{{ .Params.principles_eyebrow }}</p>
+          <h2 id="principles-title">{{ .Params.principles_title }}</h2>
+        </header>
+        <ol class="principles__list">
+          {{ range $index, $item := .Params.principles }}
+            <li>
+              <span class="principles__number" aria-hidden="true">0{{ add $index 1 }}</span>
+              <div>
+                <h3>{{ $item.title }}</h3>
+                <p>{{ $item.text }}</p>
+              </div>
+            </li>
+          {{ end }}
+        </ol>
+      </section>
+
+      <section class="software section shell" aria-labelledby="software-title">
+        <div class="software__heading">
+          <p class="eyebrow">{{ .Params.software.eyebrow }}</p>
+          <h2 id="software-title">{{ .Params.software.title }}</h2>
+        </div>
+        <div class="software__body">
+          <p>{{ .Params.software.text }}</p>
+          <ul>
+            {{ range .Params.software.points }}<li>{{ . }}</li>{{ end }}
+          </ul>
+        </div>
+      </section>
+    {{ end }}
+
+    {{ with .Params.modularity }}
+      {{ partial "product/visual-chapter.html" (dict "page" $ "chapter" .) }}
+    {{ end }}
+
+    {{ with .Params.key_layout }}
+      {{ $diagram := index hugo.Data.key_layouts .diagram }}
+      {{ if not $diagram }}
+        {{ errorf "Key layout data %q declared by %s was not found" .diagram $.File.Path }}
+      {{ else }}
+        {{ partial "product/key-layout.html" (dict "page" $ "chapter" . "diagram" $diagram) }}
+      {{ end }}
+    {{ end }}
+
+    {{ range .Params.story_chapters }}
+      {{ partial "product/story-chapter.html" (dict "page" $ "chapter" .) }}
+    {{ end }}
   </article>
 {{ end }}

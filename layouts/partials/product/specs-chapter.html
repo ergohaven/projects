@@ -1,0 +1,42 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $sectionID := $chapter.section_id -}}
+{{- if not $sectionID -}}
+  {{- errorf "Specifications declared by %s have no section_id" $page.File.Path -}}
+{{- end -}}
+{{- if not $chapter.groups -}}
+  {{- errorf "Specifications %q declared by %s have no groups" $chapter.id $page.File.Path -}}
+{{- end -}}
+{{- $titleID := printf "%s-title" $sectionID -}}
+<section
+  id="{{ $sectionID }}"
+  class="specs-chapter section"
+  aria-labelledby="{{ $titleID }}"
+  data-product-chapter="{{ $chapter.id }}"
+>
+  <div class="specs-chapter__inner">
+    <header class="specs-chapter__header">
+      <p class="eyebrow">{{ $chapter.eyebrow }}</p>
+      <h2 id="{{ $titleID }}">{{ $chapter.title }}</h2>
+      <p>{{ $chapter.text }}</p>
+    </header>
+    <div class="specs-chapter__groups">
+      {{- range $groupIndex, $group := $chapter.groups -}}
+        {{- if not $group.items -}}
+          {{- errorf "Specification group %d in %s is empty" $groupIndex $page.File.Path -}}
+        {{- end -}}
+        <section class="specs-chapter__group" aria-labelledby="{{ $sectionID }}-group-{{ $groupIndex }}">
+          <h3 id="{{ $sectionID }}-group-{{ $groupIndex }}">{{ $group.title }}</h3>
+          <dl>
+            {{- range $group.items -}}
+              <div class="specs-chapter__row">
+                <dt>{{ .label }}</dt>
+                <dd>{{ .value }}</dd>
+              </div>
+            {{- end -}}
+          </dl>
+        </section>
+      {{- end -}}
+    </div>
+  </div>
+</section>

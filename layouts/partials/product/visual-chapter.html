@@ -1,0 +1,38 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $storyID := .story_id | default "" -}}
+{{- $sectionID := $chapter.section_id -}}
+{{- if not $sectionID -}}
+  {{- errorf "Visual chapter declared by %s has no section_id" $page.File.Path -}}
+{{- end -}}
+{{- $titleID := printf "%s-title" $sectionID -}}
+{{- $variant := $chapter.variant | default "bleed-edge" | urlize -}}
+{{- $copyPosition := $chapter.copy_position | default "left" | urlize -}}
+<section
+  id="{{ $sectionID }}"
+  class="visual-chapter visual-chapter--{{ $variant }} visual-chapter--copy-{{ $copyPosition }}"
+  aria-labelledby="{{ $titleID }}"
+  {{- with $storyID }} data-product-chapter="{{ . }}"{{ end -}}
+>
+  {{ partial "product/chapter-media.html" (dict
+    "page" $page
+    "media" $chapter.media
+    "class" "visual-chapter__media"
+    "placeholder_id" ($storyID | default $sectionID)
+  ) }}
+  <div class="visual-chapter__copy">
+    <p class="eyebrow">{{ $chapter.eyebrow }}</p>
+    <h2 id="{{ $titleID }}">{{ $chapter.title }}</h2>
+    <p>{{ $chapter.text }}</p>
+    {{- with $chapter.action -}}
+      {{- if not .label -}}
+        {{- errorf "CTA chapter %q declared by %s has no action label" $sectionID $page.File.Path -}}
+      {{- end -}}
+      {{- if .href -}}
+        <a class="visual-chapter__action" href="{{ .href }}">{{ .label }}</a>
+      {{- else -}}
+        <span class="visual-chapter__action" data-cta-action-pending>{{ .label }}</span>
+      {{- end -}}
+    {{- end -}}
+  </div>
+</section>

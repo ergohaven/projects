@@ -1,0 +1,56 @@
+{{- $page := .page -}}
+{{- $media := .media -}}
+{{- $class := .class | default "" -}}
+{{- $placeholderID := .placeholder_id | default ($media.placeholder_variant | default "media") -}}
+{{- with $media.image -}}
+  {{- if $media.placeholder_label -}}
+    {{- errorf "Media %q declared by %s mixes an image with placeholder content" . $page.File.Path -}}
+  {{- end -}}
+  {{- if not $media.image_alt -}}
+    {{- errorf "Media image %q declared by %s has no alt text" . $page.File.Path -}}
+  {{- end -}}
+  {{- $source := resources.Get . -}}
+  {{- if not $source -}}
+    {{- errorf "Chapter image %q declared by %s was not found" . $page.File.Path -}}
+  {{- end -}}
+  {{- $webp720 := $source.Resize "720x webp q88" -}}
+  {{- $webp1280 := $source.Resize "1280x webp q90" -}}
+  {{- $webp1920 := $source.Resize "1920x webp q91" -}}
+  {{- $webp2560 := $source.Resize "2560x webp q92" -}}
+  {{- $jpeg720 := $source.Resize "720x jpg q88" -}}
+  {{- $jpeg1280 := $source.Resize "1280x jpg q89" -}}
+  {{- $jpeg1920 := $source.Resize "1920x jpg q90" -}}
+  {{- $jpeg2560 := $source.Resize "2560x jpg q91" -}}
+  <picture class="chapter-media chapter-media--image{{ with $class }} {{ . }}{{ end }}">
+    <source
+      type="image/webp"
+      srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w, {{ $webp2560.RelPermalink }} 2560w"
+      sizes="100vw"
+    >
+    <img
+      class="chapter-media__image"
+      src="{{ $jpeg1920.RelPermalink }}"
+      srcset="{{ $jpeg720.RelPermalink }} 720w, {{ $jpeg1280.RelPermalink }} 1280w, {{ $jpeg1920.RelPermalink }} 1920w, {{ $jpeg2560.RelPermalink }} 2560w"
+      sizes="100vw"
+      width="{{ $source.Width }}"
+      height="{{ $source.Height }}"
+      alt="{{ $media.image_alt }}"
+      loading="lazy"
+      decoding="async"
+    >
+  </picture>
+{{- else -}}
+  {{- if or (not $media.placeholder_label) (not $media.placeholder_alt) -}}
+    {{- errorf "Placeholder media %q declared by %s requires label and alt text" $placeholderID $page.File.Path -}}
+  {{- end -}}
+  {{- $variant := $media.placeholder_variant | default "generic" | urlize -}}
+  <div
+    class="chapter-media chapter-media--placeholder chapter-media--{{ $variant }}{{ with $class }} {{ . }}{{ end }}"
+    role="img"
+    aria-label="{{ $media.placeholder_alt }}"
+    data-media-placeholder="{{ $placeholderID }}"
+  >
+    <span class="chapter-media__placeholder-graphic" aria-hidden="true"></span>
+    <span class="chapter-media__placeholder-label" aria-hidden="true">{{ $media.placeholder_label }}</span>
+  </div>
+{{- end -}}

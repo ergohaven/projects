@@ -41,6 +41,8 @@
 <meta name="twitter:title" content="{{ $pageTitle }}">
 <meta name="twitter:description" content="{{ $description }}">
 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap">
 {{ $styles := resources.Get "css/site.css" | minify | fingerprint "sha256" }}
 <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
 {{ $script := resources.Get "js/site.js" | minify | fingerprint "sha256" }}

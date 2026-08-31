@@ -1,0 +1,41 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $sectionID := $chapter.section_id -}}
+{{- $items := $chapter.media -}}
+{{- if not $sectionID -}}
+  {{- errorf "Detail sequence declared by %s has no section_id" $page.File.Path -}}
+{{- end -}}
+{{- if or (lt (len $items) 3) (gt (len $items) 4) -}}
+  {{- errorf "Detail sequence %q declared by %s needs three or four media items" $chapter.id $page.File.Path -}}
+{{- end -}}
+{{- $titleID := printf "%s-title" $sectionID -}}
+<section
+  id="{{ $sectionID }}"
+  class="detail-sequence section"
+  aria-labelledby="{{ $titleID }}"
+  data-product-chapter="{{ $chapter.id }}"
+>
+  <div class="detail-sequence__inner">
+    <header class="detail-sequence__intro">
+      <p class="eyebrow">{{ $chapter.eyebrow }}</p>
+      <h2 id="{{ $titleID }}">{{ $chapter.title }}</h2>
+      <p>{{ $chapter.text }}</p>
+    </header>
+    <div class="detail-sequence__gallery" role="list" aria-label="{{ $chapter.gallery_label }}">
+      {{- range $itemIndex, $item := $items -}}
+        <figure class="detail-sequence__item" role="listitem">
+          {{ partial "product/chapter-media.html" (dict
+            "page" $page
+            "media" $item
+            "class" "detail-sequence__media"
+            "placeholder_id" (printf "%s-%s" $chapter.id $item.id)
+          ) }}
+          <figcaption>
+            <span aria-hidden="true">0{{ add $itemIndex 1 }}</span>
+            <strong>{{ $item.label }}</strong>
+          </figcaption>
+        </figure>
+      {{- end -}}
+    </div>
+  </div>
+</section>

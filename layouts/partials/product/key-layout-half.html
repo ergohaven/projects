@@ -1,0 +1,18 @@
+{{- $page := .page -}}
+{{- $model := .model -}}
+{{- $layer := .layer -}}
+{{- $side := .side -}}
+{{- $assetPath := printf "%s/%s-%s-%s.svg" .assetRoot $model.id $layer.id $side -}}
+{{- $source := resources.Get $assetPath -}}
+{{- if not $source -}}
+  {{- errorf "Key layout asset %q for %s/%s/%s was not found in %s" $assetPath $model.id $layer.id $side $page.File.Path -}}
+{{- end -}}
+{{- $asset := $source | fingerprint "sha256" -}}
+<img
+  class="key-layout-diagram__half key-layout-diagram__half--{{ $side }}"
+  src="{{ $asset.RelPermalink }}"
+  alt=""
+  loading="lazy"
+  decoding="async"
+  draggable="false"
+>

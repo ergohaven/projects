@@ -10,6 +10,12 @@ for language in en ru; do
   diff -u <(printf '%s\n' "$expected_pages") <(printf '%s\n' "$actual_pages")
 done
 
+for image in 01-hero.jpg 02-standard.jpg 02-mini.jpg 02-micro.jpg 03-modularity-trackballs.jpg; do
+  test -f "assets/images/products/phenom/$image"
+done
+test -f data/key_layouts/phenom.json
+test "$(find assets/images/products/phenom/layouts -mindepth 2 -maxdepth 2 -type f -name '*.svg' | wc -l)" -eq 56
+
 for product in k04 phenom macropad; do
   en_keys=$(sed -n '/^---$/,/^---$/p' "content/en/$product/index.md" | sed '1d;$d' | rg '^[a-z_]+:' | cut -d: -f1)
   ru_keys=$(sed -n '/^---$/,/^---$/p' "content/ru/$product/index.md" | sed '1d;$d' | rg '^[a-z_]+:' | cut -d: -f1)
@@ -18,6 +24,7 @@ done
 
 if command -v node >/dev/null 2>&1; then
   node --check assets/js/site.js
+  node --check scripts/import_phenom_layout_refs.cjs
 fi
 python3 -m py_compile scripts/check_html.py
 
@@ -26,23 +33,149 @@ python3 scripts/check_html.py
 
 for language in en ru; do
   for page in index.html k04/index.html phenom/index.html macropad/index.html; do
-    rg -q 'data-theme-toggle' "public/$language/$page"
-    rg -q 'class=language-link' "public/$language/$page"
+    if [[ "$page" == phenom/index.html ]]; then
+      rg -q '<span>phenom series</span>' "public/$language/$page"
+      rg -q 'data-theme-toggle' "public/$language/$page"
+      rg -q 'class=language-link' "public/$language/$page"
+      rg -q 'class=site-header__actions' "public/$language/$page"
+      rg -q 'class=product-hero__copy><h1' "public/$language/$page"
+      if rg -q 'class=site-header__facts|class=header-back' "public/$language/$page"; then
+        echo "Phenom header must contain only language and theme controls" >&2
+        exit 1
+      fi
+    else
+      rg -q 'data-theme-toggle' "public/$language/$page"
+      rg -q 'class=language-link' "public/$language/$page"
+    fi
     rg -q 'class=product-stage' "public/$language/$page" || [[ "$page" == index.html ]]
   done
+
+  rg -q 'class="product-page hero-layout-immersive"' "public/$language/phenom/index.html"
+  rg -q 'class="product-hero product-hero--immersive"' "public/$language/phenom/index.html"
+  rg -q 'class=product-stage__picture' "public/$language/phenom/index.html"
+  rg -q 'class=product-stage__image' "public/$language/phenom/index.html"
+  rg -q 'type=image/webp' "public/$language/phenom/index.html"
+  rg -q 'class="series-showcase section"' "public/$language/phenom/index.html"
+  rg -q 'class=series-gallery' "public/$language/phenom/index.html"
+  test "$(rg -o 'class=series-card__visual' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  test "$(rg -o 'class=series-card__picture' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  test "$(rg -o 'class=series-card__image' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  rg -q 'visual-chapter--modularity' "public/$language/phenom/index.html"
+  rg -q 'class="chapter-media chapter-media--image visual-chapter__media"' "public/$language/phenom/index.html"
+  rg -q 'class=chapter-media__image' "public/$language/phenom/index.html"
+  rg -q 'class="key-layout-chapter section"' "public/$language/phenom/index.html"
+  rg -q 'data-key-layout' "public/$language/phenom/index.html"
+  rg -q 'data-layout-source=cb48b91787fc47767d2fda263286873d3e438ea5' "public/$language/phenom/index.html"
+  test "$(rg -o 'data-key-layout-model-control' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  test "$(rg -o 'data-key-layout-model-view' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  test "$(rg -o 'data-layout-reference' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  test "$(rg -o 'data-key-layout-layer-target' "public/$language/phenom/index.html" | wc -l)" -eq 14
+  test "$(rg -o 'data-key-layout-layer-target=function' "public/$language/phenom/index.html" | wc -l)" -eq 2
+  test "$(rg -o 'data-key-layout-layer-panel' "public/$language/phenom/index.html" | wc -l)" -eq 14
+  test "$(rg -o 'class="key-layout-diagram__half ' "public/$language/phenom/index.html" | wc -l)" -eq 28
+  test "$(rg -o 'images/products/phenom/layouts/[^ >]*\.svg' "public/$language/phenom/index.html" | wc -l)" -eq 28
+  test "$(rg -o "images/products/phenom/layouts/${language}/[^ >]*\.svg" "public/$language/phenom/index.html" | wc -l)" -eq 28
+  other_language=$([[ "$language" == en ]] && printf ru || printf en)
+  if rg -q "images/products/phenom/layouts/${other_language}/" "public/$language/phenom/index.html"; then
+    echo "Phenom $language page must not load $other_language layout artwork" >&2
+    exit 1
+  fi
+  test "$(rg -o 'class="key-layout-diagram__key' "public/$language/phenom/index.html" | wc -l)" -eq 0
+  expected_models=$(printf '%s\n' standard mini micro)
+  actual_models=$(rg -o 'data-key-layout-model-control=[^ >]+' "public/$language/phenom/index.html" | cut -d= -f2)
+  diff -u <(printf '%s\n' "$expected_models") <(printf '%s\n' "$actual_models")
+  model_switch_offset=$(rg --byte-offset -o 'class=key-layout-models' "public/$language/phenom/index.html" | head -n 1 | cut -d: -f1)
+  panels_offset=$(rg --byte-offset -o 'class=key-layout-panels' "public/$language/phenom/index.html" | head -n 1 | cut -d: -f1)
+  layer_switch_offset=$(rg --byte-offset -o 'class=key-layout-tabs' "public/$language/phenom/index.html" | head -n 1 | cut -d: -f1)
+  test "$model_switch_offset" -lt "$panels_offset"
+  test "$layer_switch_offset" -gt "$panels_offset"
+  test "$(rg -o 'class=key-layout-layer__title--single-line' "public/$language/phenom/index.html" | wc -l)" -eq 0
+  if rg -q 'key-layout-layer__number' "public/$language/phenom/index.html"; then
+    echo "Phenom layout layer numbers must remain removed" >&2
+    exit 1
+  fi
+  if rg -q 'is-compact' "public/$language/phenom/index.html"; then
+    echo "Phenom key labels must use one uniform font size" >&2
+    exit 1
+  fi
+  expected_story=$(printf '%s\n' curves finger-geometry additive-manufacturing keycaps-switches wired entropy specs cta)
+  actual_story=$(rg -o 'data-product-chapter=[^ >]+' "public/$language/phenom/index.html" | cut -d= -f2)
+  diff -u <(printf '%s\n' "$expected_story") <(printf '%s\n' "$actual_story")
+  test "$(rg -o 'data-media-placeholder=' "public/$language/phenom/index.html" | wc -l)" -eq 10
+  test "$(rg -o 'class=detail-sequence__item' "public/$language/phenom/index.html" | wc -l)" -eq 4
+  test "$(rg -o 'class="visual-chapter ' "public/$language/phenom/index.html" | wc -l)" -eq 7
+  test "$(rg -o 'visual-chapter--centered' "public/$language/phenom/index.html" | wc -l)" -eq 1
+  test "$(rg -o 'visual-chapter--bleed-edge' "public/$language/phenom/index.html" | wc -l)" -eq 2
+  test "$(rg -o 'visual-chapter--bleed-copy-left' "public/$language/phenom/index.html" | wc -l)" -eq 1
+  test "$(rg -o 'visual-chapter--split-left' "public/$language/phenom/index.html" | wc -l)" -eq 1
+  test "$(rg -o 'visual-chapter--closing' "public/$language/phenom/index.html" | wc -l)" -eq 1
+  test "$(rg -o 'class=specs-chapter__group[ >]' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  test "$(rg -o 'data-cta-action-pending' "public/$language/phenom/index.html" | wc -l)" -eq 1
+  for model in Standard Mini Micro; do
+    rg -q ">${model}</h3>" "public/$language/phenom/index.html"
+  done
+  if rg -q 'class="principles section|class="software section' "public/$language/phenom/index.html"; then
+    echo "Phenom must use the approved image-led chapter sequence" >&2
+    exit 1
+  fi
+  if rg -q 'hero-layout-immersive|product-hero--immersive' "public/$language/k04/index.html" "public/$language/macropad/index.html"; then
+    echo "Immersive hero must remain Phenom-only" >&2
+    exit 1
+  fi
+  if rg -q 'series-showcase|series-gallery' "public/$language/k04/index.html" "public/$language/macropad/index.html"; then
+    echo "The Phenom series showcase must not leak into other product pages" >&2
+    exit 1
+  fi
+  if rg -q 'visual-chapter|modularity-title|key-layout-chapter|key-layout-title|data-key-layout|data-product-chapter|data-media-placeholder|detail-sequence|specs-chapter' "public/$language/k04/index.html" "public/$language/macropad/index.html"; then
+    echo "The Phenom visual chapters must not leak into other product pages" >&2
+    exit 1
+  fi
 done
+
+rg -q '<h1 id=product-title>Engineered to perfection</h1>' public/en/phenom/index.html
+rg -q '<h1 id=product-title>Спроектирована до совершенства</h1>' public/ru/phenom/index.html
+rg -q 'Sculpted curves\. Modular freedom\.</span><span class=product-hero__intro-line>Shaped for every finger\.' public/en/phenom/index.html
+rg -q 'Скульптурная геометрия\. Модульная свобода\.</span><span class=product-hero__intro-line>Создана под каждый палец\.' public/ru/phenom/index.html
+rg -q '<h2 id=modularity-title>Controls where you need them</h2>' public/en/phenom/index.html
+rg -q '<h2 id=modularity-title>Управление там, где нужно</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=key-layout-title>Every key within reach</h2>' public/en/phenom/index.html
+rg -q '<h2 id=key-layout-title>Каждая клавиша под рукой</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-curves-title>Curves from every angle</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-curves-title>Изгибы со всех сторон</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-finger-geometry-title>Shaped for every finger</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-finger-geometry-title>Создана под каждый палец</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-additive-manufacturing-title>Made layer by layer</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-additive-manufacturing-title>Создана слой за слоем</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-keycaps-switches-title>Keycaps meet switches</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-keycaps-switches-title>Кейкапы и свитчи</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-wired-title>A direct connection</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-wired-title>Прямое подключение</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-entropy-title>Configuration, made visual</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-entropy-title>Настройка наглядно</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-specs-title>Phenom at a glance</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-specs-title>Phenom в деталях</h2>' public/ru/phenom/index.html
+rg -q '<h2 id=phenom-cta-title>Make Phenom yours</h2>' public/en/phenom/index.html
+rg -q '<h2 id=phenom-cta-title>Соберите свой Phenom</h2>' public/ru/phenom/index.html
+rg -q 'data-cta-action-pending>Choose your Phenom</span>' public/en/phenom/index.html
+rg -q 'data-cta-action-pending>Выбрать Phenom</span>' public/ru/phenom/index.html
 
 rg -q 'href=https://projects\.eh\.works/k04/' public/en/k04/index.html
 rg -q 'href=https://projects\.eh\.industries/k04/' public/ru/k04/index.html
 rg -q 'href=https://projects\.eh\.works/' public/en/index.html
 rg -q 'href=https://projects\.eh\.industries/' public/ru/index.html
-generated_css="$(find public/en -type f -name '*.css' -print -quit)"
-test -n "$generated_css"
-rg -q '@media\(max-width:390px\)' "$generated_css"
-rg -q 'prefers-reduced-motion:reduce' "$generated_css"
+for language in en ru; do
+  rg -Fq 'fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New' "public/$language/index.html"
+  generated_css_href="$(rg -o 'href=/css/site\.min\.[a-f0-9]+\.css' "public/$language/index.html" | head -n 1 | cut -d= -f2)"
+  generated_css="public/$language$generated_css_href"
+  test -f "$generated_css"
+  rg -Fq -- '--font-sans:"Zen Kaku Gothic New"' "$generated_css"
+  rg --pcre2 -q '\.product-hero--immersive h1\{[^}]*letter-spacing:normal' "$generated_css"
+  rg -q '@media\(max-width:390px\)' "$generated_css"
+  rg -q 'prefers-reduced-motion:reduce' "$generated_css"
+done
 
-if rg -q '<img|<picture|data:image' public/en public/ru; then
-  echo "Product imagery must stay absent during the layout stage" >&2
+if rg -q '<img|<picture|data:image' public/en/index.html public/en/k04 public/en/macropad public/en/404.html public/ru/index.html public/ru/k04 public/ru/macropad public/ru/404.html; then
+  echo "Product imagery must remain Phenom-only" >&2
   exit 1
 fi
 

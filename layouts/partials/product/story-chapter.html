@@ -1,0 +1,11 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- if eq $chapter.kind "detail-sequence" -}}
+  {{- partial "product/detail-sequence.html" (dict "page" $page "chapter" $chapter) -}}
+{{- else if eq $chapter.kind "visual" -}}
+  {{- partial "product/visual-chapter.html" (dict "page" $page "chapter" $chapter "story_id" $chapter.id) -}}
+{{- else if eq $chapter.kind "specs" -}}
+  {{- partial "product/specs-chapter.html" (dict "page" $page "chapter" $chapter) -}}
+{{- else -}}
+  {{- errorf "Unknown story chapter kind %q for %s in %s" $chapter.kind $chapter.id $page.File.Path -}}
+{{- end -}}

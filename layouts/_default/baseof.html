@@ -3,7 +3,7 @@
   <head>
     {{ partial "head.html" . }}
   </head>
-  <body id="top" class="{{ if .IsHome }}home-page{{ else }}product-page{{ end }}">
+  <body id="top" class="{{ if .IsHome }}home-page{{ else }}product-page{{ end }}{{ with .Params.hero_variant }} hero-layout-{{ . | urlize }}{{ end }}">
     {{ $ui := site.Home.Params.ui }}
     <a class="skip-link" href="#main-content">{{ $ui.skip_to_content }}</a>
     {{ partial "header.html" . }}

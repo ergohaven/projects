@@ -1,0 +1,131 @@
+{
+  "source": {
+    "repository": "https://github.com/ergohaven/vial-qmk",
+    "branch": "ergohaven",
+    "commit": "cb48b91787fc47767d2fda263286873d3e438ea5",
+    "asset_root": "images/products/phenom/layouts",
+    "layer_mapping": {
+      "base": "_BASE",
+      "numbers": "_LOWER",
+      "symbols": "_RAISE",
+      "function": "_ADJUST",
+      "cursor": "_FOUR"
+    }
+  },
+  "models": [
+    {
+      "id": "standard",
+      "key_count": 58,
+      "source": {
+        "vial_path": "keyboards/ergohaven/phenom/keymaps/v1/vial.json",
+        "vial_sha256": "e0ef361fc3897dfea3bcfe1599042484299ff1de6fca7cc9ab1008295a066fdc",
+        "keymap_path": "keyboards/ergohaven/phenom/keymaps/v1/keymap.c",
+        "keymap_sha256": "9f0685961437606dc588acec0add836107ea038535df9739f273dd8fbf312f59",
+        "layout_path": "keyboards/ergohaven/phenom/rev1/keyboard.json",
+        "layout_sha256": "a8edd6678db3ffe40f0e46fd8109afa11ff7d7b3bc599acfc7785d278308434c"
+      },
+      "references": {
+        "en": {
+          "sha256": "7e15a7c876250b7135fb3aef299fdb842b8e2c1c8daa52b6ea8a7e1e9d942f56",
+          "key_count": 58
+        },
+        "ru": {
+          "sha256": "91c6a7d81c2234f924dccd32bab567405715fd46a2ec4e7186cfca1d09947023",
+          "key_count": 58
+        }
+      },
+      "layers": [
+        {
+          "id": "base"
+        },
+        {
+          "id": "numbers"
+        },
+        {
+          "id": "symbols"
+        },
+        {
+          "id": "cursor"
+        }
+      ]
+    },
+    {
+      "id": "mini",
+      "key_count": 46,
+      "source": {
+        "vial_path": "keyboards/ergohaven/phenom_mini/keymaps/v1/vial.json",
+        "vial_sha256": "ed9c5e4ca4b628f577ce9792a2654d54d35cd43a3bc58d478d78987910d5199c",
+        "keymap_path": "keyboards/ergohaven/phenom_mini/keymaps/v1/keymap.c",
+        "keymap_sha256": "f8ccf7c404111c71be9363c96e524f395b1d5dc4e05f407f681c9321099d8221",
+        "layout_path": "keyboards/ergohaven/phenom_mini/rev1/keyboard.json",
+        "layout_sha256": "105e61de28e1a52c055f55c2198fa38fd2a88d95fd13cc0d3dad8ccf015e7f26"
+      },
+      "references": {
+        "en": {
+          "sha256": "37f27ad053f2e3fd57255f6971f43806a923d85d6c9f46af301f955c9733251b",
+          "key_count": 46
+        },
+        "ru": {
+          "sha256": "c2ff7845c8cae22090860cad775a0b82b693d86ebee330602f9fe50cb6729e88",
+          "key_count": 46
+        }
+      },
+      "layers": [
+        {
+          "id": "base"
+        },
+        {
+          "id": "numbers"
+        },
+        {
+          "id": "symbols"
+        },
+        {
+          "id": "function"
+        },
+        {
+          "id": "cursor"
+        }
+      ]
+    },
+    {
+      "id": "micro",
+      "key_count": 40,
+      "source": {
+        "vial_path": "keyboards/ergohaven/phenom_micro/keymaps/v1/vial.json",
+        "vial_sha256": "63a5e4e90a8e4dbcbf9c167b4c45a81996c8b931145df9930aafee73c83b0260",
+        "keymap_path": "keyboards/ergohaven/phenom_micro/keymaps/v1/keymap.c",
+        "keymap_sha256": "0adb7f23f1f0c0172f69cf9cb6827b881d0a0eb520764f0a02050686be171a53",
+        "layout_path": "keyboards/ergohaven/phenom_micro/rev1/keyboard.json",
+        "layout_sha256": "959d8510c8b86db8eca452df7f802e4698cc683e38dde5dc9279dc3339aabe97"
+      },
+      "references": {
+        "en": {
+          "sha256": "8ee34f9e3c9666997164bc1bf319ddedcdf2c116329b47ac2e6d758aab9504ad",
+          "key_count": 40
+        },
+        "ru": {
+          "sha256": "847f73ddb4c46de8e45de8aa7c60be3490da4a2dd0a7fa68dfd9279a83e546b4",
+          "key_count": 40
+        }
+      },
+      "layers": [
+        {
+          "id": "base"
+        },
+        {
+          "id": "numbers"
+        },
+        {
+          "id": "symbols"
+        },
+        {
+          "id": "function"
+        },
+        {
+          "id": "cursor"
+        }
+      ]
+    }
+  ]
+}
