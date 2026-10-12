@@ -65,6 +65,17 @@
         <source data-src="{{ .RelPermalink }}" type="{{ .MediaType.Type }}">
       </video>
     {{- end }}
+    {{- if $darkSource }}
+      {{- $playLabel := "Play Entropy demo" -}}
+      {{- $pauseLabel := "Pause Entropy demo" -}}
+      {{- if eq site.Language.Lang "ru" -}}
+        {{- $playLabel = "Воспроизвести демо Entropy" -}}
+        {{- $pauseLabel = "Приостановить демо Entropy" -}}
+      {{- end }}
+      <button class="chapter-media__play" type="button" data-theme-video-play
+        data-label-play="{{ $playLabel }}" data-label-pause="{{ $pauseLabel }}"
+        aria-label="{{ $playLabel }}" hidden>{{ $playLabel }}</button>
+    {{- end }}
   </div>
 {{- else with $media.image -}}
   {{- if $media.placeholder_label -}}

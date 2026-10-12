@@ -89,6 +89,8 @@ def check(public, baseline=None, canonical=None):
         assert len(doc.ids) == len(set(doc.ids)), (lang, 'duplicate ids')
         assert any(tag == 'body' and 'product-page--phenom' in attrs.get('class', '')
                    for tag, attrs in doc.tags), (lang, 'missing isolated body')
+        assert not any(tag == 'footer' for tag, _ in doc.tags), (lang, 'Phenom footer remains')
+        assert sum('data-theme-video-play' in attrs for _, attrs in doc.tags) == 1
         assert not any('language-link' in attrs.get('class', '') for _, attrs in doc.tags)
         assert sum('data-key-layout-model-control' in a for _, a in doc.tags) == 3
         assert sum('data-key-layout-layer-target' in a for _, a in doc.tags) == 14

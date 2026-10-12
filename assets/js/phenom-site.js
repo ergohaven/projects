@@ -36,12 +36,25 @@
         visible: false,
         revision: 0,
         theme: root.dataset.theme,
+        manualPlayback: false,
+        autoplayBlocked: false,
+        userPaused: false,
       });
     }
     return themeVideoStates.get(group);
   };
 
   const sourceFor = (video) => video.querySelector('source');
+
+  const updateVideoControl = (group, active) => {
+    const control = group.querySelector('[data-theme-video-play]');
+    if (!control) return;
+    const state = stateFor(group);
+    control.hidden = !reducedMotion.matches && !state.autoplayBlocked && !state.manualPlayback && !state.userPaused;
+    const label = active.paused ? control.dataset.labelPlay : control.dataset.labelPause;
+    control.textContent = label;
+    control.setAttribute('aria-label', label);
+  };
 
   const releaseVideo = (video) => {
     video.pause();
@@ -50,6 +63,18 @@
     source.removeAttribute('src');
     themeVideoLoadPromises.delete(video);
     video.load();
+  };
+
+  const playVideo = (group, active, revision) => {
+    const state = stateFor(group);
+    active.play().then(() => {
+      if (state.revision === revision) updateVideoControl(group, active);
+    }).catch(() => {
+      if (state.revision !== revision) return;
+      // Browser autoplay policy must not leave a silent, unplayable poster.
+      state.autoplayBlocked = true;
+      updateVideoControl(group, active);
+    });
   };
 
   const loadVideo = (video) => {
@@ -94,8 +119,10 @@
       video.pause();
     });
 
-    if (reducedMotion.matches || !state.nearViewport) {
+    updateVideoControl(group, active);
+    if ((reducedMotion.matches && !state.manualPlayback) || !state.nearViewport || state.userPaused) {
       videos.forEach(releaseVideo);
+      updateVideoControl(group, active);
       return;
     }
 
@@ -115,10 +142,12 @@
       ) {
         active.currentTime = outgoingProgress * active.duration;
       }
-      if (state.visible && !document.hidden && !reducedMotion.matches) {
-        active.play().catch(() => {});
+      if (state.visible && !document.hidden && (!reducedMotion.matches || state.manualPlayback)) {
+        if (active.paused) playVideo(group, active, revision);
+        else updateVideoControl(group, active);
       } else {
         active.pause();
+        updateVideoControl(group, active);
       }
     });
 
@@ -144,6 +173,22 @@
       syncThemeVideoGroup(group, stateFor(group).theme);
     });
   };
+
+  themeVideoGroups.forEach((group) => {
+    group.querySelector('[data-theme-video-play]')?.addEventListener('click', () => {
+      const state = stateFor(group);
+      const active = group.querySelector(`[data-theme-video="${state.theme}"]`);
+      if (!active) return;
+      state.userPaused = !active.paused;
+      state.manualPlayback = !state.userPaused;
+      syncThemeVideoGroup(group, state.theme);
+      // Queue explicit playback inside the gesture, not after loadedmetadata:
+      // strict browser policies can expire activation during the lazy load.
+      if (state.manualPlayback && state.visible && !document.hidden) {
+        playVideo(group, active, state.revision);
+      }
+    });
+  });
 
   if ('IntersectionObserver' in window) {
     const loadObserver = new IntersectionObserver((entries) => {
@@ -196,7 +241,10 @@
   preference.addEventListener?.('change', (event) => {
     if (!storedTheme()) setTheme(event.matches ? 'dark' : 'light');
   });
-  reducedMotion.addEventListener?.('change', refreshThemeVideos);
+  reducedMotion.addEventListener?.('change', () => {
+    themeVideoGroups.forEach((group) => { stateFor(group).manualPlayback = false; });
+    refreshThemeVideos();
+  });
   document.addEventListener('visibilitychange', refreshThemeVideos);
 })();
 
@@ -254,63 +302,6 @@
   window.addEventListener('scroll', requestUpdate, { passive: true });
   window.addEventListener('resize', requestUpdate, { passive: true });
   updateBackToTop();
-})();
-
-// Proximity snap can leave the closing Phenom chapter half-visible when
-// returning from the short footer. Complete that one upward transition only;
-// keep normal scrolling through the rest of the page and into the footer.
-(() => {
-  'use strict';
-
-  const closingChapter = document.querySelector('body.product-page--phenom #phenom-cta');
-  if (!closingChapter) return;
-
-  const desktop = window.matchMedia('(min-width: 981px)');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let startY = window.scrollY;
-  let lastY = startY;
-  let direction = 0;
-  let scrolling = false;
-  let settleTimer = 0;
-
-  const settle = () => {
-    const chapterTop = closingChapter.getBoundingClientRect().top;
-    const chapterY = chapterTop + window.scrollY;
-    const cameFromFooter = startY > chapterY + 4;
-    const movedUp = direction < 0;
-    scrolling = false;
-    startY = window.scrollY;
-    direction = 0;
-
-    if (
-      desktop.matches
-      && cameFromFooter
-      && movedUp
-      && chapterTop > 4
-      && chapterTop < window.innerHeight * 0.6
-    ) {
-      closingChapter.scrollIntoView({
-        behavior: reducedMotion.matches ? 'instant' : 'smooth',
-        block: 'start',
-      });
-    }
-  };
-
-  window.addEventListener('scroll', () => {
-    const nextY = window.scrollY;
-    if (!scrolling) {
-      startY = lastY;
-      scrolling = true;
-    }
-    direction = Math.sign(nextY - lastY) || direction;
-    lastY = nextY;
-    if (!('onscrollend' in window)) {
-      window.clearTimeout(settleTimer);
-      settleTimer = window.setTimeout(settle, 140);
-    }
-  }, { passive: true });
-
-  if ('onscrollend' in window) window.addEventListener('scrollend', settle);
 })();
 
 (() => {
