@@ -1,0 +1,11 @@
+# Publish both locales beneath the repository's GitHub Pages URL.
+# Keep the original production canonical domains; only locale navigation
+# is redirected to this Pages deployment.
+baseURL: https://ergohaven.github.io/projects/
+languages:
+  en:
+    params:
+      alternateBaseURL: https://ergohaven.github.io/projects/ru/
+  ru:
+    params:
+      alternateBaseURL: https://ergohaven.github.io/projects/
