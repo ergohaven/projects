@@ -4,7 +4,6 @@
   const root = document.documentElement;
   const themeToggle = document.querySelector('[data-theme-toggle]');
   const preference = window.matchMedia('(prefers-color-scheme: dark)');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const themeVideoGroups = Array.from(document.querySelectorAll('[data-theme-video-group]'));
   const themeVideoPauseTimers = new WeakMap();
   const themeVideoLoadPromises = new WeakMap();
@@ -36,25 +35,12 @@
         visible: false,
         revision: 0,
         theme: root.dataset.theme,
-        manualPlayback: false,
-        autoplayBlocked: false,
-        userPaused: false,
       });
     }
     return themeVideoStates.get(group);
   };
 
   const sourceFor = (video) => video.querySelector('source');
-
-  const updateVideoControl = (group, active) => {
-    const control = group.querySelector('[data-theme-video-play]');
-    if (!control) return;
-    const state = stateFor(group);
-    control.hidden = !reducedMotion.matches && !state.autoplayBlocked && !state.manualPlayback && !state.userPaused;
-    const label = active.paused ? control.dataset.labelPlay : control.dataset.labelPause;
-    control.textContent = label;
-    control.setAttribute('aria-label', label);
-  };
 
   const releaseVideo = (video) => {
     video.pause();
@@ -63,18 +49,6 @@
     source.removeAttribute('src');
     themeVideoLoadPromises.delete(video);
     video.load();
-  };
-
-  const playVideo = (group, active, revision) => {
-    const state = stateFor(group);
-    active.play().then(() => {
-      if (state.revision === revision) updateVideoControl(group, active);
-    }).catch(() => {
-      if (state.revision !== revision) return;
-      // Browser autoplay policy must not leave a silent, unplayable poster.
-      state.autoplayBlocked = true;
-      updateVideoControl(group, active);
-    });
   };
 
   const loadVideo = (video) => {
@@ -119,10 +93,10 @@
       video.pause();
     });
 
-    updateVideoControl(group, active);
-    if ((reducedMotion.matches && !state.manualPlayback) || !state.nearViewport || state.userPaused) {
+    // The Entropy demo intentionally loops even with reduced motion. Other
+    // page transitions retain their motion preference; hidden media is idle.
+    if (!state.nearViewport || document.hidden) {
       videos.forEach(releaseVideo);
-      updateVideoControl(group, active);
       return;
     }
 
@@ -142,12 +116,12 @@
       ) {
         active.currentTime = outgoingProgress * active.duration;
       }
-      if (state.visible && !document.hidden && (!reducedMotion.matches || state.manualPlayback)) {
-        if (active.paused) playVideo(group, active, revision);
-        else updateVideoControl(group, active);
+      if (state.visible && !document.hidden) {
+        // Muted inline playback normally needs no gesture. If browser policy
+        // rejects it, retain the original poster without introducing controls.
+        if (active.paused) active.play().catch(() => {});
       } else {
         active.pause();
-        updateVideoControl(group, active);
       }
     });
 
@@ -173,22 +147,6 @@
       syncThemeVideoGroup(group, stateFor(group).theme);
     });
   };
-
-  themeVideoGroups.forEach((group) => {
-    group.querySelector('[data-theme-video-play]')?.addEventListener('click', () => {
-      const state = stateFor(group);
-      const active = group.querySelector(`[data-theme-video="${state.theme}"]`);
-      if (!active) return;
-      state.userPaused = !active.paused;
-      state.manualPlayback = !state.userPaused;
-      syncThemeVideoGroup(group, state.theme);
-      // Queue explicit playback inside the gesture, not after loadedmetadata:
-      // strict browser policies can expire activation during the lazy load.
-      if (state.manualPlayback && state.visible && !document.hidden) {
-        playVideo(group, active, state.revision);
-      }
-    });
-  });
 
   if ('IntersectionObserver' in window) {
     const loadObserver = new IntersectionObserver((entries) => {
@@ -240,10 +198,6 @@
   });
   preference.addEventListener?.('change', (event) => {
     if (!storedTheme()) setTheme(event.matches ? 'dark' : 'light');
-  });
-  reducedMotion.addEventListener?.('change', () => {
-    themeVideoGroups.forEach((group) => { stateFor(group).manualPlayback = false; });
-    refreshThemeVideos();
   });
   document.addEventListener('visibilitychange', refreshThemeVideos);
 })();
