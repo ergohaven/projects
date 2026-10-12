@@ -1,0 +1,796 @@
+/* Phenom mobile art direction: one restrained product-catalogue system.
+   The desktop composition and authored copy are deliberately untouched. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --p-ink: var(--text);
+    --p-muted: var(--text-soft);
+    --p-paper: var(--bg);
+    --p-panel: #ece8e5;
+    --p-technical: #e8e3e0;
+    --p-rose: var(--accent-deep);
+    --p-gutter: clamp(20px, 5.15vw, 40px);
+    --p-title: clamp(30px, 8vw, 40px);
+    --p-copy: clamp(15.5px, 4.1vw, 17px);
+    --p-leading: 1.52;
+    --p-photo-section-space: clamp(48px, 11vw, 64px);
+    --p-photo-content-gap: 24px;
+    --p-photo-radius: 9px;
+    --phenom-layer-base: #ead8de;
+    --phenom-layer-numbers: #d15150;
+    --phenom-layer-symbols: #79c9e2;
+    --phenom-layer-function: #ede1a5;
+    --phenom-layer-cursor: #86d994;
+    --phenom-layer-active-text: #302e32;
+  }
+
+  html[data-theme="dark"] body.product-page--phenom {
+    --phenom-layer-active-text: #fff7f8;
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="base"] {
+    --phenom-layer-color: var(--phenom-layer-base);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="numbers"] {
+    --phenom-layer-color: var(--phenom-layer-numbers);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="symbols"] {
+    --phenom-layer-color: var(--phenom-layer-symbols);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="function"] {
+    --phenom-layer-color: var(--phenom-layer-function);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="cursor"] {
+    --phenom-layer-color: var(--phenom-layer-cursor);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button.is-active {
+    background: color-mix(in srgb, var(--phenom-layer-color) 50%, var(--phenom-control-surface));
+    color: var(--phenom-layer-active-text);
+  }
+
+  html[data-theme="dark"] body.product-page--phenom .key-layout-tabs__button.is-active {
+    background: color-mix(in srgb, var(--phenom-layer-color) 50%, var(--phenom-control-surface));
+    color: var(--phenom-layer-active-text);
+  }
+
+  /* Remove screen-sized empty tails. Content and imagery set chapter height. */
+  body.product-page--phenom .product-story--phenom > section:not(.product-hero--immersive) {
+    min-height: 0 !important;
+  }
+  body.product-page--phenom .product-story--phenom > section:not(.product-hero--immersive, #product-series, #phenom-cta) {
+    border-top: 0 !important;
+  }
+  body.product-page--phenom .product-story--phenom > section:not(.product-hero--immersive, #product-series, #phenom-cta)::after {
+    display: none;
+  }
+
+  /* Editorial type: one headline, reading and annotation scale throughout. */
+  body.product-page--phenom .product-story--phenom :is(
+    #series-title, #modularity-title, #phenom-finger-geometry-title,
+    #phenom-curves-title, #phenom-additive-manufacturing-title,
+    #phenom-keycaps-switches-title, #phenom-entropy-title,
+    #phenom-wired-title, #phenom-specs-title,
+    .key-layout-chapter__intro h2, #phenom-cta-title
+  ) {
+    font-size: var(--p-title) !important;
+    font-weight: 600 !important;
+    line-height: 1.07 !important;
+    letter-spacing: -0.034em !important;
+    text-wrap: balance;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro > p:not(.eyebrow),
+    .visual-chapter__copy > p:not(.eyebrow),
+    .detail-sequence__intro > p:not(.eyebrow),
+    .key-layout-chapter__intro > p:not(.eyebrow),
+    .key-layout-layer__copy > p:last-child,
+    .specs-chapter__header > p:not(.eyebrow)
+  ) {
+    font-size: var(--p-copy) !important;
+    font-weight: 400 !important;
+    line-height: var(--p-leading) !important;
+    letter-spacing: 0 !important;
+    text-wrap: pretty;
+    overflow-wrap: normal;
+  }
+  body.product-page--phenom .product-story--phenom :is(.eyebrow, .series-card__mobile-index) {
+    color: var(--p-rose);
+    font-size: 11px !important;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .12em;
+  }
+
+  /* Opening: precise title, generous product image, restrained support copy. */
+  body.product-page--phenom .product-hero--immersive h1 {
+    font-size: clamp(34px, 9vw, 45px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -.045em !important;
+  }
+  html[lang^="ru"] body.product-page--phenom .product-hero--immersive h1 {
+    font-size: clamp(32px, 8.6vw, 42px) !important;
+  }
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    font-size: var(--p-copy) !important;
+    line-height: 1.42 !important;
+  }
+  /* Match the mobile breadcrumb to the hero's supporting sentence. */
+  body.product-page--phenom .site-header .brand {
+    font-size: var(--p-copy) !important;
+    font-weight: 400 !important;
+    line-height: 1.42 !important;
+    letter-spacing: -0.005em;
+  }
+
+  /* Range: keep each model's image, name and traits as one compact chapter. */
+  body.product-page--phenom #product-series {
+    padding: var(--p-photo-section-space) var(--p-gutter) 56px !important;
+    background: var(--p-paper);
+  }
+  body.product-page--phenom #product-series .series-showcase__intro {
+    align-items: center;
+    margin: 0 0 28px;
+    text-align: center;
+  }
+  body.product-page--phenom #product-series #series-title,
+  body.product-page--phenom #product-series .series-showcase__intro > p:not(.eyebrow) {
+    width: 100%; max-width: 31rem; margin-inline: auto !important;
+    text-align: center !important;
+  }
+  body.product-page--phenom #product-series .series-showcase__intro > p:not(.eyebrow) {
+    margin-top: 16px !important;
+  }
+  body.product-page--phenom #product-series .series-gallery {
+    width: 100% !important;
+    max-width: 680px !important;
+    margin-inline: auto !important;
+    padding-inline: 0 !important;
+    gap: 0 !important;
+  }
+  body.product-page--phenom #product-series .series-card__mobile-heading {
+    display: none;
+  }
+  body.product-page--phenom #product-series .series-card + .series-card {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  body.product-page--phenom #product-series .series-card__visual {
+    border-radius: var(--p-photo-radius) !important;
+  }
+  body.product-page--phenom #product-series .series-card__visual img {
+    /* Crop the generous studio backdrop on mobile without changing the source photos. */
+    transform: scale(1.24);
+  }
+  body.product-page--phenom #product-series .series-card__caption {
+    margin-top: 16px;
+  }
+  body.product-page--phenom #product-series .series-card__heading {
+    display: block;
+    border: 0;
+  }
+  body.product-page--phenom #product-series .series-card__heading h3 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-size: clamp(17px, 4.5vw, 20px) !important;
+    letter-spacing: 0;
+  }
+  body.product-page--phenom #product-series .series-card__heading-separator {
+    display: inline;
+  }
+  body.product-page--phenom #product-series .series-card__key-count {
+    color: var(--p-muted);
+    font-size: clamp(13px, 3.6vw, 15px) !important;
+    font-weight: 400;
+    text-transform: none;
+    white-space: nowrap;
+  }
+  body.product-page--phenom #product-series .series-card__traits { margin-top: 8px; }
+  body.product-page--phenom #product-series .series-card__trait {
+    padding: 2px 0;
+    border-bottom: 0;
+    color: var(--p-muted);
+    font-size: clamp(13.5px, 3.65vw, 15px) !important;
+    line-height: 1.5;
+  }
+  body.product-page--phenom #product-series .series-card__trait + .series-card__trait {
+    border-top: 0;
+  }
+
+  /* All photographic chapters use the same reading module; their media
+     framing and tonal role vary at deliberate points in the story. */
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy {
+    flex: none;
+    padding: 32px var(--p-gutter) 56px !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > h2 {
+    font-size: var(--p-title) !important;
+    max-width: 15ch !important;
+    margin: 0 !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    max-width: 42ch;
+    margin-top: 17px !important;
+    color: var(--p-muted);
+    font-size: var(--p-copy) !important;
+    line-height: var(--p-leading) !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: 11px !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy::before {
+    display: block;
+    width: 42px; height: 2px;
+    margin-bottom: 25px;
+    background: var(--p-rose);
+    content: "";
+  }
+
+  /* Full-bleed images and a theme-aware tonal sequence. */
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) {
+    padding-top: 52px !important;
+    background: var(--p-paper) !important;
+    color: var(--p-ink) !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(#modularity, #phenom-additive-manufacturing, #phenom-wired) {
+    background: var(--p-technical) !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__media {
+    width: 100% !important;
+    margin-inline: 0 !important;
+    border-radius: 0 !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(#modularity, #phenom-wired) .visual-chapter__copy > h2 {
+    color: var(--p-ink) !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(#modularity, #phenom-wired) .visual-chapter__copy > p:not(.eyebrow) {
+    color: var(--p-muted) !important;
+  }
+
+  /* Product details become a compact dark contact sheet. */
+  body.product-page--phenom #phenom-curves {
+    padding: var(--p-photo-section-space) var(--p-gutter) !important;
+    background: var(--p-panel) !important;
+    color: var(--p-ink) !important;
+  }
+  body.product-page--phenom #phenom-curves h2 { color: var(--p-ink) !important; text-align: center !important; margin: 0 0 var(--p-photo-content-gap) !important; }
+  body.product-page--phenom #phenom-curves .detail-sequence__gallery { gap: var(--p-photo-content-gap) 12px; margin-bottom: var(--p-photo-content-gap) !important; }
+  body.product-page--phenom #phenom-curves .detail-sequence__media { border-radius: var(--p-photo-radius) !important; }
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption {
+    color: var(--p-muted); font-size: 12px !important;
+  }
+  body.product-page--phenom #phenom-curves .detail-sequence__intro > p:not(.eyebrow) {
+    width: 100%; max-width: 42ch; margin: 0 auto !important;
+    color: var(--p-muted) !important; text-align: center !important;
+    font-size: var(--p-copy) !important; font-weight: 400 !important; line-height: var(--p-leading) !important;
+  }
+
+  /* Functional chapters are clear, compact pauses between image-led parts. */
+  body.product-page--phenom .product-story--phenom .key-layout-chapter {
+    padding: 60px var(--p-gutter) 64px !important;
+    background: var(--p-paper) !important;
+  }
+  body.product-page--phenom .key-layout-chapter__intro { align-items: flex-start !important; text-align: left !important; }
+  body.product-page--phenom .key-layout-chapter__intro h2,
+  body.product-page--phenom .key-layout-chapter__intro > p:not(.eyebrow) {
+    margin-inline: 0 !important; text-align: left !important;
+  }
+  /* Reserve the tallest layer description so the keyboard stays put when
+     switching between layers. The mobile script measures each translation. */
+  body.product-page--phenom .key-layout-layer__copy {
+    min-height: var(--phenom-layout-copy-height, 0px) !important;
+  }
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    font-size: var(--p-copy) !important; line-height: var(--p-leading) !important;
+  }
+  body.product-page--phenom #phenom-entropy {
+    padding: 60px 0 64px !important;
+    background: var(--p-panel) !important;
+  }
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > h2 {
+    font-size: var(--p-title) !important;
+    text-align: left !important;
+  }
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: var(--p-copy) !important;
+    line-height: var(--p-leading) !important;
+  }
+  body.product-page--phenom #phenom-entropy .visual-chapter__action { border-radius: 0; }
+  body.product-page--phenom #phenom-entropy .chapter-media__video {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+  body.product-page--phenom #phenom-entropy .chapter-media--video {
+    box-shadow: none !important;
+  }
+  body.product-page--phenom #phenom-specs {
+    padding: 60px var(--p-gutter) 68px !important;
+    background: var(--p-panel) !important;
+  }
+  body.product-page--phenom #phenom-specs .specs-chapter__header h2 {
+    text-align: left !important;
+    margin: 0 !important;
+  }
+  body.product-page--phenom #phenom-specs .specs-chapter__header > p:last-child {
+    text-align: left !important;
+  }
+  body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+    font-size: 17px !important;
+  }
+  body.product-page--phenom #phenom-specs .specs-chapter__row dt {
+    font-size: 14px !important; font-weight: 600 !important;
+  }
+  body.product-page--phenom #phenom-specs .specs-chapter__row dd {
+    font-size: 14px !important; line-height: 1.45 !important;
+  }
+  body.product-page--phenom #phenom-specs .specs-chapter__toggle { min-height: 58px; }
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: var(--p-copy) !important;
+    line-height: var(--p-leading) !important;
+  }
+}
+
+/* Shared mobile grid: the hero, catalogue, chapters and dividers all use
+   the same inset. This overrides older per-chapter centering rules. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-hero--immersive {
+    position: relative;
+    z-index: 2;
+    min-height: 94svh;
+    padding-top: clamp(104px, 13svh, 136px);
+    padding-bottom: 52px;
+    overflow: visible;
+  }
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive {
+    /* Hide the next dark section below the first viewport while preserving
+       the approved title, image and supporting-copy coordinates. */
+    min-height: 100svh;
+    padding-bottom: calc(52px + 6svh);
+  }
+  body.product-page--phenom .phenom-scroll-cue {
+    /* Straddle the hero/series seam, above the following section texture. */
+    bottom: 0;
+    transform: translate(-50%, 50%);
+  }
+  html[data-theme="dark"] body.product-page--phenom .phenom-scroll-cue {
+    bottom: 6svh;
+    color: #242225;
+  }
+  body.product-page--phenom .product-hero--immersive .product-stage {
+    width: 100%;
+    margin-inline: 0;
+    border-radius: 0;
+  }
+  body.product-page--phenom #phenom-cta {
+    min-height: 0 !important;
+  }
+  body.product-page--phenom #product-series .series-showcase__intro {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  body.product-page--phenom #product-series #series-title {
+    max-width: none !important;
+    align-self: center !important;
+  }
+  body.product-page--phenom .key-layout-chapter__intro h2,
+  body.product-page--phenom #phenom-curves .detail-sequence__intro h2 {
+    width: 100% !important;
+    max-width: none !important;
+    margin-inline: 0 !important;
+    align-self: flex-start !important;
+    text-align: left !important;
+  }
+  body.product-page--phenom #phenom-curves .detail-sequence__intro h2 {
+    text-align: center !important;
+  }
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > h2 {
+    width: calc(100% - 2 * var(--p-gutter)) !important;
+    max-width: none !important;
+    margin: 0 var(--p-gutter) 26px !important;
+    align-self: flex-start !important;
+    text-align: left !important;
+  }
+  body.product-page--phenom .product-story--phenom > section:not(.product-hero--immersive, #phenom-cta) {
+    position: relative;
+  }
+  body.product-page--phenom .product-story--phenom > section:not(.product-hero--immersive, #product-series, #phenom-cta)::before {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: var(--p-gutter);
+    width: calc(100% - 2 * var(--p-gutter));
+    height: 1px;
+    background: var(--line);
+    pointer-events: none;
+    content: "";
+  }
+}
+
+@media (max-width: 360px) {
+  body.product-page--phenom #product-series .series-card__mobile-heading {
+    gap: .25em; font-size: 12px !important;
+  }
+  body.product-page--phenom #product-series .series-card__mobile-index { min-width: 1.8em; }
+}
+
+/* The older fullscreen mobile rule names chapter IDs and therefore outranks
+   a generic section reset. Explicitly return only story sections to flow. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story--phenom > :is(
+    #product-series, #modularity, .key-layout-chapter,
+    #phenom-finger-geometry, #phenom-curves, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-entropy, #phenom-wired, #phenom-specs
+  ) {
+    min-height: 0 !important;
+  }
+  body.product-page--phenom #product-series .series-showcase__intro > p:not(.eyebrow) {
+    font-size: var(--p-copy) !important;
+    line-height: var(--p-leading) !important;
+  }
+}
+@media (max-width: 980px) {
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption strong {
+    color: var(--p-ink) !important;
+  }
+}
+
+/* The switch changes every chapter surface, not just the hero. */
+@media (max-width: 980px) {
+  html[data-theme="dark"] body.product-page--phenom {
+    --p-panel: #282529;
+    --p-technical: #211f22;
+  }
+}
+
+/* On phones, move the photographic chapter copy as one unit while retaining
+   its approved measure and line breaks. The image framing stays unchanged. */
+@media (max-width: 600px) {
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy {
+    padding-left: calc(2 * var(--p-gutter)) !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* Email-inspired mobile reading sequence for the five Phenom photo chapters.
+   Keep semantic source order intact; only the visual order changes on mobile. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--p-photo-section-space) 0 !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy {
+    display: contents !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy::before { display: none !important; }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > h2 {
+    order: 1;
+    width: calc(100% - 2 * var(--p-gutter)) !important;
+    max-width: none !important;
+    margin: 0 var(--p-gutter) var(--p-photo-content-gap) !important;
+    padding: 0 !important;
+    align-self: auto !important;
+    color: var(--p-ink) !important;
+    font-size: clamp(29px, 7.7vw, 39px) !important;
+    line-height: 1.09 !important;
+    text-align: center !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__media {
+    order: 2;
+    flex: none;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    margin: 0 0 var(--p-photo-content-gap) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    order: 3;
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 calc(var(--p-gutter) + 12px) !important;
+    color: var(--p-muted) !important;
+    font-size: var(--p-copy) !important;
+    line-height: var(--p-leading) !important;
+    text-align: left !important;
+    text-wrap: pretty !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: 12px !important;
+  }
+}
+
+/* Centre each mobile heading in the space from the preceding section edge
+   to its image. Keep the image and the rest of the chapter in place. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --p-photo-heading-space: calc((var(--p-photo-section-space) + var(--p-photo-content-gap)) / 2);
+    --p-video-heading-space: 43px;
+  }
+
+  body.product-page--phenom #product-series .series-showcase__intro {
+    gap: 28px;
+  }
+  body.product-page--phenom #product-series .series-showcase__intro > p:not(.eyebrow) {
+    margin-top: 0 !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) {
+    padding-top: var(--p-photo-heading-space) !important;
+  }
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > h2 {
+    margin-bottom: var(--p-photo-heading-space) !important;
+  }
+
+  body.product-page--phenom #phenom-curves {
+    padding-top: var(--p-photo-heading-space) !important;
+  }
+  body.product-page--phenom #phenom-curves .detail-sequence__intro > h2 {
+    margin-bottom: var(--p-photo-heading-space) !important;
+  }
+
+  body.product-page--phenom #phenom-entropy {
+    padding-top: var(--p-video-heading-space) !important;
+  }
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > h2 {
+    margin-bottom: var(--p-video-heading-space) !important;
+  }
+}
+
+/* Slightly stronger secondary-copy contrast in both mobile themes. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --p-muted: #514b4f;
+  }
+  html[data-theme="dark"] body.product-page--phenom {
+    --p-muted: #d0c9cd;
+  }
+}
+
+/* Long phone copy reads as prose: use the image measure and natural wrapping,
+   without balancing every line or isolating the opening sentence. */
+@media (max-width: 600px) {
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    padding-inline: calc(var(--p-gutter) + 4px) !important;
+    text-wrap: wrap !important;
+  }
+
+  body.product-page--phenom #phenom-finger-geometry .chapter-text-line:first-child {
+    display: inline;
+    margin-bottom: 0;
+  }
+}
+
+/* Square mobile photo framing: center the keyboard subjects in each crop. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story--phenom #modularity .chapter-media__image { object-position: 88% 50%; }
+  body.product-page--phenom .product-story--phenom #phenom-finger-geometry .chapter-media__image { object-position: 20% 52%; }
+  body.product-page--phenom .product-story--phenom #phenom-additive-manufacturing .chapter-media__image { object-position: 50% 50%; }
+  body.product-page--phenom .product-story--phenom #phenom-keycaps-switches .chapter-media__image { object-position: 38% 50%; }
+  body.product-page--phenom .product-story--phenom #phenom-wired .chapter-media__image { object-position: 50% 50%; }
+}
+
+/* Match the modularity copy inset to the photo without changing the full text. */
+@media (max-width: 600px) {
+  body.product-page--phenom .product-story--phenom #modularity .visual-chapter__copy > p:not(.eyebrow) {
+    padding-inline: var(--p-gutter) !important;
+    text-wrap: wrap !important;
+  }
+}
+
+/* Landscape phones use the desktop hero composition: a full-bleed product
+   photograph with the heading and supporting copy over its lower edge. */
+@media (max-width: 980px) and (orientation: landscape) and (max-height: 600px) {
+  body.product-page--phenom .product-hero--immersive,
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive {
+    display: block;
+    height: 100svh;
+    min-height: 100svh;
+    padding: 0;
+    overflow: hidden;
+    background: #282326;
+    color: #f7f4f3;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage,
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-stage {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    background: #f3f3f3;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage__picture,
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-stage__picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage__image {
+    position: static;
+    width: 100%;
+    height: 100%;
+    transform: none;
+    object-fit: cover;
+    object-position: 50% 48%;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage::after,
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-stage::after {
+    display: block;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgb(18 14 16 / 18%) 0%, transparent 25%,
+      transparent 61%, rgb(18 14 16 / 38%) 100%);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__copy {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100svh;
+    margin: 0;
+    padding: 0 clamp(24px, 5vw, 40px) 34px;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  body.product-page--phenom .product-hero--immersive h1,
+  html[lang^="ru"] body.product-page--phenom .product-hero--immersive h1,
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive h1 {
+    flex: 1 1 auto;
+    align-self: flex-end;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    color: #f7f4f3;
+    font-size: clamp(21px, 3.4vw, 32px) !important;
+    line-height: 1 !important;
+    text-align: left;
+    text-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__intro,
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    flex: 0 0 auto;
+    align-self: flex-end;
+    width: auto;
+    max-width: 150px;
+    margin: 0;
+    color: rgb(247 244 243 / 88%);
+    font-size: clamp(11px, 1.45vw, 13px) !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom .site-header,
+  html[data-theme="dark"] body.product-page--phenom .site-header,
+  body.product-page--phenom .site-header .brand,
+  html[data-theme="dark"] body.product-page--phenom .site-header .brand,
+  body.product-page--phenom .site-header .brand i,
+  html[data-theme="dark"] body.product-page--phenom .site-header .brand i {
+    color: #f7f4f3;
+  }
+
+  body.product-page--phenom .site-header .theme-toggle,
+  html[data-theme="dark"] body.product-page--phenom .site-header .theme-toggle,
+  html body.product-page--phenom .site-header .theme-toggle:is(:hover, :focus-visible) {
+    color: #f7f4f3;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue {
+    right: auto;
+    bottom: 4px;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    transform: translateX(-50%);
+    border: 0;
+    background: transparent;
+    color: #f7f4f3;
+    backdrop-filter: none;
+  }
+}
+
+/* Keep the closing photograph within a short landscape viewport, so the
+   complete heading is visible when the section first comes into view. */
+@media (max-width: 980px) and (orientation: landscape) and (max-height: 600px) {
+  body.product-page--phenom #phenom-cta {
+    /* Shift the photograph and all following copy together; protect the
+       heading on the shortest landscape screens. */
+    padding-top: clamp(4px, calc(100svh - 322px), 32px);
+  }
+  body.product-page--phenom #phenom-cta .visual-chapter__media {
+    height: clamp(212px, 62svh, 320px);
+    aspect-ratio: auto;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 76%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 76%, transparent 100%);
+  }
+  body.product-page--phenom #phenom-cta .visual-chapter__media .chapter-media__image {
+    object-position: center 40%;
+  }
+  body.product-page--phenom #phenom-cta .visual-chapter__copy {
+    margin-top: 0;
+  }
+}

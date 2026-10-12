@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale }}" data-theme="light">
+  <head>
+    {{ partial "phenom/head.html" . }}
+  </head>
+  <body id="top" class="{{ if .IsHome }}home-page{{ else }}product-page product-page--{{ .TranslationKey | urlize }}{{ end }}{{ with .Params.hero_variant }} hero-layout-{{ . | urlize }}{{ end }}">
+    {{ $ui := site.Home.Params.ui }}
+    <a class="skip-link" href="#main-content">{{ $ui.skip_to_content }}</a>
+    {{ partial "phenom/header.html" . }}
+    <main id="main-content">
+      {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "phenom/footer.html" . }}
+  </body>
+</html>

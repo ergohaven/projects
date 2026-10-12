@@ -1,217 +1,297 @@
 ---
 title: Phenom Series
 meta_title: Phenom Series — sculpted wired keyboards by Ergohaven
-description: A wired ergonomic keyboard shaped through additive manufacturing for immediate response, precise fit, and effortless setup.
+description: A series of wired ergonomic keyboards with sculpted, additively manufactured cases, modular controls, and visual configuration in Entropy.
 translationKey: phenom
-type: product
+type: phenom
 alternate_path: phenom/
 hero_variant: immersive
 hero_image: images/products/phenom/01-hero.jpg
 header_label: phenom series
 eyebrow: Phenom Series
-hero_title: Engineered to perfection
+hero_title: "Engineered to perfection"
 hero_text:
-  - Sculpted curves. Modular freedom.
-  - Shaped for every finger.
+  - "Sculpted curves."
+  - "Modularity. Comfort."
 facts_label: Phenom defining qualities
 facts:
   - Wired
-  - Immediate
+  - "Modular"
   - Sculpted
 visual_index: "02 / PHENOM"
 visual_label: Product image reserved — sculpted Phenom form
 visual_alt: Black Phenom split ergonomic keyboard with white keycaps, rotary encoder, and trackball
 series:
-  eyebrow: 01 / The range
-  title: Meet the Phenom series
-  text: Three keyboards with different key counts — Standard, Mini, and Micro. One sculpted foundation for different ways of working.
+  title: "Meet the Phenom series"
+  title_lines: ["Meet the", "Phenom series"]
+  text_lines:
+    - "Three keyboard formats: Standard, Mini, and Micro."
+    - "A shared sculpted design, three approaches to the layout."
   gallery_label: Phenom model gallery
   items:
     - name: Standard
-      image: images/products/phenom/02-standard.jpg
+      image: images/products/phenom/02-meet-standard.jpg
       image_alt: Phenom Standard split ergonomic keyboard with white keycaps in a black sculpted case
+      key_count: "58 keys"
+      traits:
+        - "Expanded layout"
+        - "Dedicated number row"
     - name: Mini
-      image: images/products/phenom/02-mini.jpg
-      image_alt: Phenom Mini split ergonomic keyboard with white keycaps and separate black palm rests
+      image: images/products/phenom/02-meet-micro.jpg
+      image_alt: Phenom Mini split ergonomic keyboard with white keycaps in a black sculpted case
+      key_count: "46 keys"
+      traits:
+        - "Compact layout"
+        - "No dedicated number row"
     - name: Micro
-      image: images/products/phenom/02-micro.jpg
+      image: images/products/phenom/02-meet-mini.jpg
       image_alt: Phenom Micro compact split ergonomic keyboard with white keycaps in a black sculpted case
+      key_count: "40 keys"
+      traits:
+        - "Minimal layout"
+        - "Home-row mods keep modifiers close"
 modularity:
   section_id: modularity
   variant: modularity
   copy_position: left
-  eyebrow: 02 / Modularity
-  title: Controls where you need them
-  text: Combine trackballs and modules into a Phenom setup built around your workflow.
+  title: Modules for your tasks
+  title_lines: ["Modules for", "your tasks"]
+  text: "Put cursor control, scrolling, timelines, zoom, and precision adjustments directly under your hands."
+  text_lines:
+    - "Put cursor control, scrolling, timelines, zoom,"
+    - "and precision adjustments directly under your hands."
+  text_extra_lines:
+    - "Combine trackball, touchpad, and rotary encoder"
+    - "modules on either half, then arrange Phenom"
+    - "around the actions you use most."
   media:
     image: images/products/phenom/03-modularity-trackballs.jpg
-    image_alt: Close-up of Phenom Mini modules with white keycaps and integrated trackballs
+    image_alt: Trackball, encoder, and touchpad control modules arranged on a dark surface
 key_layout:
   diagram: phenom
-  eyebrow: 03 / Layout
-  title: Every key within reach
-  text: Choose Standard, Mini, or Micro above, then select a layer below the layout. Mini and Micro also include a dedicated function and media layer.
-  models_label: Phenom version
+  title: Explore the default layouts
+  models_label: "Phenom model"
   models:
     - id: standard
       tab: Standard
-      diagram_label: Phenom Standard 58-key split layout
+      diagram_label: "Phenom Standard layout, 58 keys"
     - id: mini
       tab: Mini
-      diagram_label: Phenom Mini 46-key split layout
+      diagram_label: "Phenom Mini layout, 46 keys"
     - id: micro
       tab: Micro
-      diagram_label: Phenom Micro 40-key split layout
+      diagram_label: "Phenom Micro layout, 40 keys"
   tabs_label: Layout layers
   layers:
     - id: base
       tab: Base
-      title: Base
-      text: Start with the base layer. A considered layout makes everyday typing simple, predictable, and comfortable. Modifiers and frequent actions always stay close at hand, making the base layer a solid foundation.
+      title: "Base layer"
+      text: "The base layer keeps everyday typing predictable and comfortable, with modifiers and frequently used actions within easy reach."
     - id: numbers
       tab: Numbers
-      title: Numbers and navigation
-      text: Hold the red layer key to access numbers and navigation. Editing, quick commands, and volume controls stay close at hand.
+      title: "Numbers and navigation"
+      text: "Hold the red layer key to access numbers, arrows, and editing commands such as Home, End, Insert, and Delete."
     - id: symbols
       tab: Symbols
-      title: Symbols layer
-      text: Hold the blue layer key for brackets, operators, and symbols often used in code, formulas, and structured text. Every special character stays close at hand, helping you work faster without breaking focus.
+      title: "Symbols layer"
+      text: "Hold the blue layer key for brackets, operators, and other symbols used in code and formulas."
     - id: function
       tab: Functions
-      title: Function layer and media
-      text: Hold both layer keys for media controls and function actions that help manage your workspace. Playback and volume stay close at hand, making task switching even faster.
+      title: "Function layer and media"
+      text: "Hold both layer keys to access function keys, playback controls, and volume."
     - id: cursor
       tab: Cursor
-      title: Cursor control
-      text: When a trackball or touchpad module is active, this layer turns the keyboard into a pointing tool. Clicks, scrolling, sniper mode, and text navigation stay in the main work area.
+      title: "Cursor control"
+      text: "With a trackball or touchpad, this layer provides mouse clicks, scrolling, Sniper mode for precision pointing, and Text mode for cursor navigation in text."
 story_chapters:
-  - id: curves
-    section_id: phenom-curves
-    kind: detail-sequence
-    eyebrow: 04 / Curves
-    title: Curves from every angle
-    text: Phenom is shaped by more than one curve. Each close-up reveals a different transition around the keywell, thumb area, outer columns, and body.
-    gallery_label: Phenom curve details
-    media:
-      - id: keywell
-        label: Keywell
-        placeholder_label: Close-up / keywell
-        placeholder_alt: Close-up across the curved Phenom keywell and staggered main columns
-        placeholder_variant: curve-keywell
-      - id: outer-columns
-        label: Outer columns
-        placeholder_label: Close-up / outer columns
-        placeholder_alt: Close-up of the outer Phenom key columns and their changing height
-        placeholder_variant: curve-columns
-      - id: thumb-arc
-        label: Thumb arc
-        placeholder_label: Close-up / thumb arc
-        placeholder_alt: Close-up of the Phenom thumb keys and the curved case around them
-        placeholder_variant: curve-thumb
-      - id: side-profile
-        label: Side profile
-        placeholder_label: Close-up / side profile
-        placeholder_alt: Low side view showing the curved profile of the Phenom case and key rows
-        placeholder_variant: curve-profile
   - id: finger-geometry
     section_id: phenom-finger-geometry
     kind: visual
     variant: centered
     copy_position: right
-    eyebrow: 05 / Finger geometry
-    title: Shaped for every finger
-    text: The keywell follows the different reach of each finger, using column height and stagger to bring the layout into one sculpted form.
+    title: "Every key fits for your finger"
+    title_lines: ["Every key fits", "for your finger"]
+    text_lines:
+      - "Every column is placed for the finger that reaches it."
+      - "Carefully tuned height, stagger, and depth create a keywell,"
+      - "reduce unnecessary movement, and let your hands"
+      - "settle into a more natural position."
     media:
-      placeholder_label: Centered product view / finger geometry
-      placeholder_alt: Centered top view of both Phenom halves showing the sculpted columns around each finger
-      placeholder_variant: finger-geometry
+      image: images/products/phenom/05-finger-geometry.jpg
+      image_alt: Hand resting naturally across the sculpted Phenom keywell beside the encoder module
+  - id: curves
+    section_id: phenom-curves
+    kind: detail-sequence
+    title: "A true ergonomic beauty"
+    title_lines: ["A true", "ergonomic beauty"]
+    text: "Purposeful curves bring every key closer and guide each hand into a natural, confident position."
+    gallery_label: Phenom curve details
+    media:
+      - id: keywell
+        label: Side profile
+        label_lines: ["Side", "profile"]
+        image: images/products/phenom/04-curves-keywell.jpg
+        image_alt: Low side view showing the curved profile of the Phenom case and key rows
+      - id: outer-columns
+        label: "Outer columns"
+        label_lines: ["Outer", "columns"]
+        image: images/products/phenom/04-curves-outer-columns.jpg
+        image_alt: Close-up of the outer Phenom key columns and their changing height
+      - id: thumb-arc
+        label: "Thumb arc"
+        image: images/products/phenom/04-curves-thumb-arc.jpg
+        image_alt: Close-up of the Phenom thumb keys and the curved case around them
+        image_focus: right
+      - id: side-profile
+        label: Keywell
+        image: images/products/phenom/04-curves-side-profile.jpg
+        image_alt: Close-up across the curved Phenom keywell and staggered main columns
   - id: additive-manufacturing
     section_id: phenom-additive-manufacturing
     kind: visual
     variant: bleed-edge
     copy_position: left
-    eyebrow: 06 / Additive manufacturing
-    title: Made layer by layer
-    text: Phenom’s case is produced layer by layer. Additive manufacturing carries its compound curves and transitions directly into the finished form.
+    title: "Made possible only with additive technology"
+    title_lines: ["Made possible only", "with additive technology"]
+    text: "Phenom’s compound keywells, changing column heights, and continuous transitions can only be produced as designed through additive manufacturing."
+    text_extra:
+      - "Each half is built layer by layer, preserving ergonomic geometry that conventional flat production would force us to simplify."
     media:
-      placeholder_label: Full-bleed detail / layered surface
-      placeholder_alt: Macro photograph of the additively manufactured Phenom case with its layered surface visible
-      placeholder_variant: additive
+      image: images/products/phenom/06-additive-manufacturing.jpg
+      image_alt: Close-up of a 3D printer producing the sculpted black Phenom case layer by layer
   - id: keycaps-switches
     section_id: phenom-keycaps-switches
     kind: visual
     variant: bleed-edge
     copy_position: right
-    eyebrow: 07 / Keycaps + switches
-    title: Keycaps meet switches
-    text: The keycap is the contact point; the switch is the response beneath it. Together they define how every press feels.
+    title: "Feel the difference"
+    title_lines: ["Feel the", "difference"]
+    text: "Outemu Silent Tom switches are quiet tactile 5-pin switches with a soft, distinct response. Actuation force is 55 ± 10 gf, pre-travel is 2.0 ± 0.6 mm, and total travel is 3.3 ± 0.2 mm."
+    text_extra:
+      - "MX-compatible hot-swap sockets let you replace switches without soldering. Uniform-profile XDA keycaps keep the same feel across every row."
+      - "Phenom is also available in a configuration without switches or keycaps."
     media:
-      placeholder_label: Full-bleed detail / keycaps and switches
-      placeholder_alt: Macro photograph of Phenom keycaps beside an exposed keyboard switch
-      placeholder_variant: keycaps-switches
-  - id: wired
-    section_id: phenom-wired
-    kind: visual
-    variant: bleed-copy-left
-    copy_position: left
-    eyebrow: 08 / Wired
-    title: A direct connection
-    text: Phenom is built around a wired connection — a clear physical link between keyboard and computer, with no pairing step in between.
-    media:
-      placeholder_label: Full-bleed view / wired setup
-      placeholder_alt: Wide view of a Phenom keyboard connected to a computer by cable
-      placeholder_variant: wired
+      image: images/products/phenom/07-keycaps-switches.jpg
+      image_hires: true
+      image_alt: Phenom split keyboard with exposed mechanical switches and loose white keycaps
   - id: entropy
     section_id: phenom-entropy
     kind: visual
     variant: split-left
     copy_position: right
-    eyebrow: 09 / Entropy
-    title: Configuration, made visual
-    text: Entropy brings the layout and layers into one visual workspace. Configure Phenom on screen, with the keyboard itself as the interface.
+    title: "Best-in-class software"
+    title_lines: ["Best-in-class", "software"]
+    text: "Entropy is an open-source app for keyboards and input devices powered by Vial-QMK or Vial-RMK."
+    text_extra:
+      - "Configure layouts, device settings, and desktop tools, including layers, keycodes, lighting, and device behavior, in one coherent interface."
+    text_extra_lines:
+      - "Available for Linux, Windows, and macOS."
+    action:
+      label: "Learn more →"
+      href: https://entropy.tools/
     media:
-      placeholder_label: Interface view / Entropy
-      placeholder_alt: Entropy configuration screen showing the Phenom layout and keyboard layers
-      placeholder_variant: entropy
+      video: videos/products/phenom/entropy-demo-en-light.mp4
+      video_dark: videos/products/phenom/entropy-demo-en-dark.mp4
+      video_poster: images/products/phenom/entropy-demo-en-light-poster.jpg
+      video_poster_dark: images/products/phenom/entropy-demo-en-dark-poster.jpg
+      video_alt: Entropy interface demonstrating the Phenom keyboard layout and layers
+  - id: wired
+    section_id: phenom-wired
+    kind: visual
+    variant: bleed-copy-left
+    copy_position: left
+    title: "Wired, not wireless"
+    title_lines: ["Wired,", "not wireless"]
+    text: "Expertly engineered for zero latency issues, no input lag, hassle-free setup, and instant response."
+    text_extra:
+      - "Plug in once and Phenom is ready to work without pairing, batteries, dropouts, or charging routines interrupting your focus."
+    media:
+      image: images/products/phenom/08-wired-connection.jpg
+      image_alt: Close-up of a Phenom keyboard half with white keycaps, rotary encoder, and connected cables
   - id: specs
     section_id: phenom-specs
     kind: specs
-    eyebrow: 10 / Specifications
-    title: Phenom at a glance
-    text: The essential details, kept in one place.
+    title: "Phenom at a glance"
+    text: "Key specifications across the entire series"
     groups:
-      - title: Family
+      - title: Models
+        note: "Dimensions per half (L × W × H)"
         items:
-          - label: Models
-            value: Standard · Mini · Micro
-          - label: Form
-            value: Split ergonomic keyboard
-      - title: Interaction
+          - label: Standard
+            value: "58 keys · 165 × 148 × 50 mm"
+          - label: Mini
+            value: "46 keys · 166 × 140 × 40 mm"
+          - label: Micro
+            value: "40 keys · 146 × 140 × 40 mm"
+      - title: Controls
         items:
-          - label: Geometry
-            value: Sculpted keywell · column stagger
-          - label: Controls
-            value: Keys · trackballs · modules
-      - title: System
+          - label: Indicators
+            value: "Active-layer lighting on each module"
+          - label: Extra layers
+            value: "15 customizable layers"
+          - label: Module swapping
+            value: "Hot-swap without reflashing"
+      - title: More
         items:
+          - label: Accessories
+            links:
+              - label: Phenom Comfort
+                href: https://eh.industries/shop/tproduct/767895441-138466794132-phenom-comfort-handrests
+              - label: Sculpt
+                href: https://eh.industries/shop/tproduct/767895441-590211854572-sculpt
+          - label: Warranty
+            value: "3 years of warranty and support"
+          - label: Case
+            value: "Galaxy Black PLA plastic"
+      - title: Modules
+        items:
+          - label: Trackball
+            value: "38 mm diameter ball"
+          - label: Touchpad
+            value: "43 × 40 mm touch surface"
+          - label: Encoder
+            value: "Rotation · press"
+      - title: Hardware
+        items:
+          - label: Processor
+            value: Dual-core Arm Cortex-M0+
+          - label: Switches
+            value: "MX, replace without soldering"
           - label: Connection
-            value: Wired
+            value: "Wired USB-C"
+      - title: "Configuration and support"
+        items:
           - label: Configuration
-            value: Entropy
-          - label: Production
-            value: Additive manufacturing
+            links:
+              - label: Entropy
+                href: https://entropy.tools/
+          - label: Firmware
+            links:
+              - label: eh.docs
+                href: https://docs.eh.industries/firmware/
+          - label: Support
+            links:
+              - label: support@eh.industries
+                href: mailto:support@eh.industries
   - id: cta
     section_id: phenom-cta
     kind: visual
     variant: closing
     copy_position: center
-    eyebrow: 11 / Your Phenom
-    title: Make Phenom yours
-    text: Choose Standard, Mini, or Micro, then shape the controls around the way you work.
+    title: "Crafted in every detail"
+    text_lines:
+      - "Choose Standard, Mini, or Micro, then add the modules that fit your work."
+      - "Every curve, key, and control comes together in one keyboard built for your desk."
     action:
       label: Choose your Phenom
+      href: "https://eh.industries/shop?tfc_storepartuid%5B767895441%5D=Keyboards&tfc_charact:7187570%5B767895441%5D=Phenom&tfc_div=:::"
     media:
-      placeholder_label: Closing frame / complete Phenom setup
-      placeholder_alt: Complete Phenom setup with both keyboard halves, modules, and cable in view
-      placeholder_variant: closing
+      image: images/products/phenom/11-your-phenom-dark.jpg
+      image_alt: Phenom keyboard on a black background with encoder and trackball modules
+ui:
+  footer_stage: "Page preview"
+  home_label: "Ergohaven Projects home"
+  scroll_label: "Scroll to the next section"
+  scroll_hint: "Scroll"
+  back_to_top_label: "Back to top"
 ---

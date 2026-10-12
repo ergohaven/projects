@@ -21,6 +21,8 @@ class PageParser(HTMLParser):
         self.image_alts: list[str | None] = []
         self.key_layout_half_alts: list[str | None] = []
         self.key_layout_half_sources: list[str] = []
+        self.key_layout_dark_half_alts: list[str | None] = []
+        self.key_layout_dark_half_sources: list[str] = []
         self.key_layout_references: list[str] = []
         self.empty_urls: list[tuple[str, str]] = []
         self.ids: list[str] = []
@@ -35,12 +37,16 @@ class PageParser(HTMLParser):
         self.story_chapters: list[str] = []
         self.media_placeholders: list[str] = []
         self.invalid_placeholders: list[str] = []
+        self.videos = 0
+        self.video_sources = 0
+        self.invalid_videos: list[str] = []
         self.detail_sequences = 0
         self.detail_items = 0
         self.visual_chapters = 0
         self.visual_variants: list[str] = []
         self.specs_chapters = 0
         self.specs_groups = 0
+        self.specs_item_counts: list[int] = []
         self.definition_tags: list[str] = []
         self.cta_actions = 0
         self.immersive_heroes = 0
@@ -66,12 +72,32 @@ class PageParser(HTMLParser):
                 self.key_layout_halves += 1
                 self.key_layout_half_alts.append(values.get("alt", "__missing__"))
                 self.key_layout_half_sources.append(values.get("src") or "")
+            elif "key-layout-diagram__half-dark" in classes:
+                self.key_layout_dark_half_alts.append(
+                    values.get("alt", "__missing__")
+                )
+                self.key_layout_dark_half_sources.append(values.get("src") or "")
             else:
                 self.image_alts.append(values.get("alt"))
         if tag == "picture":
             self.pictures += 1
         if tag == "source" and values.get("type") == "image/webp":
             self.webp_sources += 1
+        if tag == "source" and values.get("type") == "video/mp4":
+            self.video_sources += 1
+        if tag == "video" and "chapter-media__video" in classes:
+            self.videos += 1
+            is_theme_video = "data-theme-video" in values
+            required_attributes = ("muted", "loop", "playsinline")
+            if (
+                any(attribute not in values for attribute in required_attributes)
+                or (is_theme_video and values.get("preload") != "none")
+                or (is_theme_video and "autoplay" in values)
+                or (not is_theme_video and "autoplay" not in values)
+                or not values.get("aria-label")
+                or not values.get("poster")
+            ):
+                self.invalid_videos.append(values.get("aria-label") or "unlabelled video")
         if values.get("id"):
             self.ids.append(values["id"] or "")
         if values.get("aria-labelledby"):
@@ -109,9 +135,13 @@ class PageParser(HTMLParser):
             self.specs_chapters += 1
         if "specs-chapter__group" in classes:
             self.specs_groups += 1
+            try:
+                self.specs_item_counts.append(int(values.get("data-specs-item-count") or ""))
+            except ValueError:
+                self.specs_item_counts.append(-1)
         if tag in ("dt", "dd"):
             self.definition_tags.append(tag)
-        if "data-cta-action-pending" in values:
+        if "data-cta-action-pending" in values or (tag == "a" and "visual-chapter__action" in classes and values.get("href")):
             self.cta_actions += 1
         if "product-hero--immersive" in classes:
             self.immersive_heroes += 1
@@ -137,12 +167,12 @@ class PageParser(HTMLParser):
 
 
 PHENOM_STORY = [
-    "curves",
     "finger-geometry",
+    "curves",
     "additive-manufacturing",
     "keycaps-switches",
-    "wired",
     "entropy",
+    "wired",
     "specs",
     "cta",
 ]
@@ -151,28 +181,17 @@ PHENOM_H2_IDS = [
     "series-title",
     "modularity-title",
     "key-layout-title",
-    "phenom-curves-title",
     "phenom-finger-geometry-title",
+    "phenom-curves-title",
     "phenom-additive-manufacturing-title",
     "phenom-keycaps-switches-title",
-    "phenom-wired-title",
     "phenom-entropy-title",
+    "phenom-wired-title",
     "phenom-specs-title",
     "phenom-cta-title",
 ]
 
-PHENOM_PLACEHOLDERS = [
-    "curves-keywell",
-    "curves-outer-columns",
-    "curves-thumb-arc",
-    "curves-side-profile",
-    "finger-geometry",
-    "additive-manufacturing",
-    "keycaps-switches",
-    "wired",
-    "entropy",
-    "cta",
-]
+PHENOM_PLACEHOLDERS = []
 
 PHENOM_REFERENCE_HASHES = {
     "en": {
@@ -189,8 +208,8 @@ PHENOM_REFERENCE_HASHES = {
 
 PRODUCT_CONTRACTS = {
     "phenom": {
-        "images": 33,
-        "pictures": 5,
+        "images": 70,
+        "pictures": 14,
         "immersive_heroes": 1,
         "series": (1, 3),
         "story": PHENOM_STORY,
@@ -199,8 +218,8 @@ PRODUCT_CONTRACTS = {
         "layout": (1, 3, 3, 14, 14, 28, 0),
         "layout_previews": ([], []),
         "source_layout": ([], 0, 0),
-        "story_contract": (1, 4, 7, 1, 3, 1),
-        "definition_tags": ["dt", "dd"] * 7,
+        "story_contract": (1, 4, 7, 1, 6, 2),
+        "definition_tags": ["dt", "dd"] * 18,
         "variants": {
             "visual-chapter--modularity": 1,
             "visual-chapter--centered": 1,
@@ -465,19 +484,29 @@ def check_page(
     if is_phenom and (
         len(parser.key_layout_half_alts) != 28
         or any(alt not in (None, "") for alt in parser.key_layout_half_alts)
+        or len(parser.key_layout_dark_half_alts) != 28
+        or any(alt not in (None, "") for alt in parser.key_layout_dark_half_alts)
     ):
         errors.append(
-            f"{path}: the 28 layout halves must be decorative inside labelled diagrams"
+            f"{path}: the 28 light and 28 dark layout halves must be decorative "
+            "inside labelled diagrams"
         )
     if is_phenom:
         content_language = language.split("-", 1)[0]
         expected_asset_segment = f"/phenom/layouts/{content_language}/"
         if any(
             expected_asset_segment not in asset
-            for asset in parser.key_layout_half_sources
+            for asset in (
+                parser.key_layout_half_sources + parser.key_layout_dark_half_sources
+            )
         ):
             errors.append(
                 f"{path}: layout assets must come only from {content_language} references"
+            )
+        if parser.specs_item_counts != [3] * 6:
+            errors.append(
+                f"{path}: Phenom must have 6 specification groups with 3 rows each, "
+                f"found {parser.specs_item_counts}"
             )
         expected_references = [
             PHENOM_REFERENCE_HASHES[content_language][model]
@@ -526,15 +555,30 @@ def check_page(
                 f"{path}: expected h2 order {contract['h2_ids']}, "
                 f"found {parser.h2_ids}"
             )
-        if parser.media_placeholders != contract["placeholders"]:
+        expected_placeholders = contract["placeholders"]
+        if is_phenom:
+            expected_placeholders = []
+        if parser.media_placeholders != expected_placeholders:
             errors.append(
-                f"{path}: expected placeholders {contract['placeholders']}, "
+                f"{path}: expected placeholders {expected_placeholders}, "
                 f"found {parser.media_placeholders}"
             )
         if parser.invalid_placeholders:
             errors.append(
                 f"{path}: placeholders need role=img and localized aria-label: "
                 f"{parser.invalid_placeholders}"
+            )
+        expected_videos = 2 if is_phenom else 0
+        if parser.videos != expected_videos or parser.video_sources != expected_videos:
+            errors.append(
+                f"{path}: expected {expected_videos} video/source pair, found "
+                f"{parser.videos}/{parser.video_sources}"
+            )
+        if parser.invalid_videos:
+            errors.append(
+                f"{path}: videos need muted/loop/playsinline, a poster and an "
+                f"accessible label; theme videos must use preload=none without "
+                f"autoplay: {parser.invalid_videos}"
             )
         story_contract = (
             parser.detail_sequences,
@@ -736,6 +780,7 @@ def main() -> int:
                             "data-side": side,
                             "data-locale": locale,
                             "data-key-canvas-width": "8.18",
+                            "data-key-grid-normalized": "true",
                         }
                         for field, value in expected_metadata.items():
                             if root.get(field) != value:
@@ -821,7 +866,7 @@ def main() -> int:
                             elif any(
                                 path.get("transform") is not None
                                 for path in paths
-                                if path not in legend_paths
+                                if path not in legend_paths and path.get("data-standard-legend-size") != "true"
                             ):
                                 errors.append(
                                     f"{asset}: non-letter artwork must stay untransformed"
@@ -899,10 +944,18 @@ def main() -> int:
                 if not re.fullmatch(r"[0-9a-f]{64}", model_source.get(hash_field, "")):
                     errors.append(f"{diagram_path}: missing {model_id} {hash_field}")
         actual_assets = set(layout_assets.rglob("*.svg")) if layout_assets.is_dir() else set()
-        if actual_assets != declared_assets:
+        light_assets = {
+            asset for asset in actual_assets if not asset.stem.endswith("-dark")
+        }
+        dark_assets = actual_assets - light_assets
+        expected_dark_assets = {
+            asset.with_name(f"{asset.stem}-dark.svg") for asset in declared_assets
+        }
+        if light_assets != declared_assets or dark_assets != expected_dark_assets:
             errors.append(
-                f"{layout_assets}: expected exactly {len(declared_assets)} declared SVG assets, "
-                f"found {len(actual_assets)}"
+                f"{layout_assets}: expected {len(declared_assets)} declared light and "
+                f"{len(expected_dark_assets)} derived dark SVG assets, found "
+                f"{len(light_assets)} light and {len(dark_assets)} dark"
             )
         if source.get("repository") != "https://github.com/ergohaven/vial-qmk":
             errors.append(f"{diagram_path}: wrong QMK source repository")
@@ -943,7 +996,8 @@ def main() -> int:
     print(
         "HTML contract OK: 10 pages, paired locales, three immersive product "
         "stories, source-derived K:04/Macropad diagrams, and 56 "
-        "reference-exact Phenom layout assets"
+        "reference-derived, geometry-normalized Phenom layout assets with "
+        "matching dark-theme variants"
     )
     return 0
 

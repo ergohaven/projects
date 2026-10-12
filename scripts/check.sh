@@ -16,7 +16,7 @@ done
 for layout_data in phenom k04 macropad; do
   test -f "data/key_layouts/$layout_data.json"
 done
-test "$(find assets/images/products/phenom/layouts -mindepth 2 -maxdepth 2 -type f -name '*.svg' | wc -l)" -eq 56
+test "$(find assets/images/products/phenom/layouts -mindepth 2 -maxdepth 2 -type f -name '*.svg' | wc -l)" -eq 112
 
 for product in k04 phenom macropad; do
   en_keys=$(sed -n '/^---$/,/^---$/p' "content/en/$product/index.md" | sed '1d;$d' | rg '^[a-z_]+:' | cut -d: -f1)
@@ -26,6 +26,8 @@ done
 
 if command -v node >/dev/null 2>&1; then
   node --check assets/js/site.js
+  node --check assets/js/phenom-site.js
+  node --check assets/js/phenom-mobile.js
   node --check scripts/import_phenom_layout_refs.cjs
 fi
 python3 -m py_compile scripts/check_html.py
@@ -36,12 +38,23 @@ python3 scripts/check_html.py
 for language in en ru; do
   for page in index.html k04/index.html phenom/index.html macropad/index.html; do
     rg -q 'data-theme-toggle' "public/$language/$page"
-    rg -q 'class=language-link' "public/$language/$page"
+    if [[ "$page" == phenom/index.html ]]; then
+      if rg -q 'class=language-link' "public/$language/$page"; then
+        echo "Phenom language switch must remain removed" >&2
+        exit 1
+      fi
+    else
+      rg -q 'class=language-link' "public/$language/$page"
+    fi
     if [[ "$page" == phenom/index.html ]]; then
       rg -q '<span>phenom series</span>' "public/$language/$page"
     fi
     if [[ "$page" != index.html ]]; then
-      rg -q 'class="product-page hero-layout-immersive"' "public/$language/$page"
+      if [[ "$page" == phenom/index.html ]]; then
+        rg -q 'class="product-page product-page--phenom hero-layout-immersive"' "public/$language/$page"
+      else
+        rg -q 'class="product-page hero-layout-immersive"' "public/$language/$page"
+      fi
       rg -q 'class="product-hero product-hero--immersive"' "public/$language/$page"
       rg -q 'class=site-header__actions' "public/$language/$page"
       rg -q 'class=product-hero__copy><h1' "public/$language/$page"
@@ -53,7 +66,7 @@ for language in en ru; do
     rg -q 'class=product-stage' "public/$language/$page" || [[ "$page" == index.html ]]
   done
 
-  rg -q 'class="product-page hero-layout-immersive"' "public/$language/phenom/index.html"
+  rg -q 'class="product-page product-page--phenom hero-layout-immersive"' "public/$language/phenom/index.html"
   rg -q 'class="product-hero product-hero--immersive"' "public/$language/phenom/index.html"
   rg -q 'class=product-stage__picture' "public/$language/phenom/index.html"
   rg -q 'class=product-stage__image' "public/$language/phenom/index.html"
@@ -76,8 +89,8 @@ for language in en ru; do
   test "$(rg -o 'data-key-layout-layer-target=function' "public/$language/phenom/index.html" | wc -l)" -eq 2
   test "$(rg -o 'data-key-layout-layer-panel' "public/$language/phenom/index.html" | wc -l)" -eq 14
   test "$(rg -o 'class="key-layout-diagram__half ' "public/$language/phenom/index.html" | wc -l)" -eq 28
-  test "$(rg -o 'images/products/phenom/layouts/[^ >]*\.svg' "public/$language/phenom/index.html" | wc -l)" -eq 28
-  test "$(rg -o "images/products/phenom/layouts/${language}/[^ >]*\.svg" "public/$language/phenom/index.html" | wc -l)" -eq 28
+  test "$(rg -o 'images/products/phenom/layouts/[^ >]*\.svg' "public/$language/phenom/index.html" | wc -l)" -eq 56
+  test "$(rg -o "images/products/phenom/layouts/${language}/[^ >]*\.svg" "public/$language/phenom/index.html" | wc -l)" -eq 56
   other_language=$([[ "$language" == en ]] && printf ru || printf en)
   if rg -q "images/products/phenom/layouts/${other_language}/" "public/$language/phenom/index.html"; then
     echo "Phenom $language page must not load $other_language layout artwork" >&2
@@ -101,10 +114,10 @@ for language in en ru; do
     echo "Phenom key labels must use one uniform font size" >&2
     exit 1
   fi
-  expected_story=$(printf '%s\n' curves finger-geometry additive-manufacturing keycaps-switches wired entropy specs cta)
+  expected_story=$(printf '%s\n' finger-geometry curves additive-manufacturing keycaps-switches entropy wired specs cta)
   actual_story=$(rg -o 'data-product-chapter=[^ >]+' "public/$language/phenom/index.html" | cut -d= -f2)
   diff -u <(printf '%s\n' "$expected_story") <(printf '%s\n' "$actual_story")
-  test "$(rg -o 'data-media-placeholder=' "public/$language/phenom/index.html" | wc -l)" -eq 10
+  test "$(rg -o 'data-media-placeholder=' "public/$language/phenom/index.html" | wc -l)" -eq 0
   test "$(rg -o 'class=detail-sequence__item' "public/$language/phenom/index.html" | wc -l)" -eq 4
   test "$(rg -o 'class="visual-chapter ' "public/$language/phenom/index.html" | wc -l)" -eq 7
   test "$(rg -o 'visual-chapter--centered' "public/$language/phenom/index.html" | wc -l)" -eq 1
@@ -112,10 +125,10 @@ for language in en ru; do
   test "$(rg -o 'visual-chapter--bleed-copy-left' "public/$language/phenom/index.html" | wc -l)" -eq 1
   test "$(rg -o 'visual-chapter--split-left' "public/$language/phenom/index.html" | wc -l)" -eq 1
   test "$(rg -o 'visual-chapter--closing' "public/$language/phenom/index.html" | wc -l)" -eq 1
-  test "$(rg -o 'class=specs-chapter__group[ >]' "public/$language/phenom/index.html" | wc -l)" -eq 3
-  test "$(rg -o 'data-cta-action-pending' "public/$language/phenom/index.html" | wc -l)" -eq 1
+  test "$(rg -o 'class=specs-chapter__group[ >]' "public/$language/phenom/index.html" | wc -l)" -eq 6
+  test "$(rg -o 'class=visual-chapter__action' "public/$language/phenom/index.html" | wc -l)" -eq 2
   for model in Standard Mini Micro; do
-    rg -q ">${model}</h3>" "public/$language/phenom/index.html"
+    rg -q "<h3>${model}" "public/$language/phenom/index.html"
   done
   if rg -q 'class="principles section|class="software section' "public/$language/phenom/index.html"; then
     echo "Phenom must use the approved image-led chapter sequence" >&2
@@ -177,32 +190,7 @@ for language in en ru; do
   fi
 done
 
-rg -q '<h1 id=product-title>Engineered to perfection</h1>' public/en/phenom/index.html
-rg -q '<h1 id=product-title>Спроектирована до совершенства</h1>' public/ru/phenom/index.html
-rg -q 'Sculpted curves\. Modular freedom\.</span><span class=product-hero__intro-line>Shaped for every finger\.' public/en/phenom/index.html
-rg -q 'Скульптурная геометрия\. Модульная свобода\.</span><span class=product-hero__intro-line>Создана под каждый палец\.' public/ru/phenom/index.html
-rg -q '<h2 id=modularity-title>Controls where you need them</h2>' public/en/phenom/index.html
-rg -q '<h2 id=modularity-title>Управление там, где нужно</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=key-layout-title>Every key within reach</h2>' public/en/phenom/index.html
-rg -q '<h2 id=key-layout-title>Каждая клавиша под рукой</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-curves-title>Curves from every angle</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-curves-title>Изгибы со всех сторон</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-finger-geometry-title>Shaped for every finger</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-finger-geometry-title>Создана под каждый палец</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-additive-manufacturing-title>Made layer by layer</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-additive-manufacturing-title>Создана слой за слоем</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-keycaps-switches-title>Keycaps meet switches</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-keycaps-switches-title>Кейкапы и свитчи</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-wired-title>A direct connection</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-wired-title>Прямое подключение</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-entropy-title>Configuration, made visual</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-entropy-title>Настройка наглядно</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-specs-title>Phenom at a glance</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-specs-title>Phenom в деталях</h2>' public/ru/phenom/index.html
-rg -q '<h2 id=phenom-cta-title>Make Phenom yours</h2>' public/en/phenom/index.html
-rg -q '<h2 id=phenom-cta-title>Соберите свой Phenom</h2>' public/ru/phenom/index.html
-rg -q 'data-cta-action-pending>Choose your Phenom</span>' public/en/phenom/index.html
-rg -q 'data-cta-action-pending>Выбрать Phenom</span>' public/ru/phenom/index.html
+python3 scripts/check_phenom_isolation.py
 
 rg -q '<h1 id=product-title>Mechanical\. Split\. Wireless\.</h1>' public/en/k04/index.html
 rg -q '<h1 id=product-title>Механическая\. Сплит\. Без проводов\.</h1>' public/ru/k04/index.html

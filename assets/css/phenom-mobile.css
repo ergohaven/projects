@@ -1,0 +1,2928 @@
+/* Phenom's mobile composition. No declarations affect the desktop layout. */
+.phenom-mobile-only,
+.detail-sequence__label-mobile { display: none; }
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --gutter: clamp(20px, 5vw, 40px);
+    --section-space: 64px;
+    --immersive-content-width: calc(100% - 2 * var(--gutter));
+    background: var(--bg);
+  }
+  body.product-page--phenom .site-header {
+    position: absolute; height: 68px; min-height: 0;
+    background: transparent;
+    color: #242225;
+  }
+  body.product-page--phenom .site-header__inner {
+    min-height: 68px; width: calc(100% - 2 * var(--gutter));
+    padding: 10px 0; flex-wrap: nowrap; gap: 12px;
+  }
+  body.product-page--phenom .brand { font-size: 12px; gap: 7px; }
+  body.product-page--phenom .brand i { color: #595959; }
+  body.product-page--phenom .site-header__actions { gap: 6px; }
+  body.product-page--phenom .skip-link { top: -100px; transform: none; }
+  body.product-page--phenom .skip-link:focus { top: 12px; }
+  body.product-page--phenom :is(.language-link, .theme-toggle) {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; min-width: 44px; height: 44px; padding: 0;
+    border: 1px solid rgb(247 244 243 / 34%); border-radius: 6px;
+    color: rgb(247 244 243 / 88%); background: rgb(18 14 16 / 28%);
+    backdrop-filter: blur(8px);
+  }
+  body.product-page--phenom :is(.language-link, .theme-toggle):hover,
+  body.product-page--phenom :is(.language-link, .theme-toggle):focus-visible {
+    border-color: rgb(247 244 243 / 58%);
+    color: #fff; background: rgb(18 14 16 / 50%);
+  }
+  body.product-page--phenom .site-header :focus-visible { outline-color: #242225; }
+  body.product-page--phenom .product-hero--immersive {
+    display: flex; flex-direction: column; gap: 0; min-height: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+  }
+  body.product-page--phenom .product-hero--immersive .product-hero__copy {
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 0; width: 100%; margin: -1px 0 0;
+    padding: 12px var(--gutter) 36px; gap: 24px; text-align: center;
+  }
+  body.product-page--phenom .product-hero__copy::before { display: none; }
+  body.product-page--phenom .product-hero--immersive h1 {
+    align-self: center; width: 100%; max-width: none; text-align: center;
+    font-size: clamp(34px, 9.2vw, 60px); font-weight: 650;
+    line-height: 0.98; letter-spacing: normal;
+    text-transform: uppercase; text-wrap: balance; color: var(--text);
+  }
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    align-self: center; width: auto; max-width: 100%; margin: 0;
+    font-size: 15px; line-height: 1.35; font-weight: 400;
+    color: var(--text-soft); text-align: center;
+  }
+  body.product-page--phenom .product-hero__intro-line { white-space: normal; }
+  body.product-page--phenom .product-hero--immersive .product-stage {
+    position: relative; inset: auto; display: block; flex: none;
+    width: 100%; max-width: none; height: auto; min-height: 0;
+    padding: 64px 0 0; margin: 0; background: #dcdcdc;
+    border-radius: 0; overflow: hidden;
+  }
+  body.product-page--phenom .product-hero--immersive .product-stage::after {
+    /* Fade to the actual page colour, not a separate grey panel. */
+    display: block; top: 64px; background: var(--bg);
+    --hero-edge-mask: linear-gradient(180deg,
+      transparent 62%, rgb(0 0 0 / 1%) 66%, rgb(0 0 0 / 5%) 70%,
+      rgb(0 0 0 / 13%) 75%, rgb(0 0 0 / 28%) 80%,
+      rgb(0 0 0 / 50%) 85%, rgb(0 0 0 / 73%) 90%,
+      rgb(0 0 0 / 93%) 95%, #000 100%);
+    -webkit-mask-image: var(--hero-edge-mask); mask-image: var(--hero-edge-mask);
+  }
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-stage::after {
+    /* The larger luminance change needs a longer, gentler fade in dark mode. */
+    --hero-edge-mask: linear-gradient(180deg,
+      transparent 45%, rgb(0 0 0 / 2%) 50%, rgb(0 0 0 / 7%) 55%,
+      rgb(0 0 0 / 15%) 60%, rgb(0 0 0 / 25%) 65%,
+      rgb(0 0 0 / 38%) 70%, rgb(0 0 0 / 51%) 75%,
+      rgb(0 0 0 / 65%) 80%, rgb(0 0 0 / 79%) 85%,
+      rgb(0 0 0 / 90%) 90%, rgb(0 0 0 / 97.5%) 95%, #000 100%);
+  }
+  body.product-page--phenom .product-hero--immersive .product-stage__picture {
+    position: relative; inset: auto; aspect-ratio: 3 / 2;
+    /* Blend the photograph into the light photographic header area. */
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 8%);
+    mask-image: linear-gradient(180deg, transparent, #000 8%);
+  }
+  body.product-page--phenom .product-hero--immersive .product-stage__image {
+    object-fit: cover; object-position: center;
+  }
+  body.product-page--phenom .phenom-mobile-only { display: flex; }
+  body.product-page--phenom .chapter-desktop-space { display: none; }
+  body.product-page--phenom .chapter-mobile-break { display: block; }
+  body.product-page--phenom .product-story :is(.section, .visual-chapter) { scroll-margin-top: 20px; }
+  body.product-page--phenom .product-story .section { padding-block: 64px; }
+  body.product-page--phenom .product-story :is(.series-showcase__intro, .key-layout-chapter__intro, .detail-sequence__intro, .specs-chapter__header) {
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 16px; margin-block: 0 32px;
+  }
+  body.product-page--phenom .product-story :is(.series-showcase__intro, .key-layout-chapter__intro, .detail-sequence__intro, .specs-chapter__header) > * {
+    width: 100%; min-width: 0; max-width: 36rem; margin: 0; padding: 0;
+  }
+  body.product-page--phenom .product-story h2 {
+    width: 100%; max-width: 18ch; margin: 0 auto; align-self: center;
+    font-size: clamp(32px, 8.2vw, 46px); line-height: 1.1;
+    font-weight: 650; letter-spacing: normal;
+    text-align: center; text-wrap: balance; white-space: normal;
+    color: var(--text);
+  }
+  html body.product-page--phenom .product-story .series-showcase__intro h2 { font-size: clamp(32px, 8.2vw, 46px); }
+  html[lang] body.product-page--phenom .product-hero--immersive .product-hero__intro { line-height: 1.35; }
+  body.product-page--phenom .product-story .section-title__line {
+    display: inline; white-space: normal;
+  }
+  body.product-page--phenom .product-story .section-title__line + .section-title__line::before { content: ' '; }
+  body.product-page--phenom .product-story :is(.eyebrow, .specs-chapter__group h3) {
+    font-size: 11px; line-height: 1.5; font-weight: 700;
+    letter-spacing: 0.09em; color: var(--accent-deep);
+  }
+  body.product-page--phenom .product-story :is(.series-showcase__intro, .key-layout-chapter__intro, .detail-sequence__intro, .specs-chapter__header) > p:not(.eyebrow),
+  body.product-page--phenom .product-story .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: 16px; font-weight: 400; line-height: 1.6;
+    color: var(--text-soft); text-align: left; text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+  body.product-page--phenom .product-story :is(.chapter-text-line, .key-layout-intro-line, .series-showcase__text-line) {
+    display: inline; white-space: normal;
+  }
+  body.product-page--phenom .series-showcase__text-line + .series-showcase__text-line::before { content: ' '; }
+  body.product-page--phenom .product-story .visual-chapter {
+    display: block; min-height: 0; border: 0;
+    background: var(--bg); color: var(--text);
+  }
+  body.product-page--phenom .product-story .visual-chapter::after { display: none; }
+  body.product-page--phenom .product-story .visual-chapter__media {
+    position: relative; inset: auto; width: 100%; height: auto;
+    min-height: 0; aspect-ratio: 4 / 3;
+  }
+  body.product-page--phenom .product-story .visual-chapter__media .chapter-media__image {
+    object-fit: cover; object-position: center; transform: none;
+  }
+  body.product-page--phenom .product-story .visual-chapter__copy {
+    display: flex; align-items: flex-start; justify-content: flex-start;
+    width: 100%; max-width: 720px; min-height: 0;
+    margin-inline: auto; padding: 32px var(--gutter) 64px;
+    text-align: left;
+  }
+  body.product-page--phenom .product-story .visual-chapter__copy > * {
+    width: 100%; max-width: 36rem;
+  }
+  body.product-page--phenom .product-story .visual-chapter .eyebrow { margin: 0 0 16px; }
+  body.product-page--phenom .product-story .visual-chapter__copy > p:not(.eyebrow) { margin: 20px 0 0; }
+  body.product-page--phenom .product-story :is(
+    #modularity-title,
+    #phenom-finger-geometry-title,
+    #phenom-additive-manufacturing-title,
+    #phenom-keycaps-switches-title,
+    #phenom-wired-title
+  ) {
+    font-size: clamp(35.2px, 9.02vw, 50.6px);
+  }
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: 17.6px;
+  }
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > h2 + p:not(.eyebrow) {
+    margin-top: 40px;
+  }
+  body.product-page--phenom .product-story .visual-chapter__metrics {
+    width: 100%;
+    margin-top: 20px;
+    border-color: var(--line-strong);
+    grid-template-columns: 1fr;
+  }
+  body.product-page--phenom .product-story .visual-chapter__metric {
+    display: grid;
+    padding: 12px 0;
+    align-items: baseline;
+    column-gap: 16px;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  body.product-page--phenom .product-story .visual-chapter__metric + .visual-chapter__metric {
+    padding-left: 0;
+    border-top: 1px solid var(--line-strong);
+    border-left: 0;
+  }
+  body.product-page--phenom .product-story .visual-chapter__metric dt {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 11px;
+  }
+  body.product-page--phenom .product-story .visual-chapter__metric dd {
+    color: var(--text);
+    font-size: 16px;
+  }
+  body.product-page--phenom #phenom-finger-geometry .chapter-media__image { object-position: 50% 65%; }
+  body.product-page--phenom #phenom-keycaps-switches .visual-chapter__media { aspect-ratio: 3 / 2; }
+  body.product-page--phenom #phenom-wired .chapter-media__image { object-position: 45% 50%; }
+  body.product-page--phenom #phenom-entropy .chapter-media--video {
+    padding: 24px var(--gutter); aspect-ratio: auto; background: var(--surface);
+  }
+  body.product-page--phenom #phenom-entropy .chapter-media__video {
+    width: 100%; height: auto; max-height: none; border-radius: 8px;
+  }
+  body.product-page--phenom .product-story .series-gallery {
+    grid-template-columns: none; grid-auto-flow: column;
+    grid-auto-columns: 86%; gap: 16px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain; scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--line); padding-bottom: 16px;
+  }
+  body.product-page--phenom .series-card { scroll-snap-align: start; }
+  body.product-page--phenom .series-card__visual { border: 0; border-radius: 5px; }
+  body.product-page--phenom .product-story .series-card h3 { padding: 12px 0; font-size: 14px; }
+  body.product-page--phenom .series-card__key-count { font-size: inherit; }
+  body.product-page--phenom .series-card__trait { padding: 10px 0; font-size: 13px; }
+  body.product-page--phenom .series-card__caption { grid-template-columns: 28px minmax(0, 1fr); gap: 8px; }
+  body.product-page--phenom .series-card__caption > .series-card__index { padding-top: 12px; font-size: 10px; }
+  body.product-page--phenom .phenom-gallery-nav {
+    justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px;
+    font-size: 13px; color: var(--text-soft);
+    width: calc(100% - 2 * var(--gutter)); margin-inline: auto;
+  }
+  body.product-page--phenom .phenom-gallery-nav > div { display: flex; gap: 8px; }
+  body.product-page--phenom .phenom-gallery-nav button {
+    width: 44px; height: 44px; border: 1px solid var(--line-strong);
+    border-radius: 0; background: transparent; color: var(--text); font-size: 20px;
+  }
+  body.product-page--phenom .phenom-gallery-nav button:disabled { opacity: 0.3; }
+  body.product-page--phenom .product-story .detail-sequence__gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px;
+  }
+  body.product-page--phenom .product-story .detail-sequence__media { aspect-ratio: 1; height: auto; }
+  body.product-page--phenom .detail-sequence__media .chapter-media__image { position: absolute; inset: 0; }
+  body.product-page--phenom .detail-sequence__item figcaption {
+    display: flex; align-items: baseline; gap: 8px; padding-block: 12px;
+    font-size: 10px; line-height: 1.5; letter-spacing: 0.025em;
+  }
+  body.product-page--phenom .key-layout-models__controls { width: 100%; border-radius: 5px; }
+  body.product-page--phenom .product-story .key-layout-chapter { padding-block: 48px; }
+  body.product-page--phenom .product-story .key-layout-chapter__intro { margin-bottom: 24px; }
+  body.product-page--phenom .key-layout-models__label { flex: 1; min-width: 0; min-height: 48px; padding: 0 8px; font-size: 12px; letter-spacing: 0; }
+  body.product-page--phenom .key-layout-tabs {
+    width: 100%;
+    margin-top: 16px;
+    justify-content: flex-start;
+    grid-auto-columns: minmax(0, 1fr);
+  }
+  body.product-page--phenom .key-layout-tabs__button { flex: 1 1 0; min-width: 0; min-height: 48px; font-size: 10px; padding-inline: 4px; letter-spacing: 0; }
+  @media (max-width: 360px) {
+    html[lang^="en"] body.product-page--phenom .key-layout-tabs__button { font-size: 9px; padding-inline: 2px; }
+  }
+  body.product-page--phenom .key-layout-layer { gap: 20px; padding-top: 16px; }
+  body.product-page--phenom .key-layout-layer__copy { text-align: left; width: 100%; }
+  body.product-page--phenom .key-layout-layer__copy h3 { font-size: 22px; font-weight: 600; text-align: left; }
+  body.product-page--phenom .key-layout-layer__copy > p:last-child { margin: 12px 0 0; max-width: 100%; color: var(--text-soft); font-size: 15px; overflow-wrap: normal; }
+  body.product-page--phenom .key-layout-diagram {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%; min-width: 0; margin: 0; gap: 12px;
+    padding: 16px 8px; border-block: 1px solid var(--line);
+  }
+  body.product-page--phenom .key-layout-diagram > img {
+    width: 100%; min-width: 0; height: auto; margin: 0; grid-row: 1;
+  }
+  body.product-page--phenom .key-layout-diagram > :is(.key-layout-diagram__half--left, .key-layout-diagram__half-dark--left) { grid-column: 1; }
+  body.product-page--phenom .key-layout-diagram > :is(.key-layout-diagram__half--right, .key-layout-diagram__half-dark--right) { grid-column: 2; }
+  body.product-page--phenom .phenom-layout-open {
+    align-items: center; justify-content: center; gap: 8px;
+    width: 100%; min-height: 44px; padding: 8px 12px; margin-top: -12px;
+    border: 1px solid var(--line-strong); border-radius: 5px;
+    background: transparent; color: var(--text); font-size: 13px;
+  }
+  body.product-page--phenom .product-story .specs-chapter__header { gap: 12px; margin-bottom: 28px; }
+  body.product-page--phenom .product-story .specs-chapter__groups { display: block; border: 0; }
+  body.product-page--phenom .product-story .specs-chapter__group {
+    padding: 20px 0 8px; border: 0; border-top: 1px solid var(--line-strong);
+  }
+  body.product-page--phenom .specs-chapter__group h3 { margin: 0 0 12px; }
+  body.product-page--phenom .specs-chapter__note { margin: 0 0 16px; font-size: 13px; line-height: 1.45; }
+  body.product-page--phenom .product-story .specs-chapter__row {
+    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.65fr);
+    align-items: baseline; gap: 16px; padding-block: 13px;
+    font-size: 14px; line-height: 1.45;
+  }
+  body.product-page--phenom .specs-chapter__row dt {
+    font-size: 11px; line-height: 1.45; letter-spacing: 0.035em; color: var(--text-soft);
+  }
+  body.product-page--phenom .specs-chapter__row dd {
+    margin: 0; font-size: 14px; line-height: 1.45; color: var(--text);
+    overflow-wrap: normal; font-variant-numeric: tabular-nums;
+  }
+  body.product-page--phenom #phenom-cta .visual-chapter__media { aspect-ratio: 3 / 2; }
+  body.product-page--phenom #phenom-cta { background: #111012; }
+  body.product-page--phenom #phenom-cta .visual-chapter__copy { color: #f7f4f3; }
+  body.product-page--phenom #phenom-cta :is(h2, .eyebrow) { color: #f7f4f3; }
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) { color: rgb(255 255 255 / 80%); }
+  body.product-page--phenom #phenom-cta .chapter-text-line { display: block; }
+  body.product-page--phenom #phenom-cta .visual-chapter__action {
+    min-height: 52px; margin-top: 28px; border: 1px solid rgb(247 244 243 / 52%); border-radius: 5px;
+    background: transparent; color: #f7f4f3; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  body.product-page--phenom .site-footer__inner { gap: 12px; font-size: 12px; }
+}
+@media (min-width: 681px) and (max-width: 980px) {
+  body.product-page--phenom .product-story .series-gallery { grid-auto-columns: 45%; }
+  body.product-page--phenom .product-story .visual-chapter__media { aspect-ratio: 3 / 2; max-height: 600px; }
+  body.product-page--phenom .product-story .specs-chapter__row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.product-page--phenom .series-gallery { scroll-behavior: auto; }
+}
+
+/* Keep the reviewed typography relationships and 125svh story-chapter rhythm
+   after Phenom's content-sized mobile hero. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story > section:not(.product-hero--immersive) {
+    min-height: 125vh;
+    min-height: 125svh;
+  }
+
+  body.product-page--phenom .product-story .visual-chapter {
+    display: flex;
+    min-height: 125vh;
+    min-height: 125svh;
+    flex-direction: column;
+  }
+
+  body.product-page--phenom .product-story .visual-chapter__media {
+    flex: none;
+  }
+
+  body.product-page--phenom .product-story .visual-chapter__copy {
+    flex: 1 0 auto;
+  }
+
+  body.product-page--phenom .product-story .series-showcase__intro > p:last-child,
+  body.product-page--phenom .series-card__caption > .series-card__index,
+  body.product-page--phenom .product-story .series-card h3,
+  body.product-page--phenom .series-card__key-count,
+  body.product-page--phenom .series-card__trait {
+    font-size: 16px;
+  }
+
+  body.product-page--phenom .product-story #modularity .visual-chapter__copy > p:not(.eyebrow),
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    font-size: 17.6px;
+  }
+
+  body.product-page--phenom .product-story #modularity .visual-chapter__copy > p:not(.eyebrow) {
+    font-weight: 500;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    font-weight: 400;
+  }
+
+  body.product-page--phenom .product-story #phenom-finger-geometry .visual-chapter__copy > p:not(.eyebrow),
+  body.product-page--phenom .product-story #phenom-curves .detail-sequence__intro > p:last-child,
+  body.product-page--phenom .product-story #phenom-curves .detail-sequence__item figcaption {
+    font-size: 17.6px;
+  }
+
+  body.product-page--phenom .product-story #phenom-curves .detail-sequence__item figcaption strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  body.product-page--phenom .product-story #phenom-additive-manufacturing .visual-chapter__copy > h2 + p:not(.eyebrow) {
+    margin-top: 20px;
+  }
+
+  body.product-page--phenom .product-story #phenom-additive-manufacturing .visual-chapter__copy > p + p {
+    margin-top: 10px;
+  }
+
+  body.product-page--phenom .product-story #phenom-keycaps-switches .visual-chapter__copy > p:not(.eyebrow),
+  body.product-page--phenom .product-story #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: 17.6px;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: 16px;
+  }
+}
+
+/* Native dialog: focus is trapped by the browser; Escape closes the viewer. */
+.phenom-layout-zoom {
+  width: 100%; max-width: none; height: 100%; height: 100dvh;
+  max-height: none; margin: 0; padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-right: max(20px, env(safe-area-inset-right));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  border: 0; background: var(--bg); color: var(--text);
+}
+.phenom-layout-zoom[open] { display: flex; flex-direction: column; gap: 16px; }
+.phenom-layout-zoom::backdrop { background: rgb(0 0 0 / 70%); }
+.phenom-layout-zoom__header { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.phenom-layout-zoom__header h2 { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600; }
+.phenom-layout-zoom button { min-height: 44px; min-width: 44px; border: 1px solid var(--line-strong); background: transparent; border-radius: 5px; padding: 8px 12px; flex: none; font-size: 14px; }
+.phenom-layout-zoom button:disabled { opacity: 0.35; }
+.phenom-layout-zoom__controls { display: flex; align-items: center; gap: 12px; }
+.phenom-layout-zoom__controls output { min-width: 48px; text-align: center; font-size: 14px; }
+.phenom-layout-zoom__controls [data-zoom-fit] { margin-left: auto; }
+.phenom-layout-zoom__hint { margin: 0; color: var(--text-soft); font-size: 13px; line-height: 1.45; }
+.phenom-layout-zoom__viewport { flex: 1; min-height: 0; min-width: 0; overflow: auto; overscroll-behavior: contain; border-block: 1px solid var(--line); }
+.phenom-layout-zoom__pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  min-height: 100%;
+  box-sizing: border-box;
+  gap: 20px;
+  padding: 24px 8px;
+}
+.phenom-layout-zoom__half { display: block; width: 100%; height: auto; }
+
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p + p {
+    margin-top: 20px;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy-title.section-title--lead {
+    display: block;
+    width: 100%;
+    max-width: none;
+    align-self: stretch;
+    text-align: left;
+    text-wrap: balance;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy-title .section-title__lead {
+    font: inherit;
+    letter-spacing: inherit;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy-title .section-title__divider {
+    display: inline-block;
+    width: 32px;
+    height: 5px;
+    margin-left: 6px;
+    border: 0;
+    border-radius: 2px;
+    background: var(--text);
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+    transform: translateY(-0.08em);
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy-title .section-title__body {
+    display: block;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy-title .section-title__line {
+    display: block;
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy-title .section-title__line + .section-title__line::before {
+    content: none;
+  }
+}
+
+/* Phenom secondary type scale: section titles and interactive controls keep
+   their reviewed sizes; reading copy, metadata and reference copy grow by
+   one consistent 15% step within their respective roles. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    font-size: 17.25px;
+  }
+
+  body.product-page--phenom .product-story .series-showcase__intro > p:last-child,
+  body.product-page--phenom .series-card__caption > .series-card__index,
+  body.product-page--phenom .product-story .series-card h3,
+  body.product-page--phenom .series-card__key-count,
+  body.product-page--phenom .series-card__trait {
+    font-size: 18.4px;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired,
+    #phenom-cta
+  ) .visual-chapter__copy > p:not(.eyebrow),
+  body.product-page--phenom .key-layout-layer__copy > p:last-child,
+  body.product-page--phenom .product-story #phenom-curves .detail-sequence__intro > p:last-child,
+  body.product-page--phenom .product-story #phenom-curves .detail-sequence__item figcaption {
+    font-size: 20.24px;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-wrap: pretty;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: 18.4px;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__action {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body.product-page--phenom .product-story .specs-chapter__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.3rem;
+    align-items: start;
+  }
+}
+
+/* Reviewed mobile composition.
+   Desktop is frozen at 981px+. Content imagery follows a compact, near-square
+   editorial rhythm while interaction-heavy sections keep natural height. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --phenom-mobile-gutter: clamp(20px, 5.13vw, 40px);
+    --phenom-mobile-space: clamp(60px, 11vw, 84px);
+    --phenom-mobile-media-radius: 6px;
+    --phenom-mobile-photo-ratio: 1 / 1;
+  }
+
+  /* The small fixed control obscures reading copy on phone screens. */
+  body.product-page--phenom .phenom-back-to-top {
+    display: none;
+  }
+
+  /* Product series: preserve the original 3:2 image proportions. */
+  body.product-page--phenom #product-series {
+    min-height: 0;
+    padding-block: var(--phenom-mobile-space);
+  }
+
+  body.product-page--phenom .series-card__visual {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--phenom-mobile-media-radius);
+  }
+
+  body.product-page--phenom .series-card__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Layout explorer: keep the successful compact mobile sequence from the
+     reviewed draft, but use a rectangular model control. */
+  body.product-page--phenom .product-story .key-layout-chapter {
+    display: block;
+    min-height: 0 !important;
+    padding: var(--phenom-mobile-space) var(--phenom-mobile-gutter);
+  }
+
+  body.product-page--phenom .key-layout-chapter__inner,
+  body.product-page--phenom .key-layout-models,
+  body.product-page--phenom .key-layout-model-stages {
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  body.product-page--phenom .key-layout-models__controls {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 0;
+  }
+
+  body.product-page--phenom .key-layout-models__label {
+    min-height: 46px;
+    font-size: 11px;
+  }
+
+  body.product-page--phenom :is(.key-layout-model-stage, .key-layout-layer)[hidden] {
+    display: none !important;
+  }
+
+  body.product-page--phenom .key-layout-model-stage:not([hidden]),
+  body.product-page--phenom .key-layout-layer {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  body.product-page--phenom .key-layout-layer {
+    padding-top: 36px;
+    gap: 26px;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy {
+    order: 1;
+    width: 100%;
+    max-width: 32rem;
+    margin-inline: auto;
+    transform: none;
+    text-align: center;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy h3,
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    text-align: center;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy h3 {
+    font-size: clamp(26px, 7.2vw, 38px);
+    line-height: 1.05;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    max-width: 30rem;
+    margin: 16px auto 0;
+    font-size: clamp(15px, 4vw, 18px);
+    line-height: 1.55;
+  }
+
+  body.product-page--phenom .key-layout-diagram {
+    order: 2;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    gap: 10px;
+    border: 0;
+  }
+
+  body.product-page--phenom .phenom-layout-open {
+    order: 3;
+    margin-top: -10px;
+  }
+
+  body.product-page--phenom .key-layout-tabs {
+    display: grid;
+    order: 4;
+    width: 100%;
+    margin: 24px 0 0;
+    overflow: hidden;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    border-radius: 5px;
+  }
+
+  body.product-page--phenom .key-layout-tabs__button {
+    min-width: 0;
+    min-height: 46px;
+    padding-inline: 4px;
+    font-size: clamp(9px, 2.5vw, 11px);
+  }
+
+  /* Informational photo chapters: heading, near-square image, then copy.
+     display:contents changes only mobile visual order; desktop DOM and layout
+     stay exactly as approved. */
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) {
+    display: flex;
+    min-height: 0;
+    padding: var(--phenom-mobile-space) var(--phenom-mobile-gutter);
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy {
+    display: contents;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > :is(.eyebrow, h2) {
+    order: 1;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) h2 {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 28px;
+    color: var(--text);
+    text-align: left;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) h2 .section-title__line {
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__media {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0 0 28px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--phenom-mobile-media-radius);
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .chapter-media__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: none;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > :is(p:not(.eyebrow), .visual-chapter__metrics) {
+    order: 3;
+    width: 100%;
+    max-width: 36rem;
+    margin: 0;
+    color: var(--text-soft);
+    text-align: left;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p + p {
+    margin-top: 16px;
+  }
+
+  body.product-page--phenom #modularity .chapter-media__image { object-position: 50% 50%; }
+  body.product-page--phenom #phenom-finger-geometry .chapter-media__image { object-position: 48% 52%; }
+  body.product-page--phenom #phenom-additive-manufacturing .chapter-media__image { object-position: 50% 50%; }
+  body.product-page--phenom #phenom-keycaps-switches .chapter-media__image { object-position: 46% 50%; }
+  body.product-page--phenom #phenom-wired .chapter-media__image { object-position: 50% 50%; }
+
+  /* Detail gallery: compact 2 × 2 square matrix instead of a tall strip. */
+  body.product-page--phenom #phenom-curves {
+    min-height: 0 !important;
+    padding: var(--phenom-mobile-space) var(--phenom-mobile-gutter);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__inner {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro {
+    margin-bottom: 32px;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__gallery {
+    display: grid;
+    width: 100%;
+    padding: 0;
+    overflow: visible;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 12px;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__media {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--phenom-mobile-media-radius);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption {
+    gap: 6px;
+    padding-top: 10px;
+    font-size: clamp(10px, 2.9vw, 13px);
+    line-height: 1.35;
+  }
+
+  /* Phenom details: natural height, compact rows, safe long values. */
+  body.product-page--phenom #phenom-specs {
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    padding: var(--phenom-mobile-space) var(--phenom-mobile-gutter);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__inner {
+    width: 100%;
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header {
+    display: block;
+    margin: 0 0 28px;
+    padding: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header h2 {
+    max-width: 12ch;
+    margin: 0;
+    line-height: 1;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header > p:last-child {
+    max-width: 34rem;
+    margin: 18px 0 0;
+    line-height: 1.5;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group {
+    min-width: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 10px;
+    white-space: normal;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row {
+    display: grid;
+    padding: 8px 0;
+    align-items: start;
+    grid-template-columns: minmax(8.5rem, 0.9fr) minmax(0, 1.1fr);
+    gap: 16px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row :is(dt, dd),
+  body.product-page--phenom #phenom-specs .specs-chapter__note {
+    min-width: 0;
+    line-height: 1.4;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+}
+
+@media (max-width: 340px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
+
+@media (min-width: 681px) and (max-width: 980px) {
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__media {
+    height: calc((100vw - 2 * var(--phenom-mobile-gutter)) * 0.75);
+    max-height: none;
+    aspect-ratio: auto !important;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__gallery {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Final reviewed mobile pass.
+   Desktop remains frozen at 981px+. This layer resolves only mobile reading
+   order, stable interaction geometry and the compact reference table. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --phenom-mobile-title-size: clamp(36px, 9.4vw, 52px);
+    --phenom-mobile-section-space: var(--phenom-mobile-space);
+    --phenom-mobile-content-gap: clamp(24px, 7.2vw, 30px);
+    --phenom-mobile-paragraph-gap: clamp(18px, 5.1vw, 22px);
+  }
+
+  body.product-page--phenom .product-story--phenom > section {
+    border-block: 0 !important;
+  }
+
+  body.product-page--phenom .product-hero--immersive {
+    position: relative;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__copy {
+    flex: none;
+    justify-content: flex-start;
+    padding: 12px var(--gutter) 48px;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue {
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    display: grid;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--text);
+    box-shadow: none;
+    transform: translate(-50%, 50%);
+    place-items: center;
+    backdrop-filter: none;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue:hover,
+  body.product-page--phenom .phenom-scroll-cue:focus-visible {
+    border: 0;
+    background: transparent;
+    color: var(--accent-deep);
+  }
+
+  body.product-page--phenom .phenom-scroll-cue svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  body.product-page--phenom #product-series {
+    padding-top: 48px;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header
+  ) {
+    align-items: center;
+    text-align: center;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header,
+    .visual-chapter__copy
+  ) > h2,
+  body.product-page--phenom .product-story--phenom .visual-chapter h2 {
+    width: 100%;
+    max-width: 18ch;
+    margin-inline: auto;
+    font-size: var(--phenom-mobile-title-size);
+    line-height: 1.04;
+    text-align: center;
+    text-wrap: balance;
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story--phenom h2 .section-title__line {
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) h2 {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  body.product-page--phenom #product-series .series-card__visual {
+    aspect-ratio: 3 / 2;
+    background: #e9dbd0;
+  }
+
+  body.product-page--phenom #product-series .series-card:nth-child(2) .series-card__visual {
+    background: #bed7d4;
+  }
+
+  body.product-page--phenom #product-series .series-card:nth-child(3) .series-card__visual {
+    background: #efdcd6;
+  }
+
+  body.product-page--phenom #product-series .series-card__visual img {
+    object-fit: contain;
+    object-position: center;
+  }
+
+  body.product-page--phenom .key-layout-layer {
+    gap: 24px;
+    padding-top: 32px;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy {
+    display: grid;
+    min-height: 150px;
+    align-content: start;
+    justify-items: center;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy h3 {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    color: var(--accent-deep);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.09em;
+    text-align: center;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    max-width: 31rem;
+    margin-top: 16px;
+    color: var(--text-soft);
+    font-size: clamp(15px, 4vw, 18px);
+    line-height: 1.55;
+    text-align: center;
+    text-wrap: pretty;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  html[lang^="ru"] body.product-page--phenom #phenom-curves
+  .detail-sequence__item:last-child figcaption strong {
+    font-size: inherit;
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  body.product-page--phenom #modularity .chapter-media__image {
+    object-position: 88% 50%;
+  }
+
+  body.product-page--phenom #modularity .visual-chapter__copy > p:not(.eyebrow) {
+    font-weight: 400;
+  }
+
+  body.product-page--phenom .product-story #phenom-keycaps-switches .visual-chapter__media {
+    background: transparent;
+  }
+
+  body.product-page--phenom .product-story #phenom-keycaps-switches .chapter-media__image {
+    object-fit: cover;
+    object-position: 36% 50%;
+  }
+
+  body.product-page--phenom #phenom-entropy {
+    display: flex;
+    min-height: 0 !important;
+    padding: var(--phenom-mobile-section-space) var(--phenom-mobile-gutter);
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy {
+    display: contents;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > :is(.eyebrow, h2) {
+    order: 1;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > h2 {
+    margin-bottom: 28px;
+  }
+
+  body.product-page--phenom #phenom-entropy .chapter-media--video {
+    order: 2;
+    width: 100%;
+    margin: 0 0 28px;
+    padding: 0;
+    background: transparent;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow),
+  body.product-page--phenom #phenom-entropy .visual-chapter__platforms {
+    order: 3;
+    width: 100%;
+    max-width: 36rem;
+    margin-inline: auto;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    margin-top: 0;
+    text-align: left;
+  }
+
+  body.product-page--phenom .product-story #phenom-entropy .visual-chapter__copy > p + p {
+    margin-top: 22px;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__action {
+    display: inline-flex;
+    order: 4;
+    width: 100%;
+    max-width: none;
+    min-height: 52px;
+    margin: 28px auto 0;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  body.product-page--phenom #phenom-specs {
+    padding-block: var(--phenom-mobile-section-space);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header {
+    margin-bottom: 28px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header h2 {
+    max-width: 18ch;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header > p:last-child {
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group {
+    padding: 0;
+    border: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group + .specs-chapter__group {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+    margin: 0;
+    padding: 10px 12px;
+    background: var(--surface);
+    color: var(--accent-deep);
+    line-height: 1.35;
+    letter-spacing: 0.075em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__note {
+    margin: 0;
+    padding: 8px 12px 0;
+    line-height: 1.35;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    display: grid;
+    padding: 9px 12px;
+    align-items: start;
+    border-top: 1px solid var(--line);
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 10px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row :is(dt, dd) {
+    min-width: 0;
+    line-height: 1.35;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dt {
+    color: var(--text-soft);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__value-line {
+    display: block;
+  }
+
+  body.product-page--phenom #phenom-cta {
+    display: flex;
+    min-height: 0 !important;
+    padding: 0;
+    flex-direction: column;
+    overflow: hidden;
+    background: #111012;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__media {
+    position: relative;
+    order: 1;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    aspect-ratio: var(--phenom-mobile-photo-ratio);
+    border-radius: 0;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 66%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 66%, transparent 100%);
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__media .chapter-media__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: none;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__copy {
+    position: relative;
+    z-index: 1;
+    order: 2;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    margin: clamp(-56px, -12vw, -36px) 0 0;
+    padding: 0 var(--phenom-mobile-gutter) 36px;
+    align-items: center;
+    text-align: center;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > * {
+    max-width: 36rem;
+    margin-inline: auto;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+    text-align: center;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__action {
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  /* Approved mobile rhythm pass. Keep comparable editorial chapters on one
+     title -> media -> copy spacing scale while functional sections retain
+     their own internal structure. */
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) h2 {
+    margin-bottom: var(--phenom-mobile-content-gap);
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__media {
+    margin-bottom: var(--phenom-mobile-content-gap);
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    margin-top: 0 !important;
+    font-weight: 400;
+  }
+
+  body.product-page--phenom .product-story :is(
+    #modularity,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: var(--phenom-mobile-paragraph-gap) !important;
+  }
+
+  /* Preserve semantic paragraph rhythm across every mobile content block.
+     Line fragments inside one paragraph stay continuous; only separate
+     paragraphs receive the shared gap. */
+  body.product-page--phenom .product-story--phenom :is(
+    .visual-chapter__copy,
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header
+  ) > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: var(--phenom-mobile-paragraph-gap) !important;
+  }
+
+  body.product-page--phenom .phenom-layout-open {
+    margin-top: 0;
+  }
+
+  body.product-page--phenom .key-layout-tabs {
+    margin-top: 24px;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro {
+    margin-bottom: var(--phenom-mobile-content-gap);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption {
+    display: grid;
+    min-height: calc(2.7em + 10px);
+    align-items: start;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 6px;
+    font-size: clamp(14px, 4.7vw, 20.24px);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption strong,
+  html[lang^="ru"] body.product-page--phenom #phenom-curves
+  .detail-sequence__item:last-child figcaption strong {
+    display: block;
+    width: 100%;
+    min-height: 2.7em;
+    text-wrap: balance;
+    white-space: normal;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__label-line {
+    display: block;
+    text-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__label--split > .detail-sequence__label-default {
+    display: none;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__label-mobile {
+    display: block;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+    padding: 12px 14px;
+    font-weight: 750;
+    line-height: 1.3;
+    letter-spacing: 0.085em;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__note {
+    padding: 9px 14px 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    padding: 11px 14px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dt {
+    font-weight: 650;
+    letter-spacing: 0.025em;
+  }
+
+  body.product-page--phenom #phenom-cta .chapter-text-line {
+    display: block;
+  }
+
+  body.product-page--phenom #phenom-cta .chapter-text-line + .chapter-text-line {
+    margin-top: var(--phenom-mobile-paragraph-gap);
+  }
+}
+
+@media (max-width: 340px) {
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption {
+    font-size: 13px;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy {
+    min-height: 172px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    grid-template-columns: minmax(6.5rem, 0.82fr) minmax(0, 1.18fr);
+    gap: 8px;
+  }
+}
+
+/* K:04-inspired mobile editorial chapters.
+   Keep Phenom's approved imagery and crops, but restore the calmer K:04
+   sequence: wide media first, then one left-aligned copy module. Desktop is
+   frozen; every declaration in this layer stops at 980px. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --phenom-editorial-copy-top: clamp(30px, 8vw, 44px);
+    --phenom-editorial-copy-bottom: var(--phenom-mobile-space);
+    --phenom-editorial-title-size: clamp(29px, 7.6vw, 42px);
+    --phenom-editorial-copy-size: clamp(15.2px, 3.9vw, 17px);
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) {
+    display: block !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    background: var(--bg);
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__media {
+    position: relative !important;
+    inset: auto !important;
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    overflow: hidden;
+    aspect-ratio: var(--phenom-mobile-photo-ratio) !important;
+    border-radius: 0 !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .chapter-media__image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: none !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy {
+    display: flex !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: var(--phenom-editorial-copy-top) var(--phenom-mobile-gutter)
+      var(--phenom-editorial-copy-bottom) !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > * {
+    width: 100%;
+    max-width: 36rem;
+    margin-inline: 0;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > .eyebrow {
+    margin: 0 0 14px;
+    text-align: left;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > h2 {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important;
+    align-self: stretch !important;
+    font-size: var(--phenom-editorial-title-size) !important;
+    line-height: 1.04;
+    text-align: left !important;
+    text-wrap: balance;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > h2 .section-title__line {
+    display: block;
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > h2 .section-title__line + .section-title__line::before {
+    content: none;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    margin-top: 20px !important;
+    color: var(--text-soft);
+    font-size: var(--phenom-editorial-copy-size) !important;
+    font-weight: 400;
+    line-height: 1.55;
+    text-align: left !important;
+    text-wrap: pretty;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: var(--phenom-mobile-paragraph-gap) !important;
+  }
+
+  /* Entropy keeps its reviewed application-window frame, but follows the
+     same media -> heading -> copy reading order as the photographic chapters. */
+  body.product-page--phenom #phenom-entropy {
+    display: block !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: var(--bg);
+  }
+
+  body.product-page--phenom #phenom-entropy .chapter-media--video {
+    position: relative !important;
+    inset: auto !important;
+    display: grid;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: clamp(24px, 6vw, 40px) var(--phenom-mobile-gutter) 0 !important;
+    background: var(--bg);
+  }
+
+  body.product-page--phenom #phenom-entropy .chapter-media__video {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: auto;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy {
+    display: flex !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: var(--phenom-editorial-copy-top) var(--phenom-mobile-gutter)
+      var(--phenom-editorial-copy-bottom) !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > * {
+    width: 100%;
+    max-width: 36rem;
+    margin-inline: 0;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > h2 {
+    order: 1 !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important;
+    align-self: stretch !important;
+    font-size: var(--phenom-editorial-title-size) !important;
+    line-height: 1.04;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    order: 2 !important;
+    margin-top: 20px !important;
+    font-size: var(--phenom-editorial-copy-size) !important;
+    line-height: 1.55;
+    text-align: left;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: var(--phenom-mobile-paragraph-gap) !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__action {
+    order: 3 !important;
+    width: 100%;
+    max-width: none;
+    margin: 28px 0 0;
+  }
+}
+
+/* Approved Phenom mobile type and chapter order.
+   Desktop remains frozen at 981px+. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --phenom-mobile-heading-size: clamp(35.2px, 9.02vw, 50.6px);
+    --phenom-mobile-copy-size: clamp(17.6px, 5.19vw, 20.24px);
+    --phenom-mobile-label-size: clamp(12px, 3.25vw, 14px);
+    --phenom-mobile-heading-gap: clamp(26px, 7vw, 34px);
+    --phenom-mobile-copy-gap: clamp(26px, 7vw, 34px);
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header,
+    .visual-chapter__copy
+  ) > h2,
+  body.product-page--phenom .product-story--phenom .visual-chapter h2 {
+    width: min(100%, 19ch);
+    max-width: 19ch;
+    margin-inline: auto !important;
+    font-size: var(--phenom-mobile-heading-size) !important;
+    font-weight: 650;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-align: center !important;
+    text-wrap: balance;
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story--phenom h2 .section-title__line {
+    display: block;
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header,
+    .visual-chapter__copy
+  ) > p:not(.eyebrow) {
+    color: var(--text-soft);
+    font-size: var(--phenom-mobile-copy-size) !important;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  body.product-page--phenom :is(
+    .key-layout-models__label,
+    .key-layout-tabs__button,
+    .series-card__trait,
+    .series-card h3
+  ) {
+    font-size: var(--phenom-mobile-label-size) !important;
+  }
+
+  /* Photographic chapters: title -> media -> copy. */
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) {
+    display: flex !important;
+    min-height: 0 !important;
+    padding: var(--phenom-mobile-section-space) 0 !important;
+    flex-direction: column;
+    overflow: visible !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy {
+    display: contents !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > .eyebrow {
+    order: 0;
+    width: calc(100% - 2 * var(--phenom-mobile-gutter));
+    margin: 0 auto 12px;
+    text-align: center;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > h2 {
+    order: 1;
+    width: calc(100% - 2 * var(--phenom-mobile-gutter));
+    max-width: 19ch;
+    margin: 0 auto var(--phenom-mobile-heading-gap) !important;
+    font-size: var(--phenom-mobile-heading-size) !important;
+    font-weight: 650;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-align: center !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__media {
+    order: 2;
+    width: 100% !important;
+    margin: 0 0 var(--phenom-mobile-copy-gap) !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > :is(p:not(.eyebrow), .visual-chapter__metrics) {
+    order: 3;
+    width: min(calc(100% - 2 * var(--phenom-mobile-gutter)), 36rem);
+    max-width: 36rem;
+    margin-inline: auto !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    margin-top: 0 !important;
+    font-size: var(--phenom-mobile-copy-size) !important;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: var(--phenom-mobile-paragraph-gap) !important;
+  }
+
+  /* Entropy: title -> video -> copy -> action. */
+  body.product-page--phenom #phenom-entropy {
+    display: flex !important;
+    min-height: 0 !important;
+    padding: var(--phenom-mobile-section-space) 0 !important;
+    flex-direction: column;
+    overflow: visible !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy {
+    display: contents !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > h2 {
+    order: 1 !important;
+    width: calc(100% - 2 * var(--phenom-mobile-gutter));
+    max-width: 19ch;
+    margin: 0 auto var(--phenom-mobile-heading-gap) !important;
+    font-size: var(--phenom-mobile-heading-size) !important;
+    font-weight: 650;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-align: center !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .chapter-media--video {
+    order: 2;
+    width: 100% !important;
+    margin: 0 0 var(--phenom-mobile-copy-gap) !important;
+    padding: 0 var(--phenom-mobile-gutter) !important;
+    background: transparent;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow),
+  body.product-page--phenom #phenom-entropy .visual-chapter__platforms {
+    order: 3 !important;
+    width: min(calc(100% - 2 * var(--phenom-mobile-gutter)), 36rem);
+    max-width: 36rem;
+    margin-inline: auto !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    margin-top: 0 !important;
+    font-size: var(--phenom-mobile-copy-size) !important;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: var(--phenom-mobile-paragraph-gap) !important;
+  }
+
+  body.product-page--phenom #phenom-entropy .visual-chapter__action {
+    order: 4 !important;
+    width: calc(100% - 2 * var(--phenom-mobile-gutter));
+    max-width: 36rem;
+    margin: 28px auto 0;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header
+  ) > p:not(.eyebrow) {
+    width: min(100%, 36rem);
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy h3 {
+    font-size: clamp(12px, 3.1vw, 14px) !important;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy {
+    min-height: 196px;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    font-size: var(--phenom-mobile-copy-size) !important;
+    line-height: 1.55;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption {
+    font-size: clamp(12px, 3.65vw, 16px) !important;
+    line-height: 1.35;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption strong {
+    width: auto !important;
+    min-width: 0;
+  }
+
+  body.product-page--phenom #phenom-curves :is(
+    .detail-sequence__label--split,
+    .detail-sequence__label-mobile,
+    .detail-sequence__label-line
+  ) {
+    max-width: 100%;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row :is(dt, dd),
+  body.product-page--phenom #phenom-specs .specs-chapter__note {
+    line-height: 1.4;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > h2 {
+    font-size: var(--phenom-mobile-heading-size) !important;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: var(--phenom-mobile-copy-size) !important;
+    line-height: 1.55;
+  }
+}
+
+@media (max-width: 480px) {
+  body.product-page--phenom .key-layout-layer__copy {
+    min-height: clamp(180px, 48.5vw, 196px);
+  }
+
+  html[lang^="ru"] body.product-page--phenom .key-layout-layer__copy {
+    min-height: clamp(196px, 56.5vw, 222px);
+  }
+}
+
+/* Final series-copy and section-divider polish. The opening hero-to-series
+   transition and the specs-to-closing transition intentionally stay open. */
+.series-showcase__mobile-break {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  html[lang^="ru"] body.product-page--phenom
+  #product-series .series-showcase__mobile-break {
+    display: block;
+  }
+
+  body.product-page--phenom
+  #product-series .series-showcase__text-line {
+    display: block;
+  }
+
+  body.product-page--phenom
+  #product-series .series-showcase__text-line + .series-showcase__text-line::before {
+    content: none;
+  }
+
+  body.product-page--phenom #product-series .series-card__key-count {
+    font-family: inherit;
+    font-size: inherit !important;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+  }
+
+  body.product-page--phenom {
+    --phenom-mobile-section-divider: rgb(48 39 42 / 10%);
+  }
+
+  html[data-theme="dark"] body.product-page--phenom {
+    --phenom-mobile-section-divider: rgb(255 246 249 / 11%);
+  }
+
+  body.product-page--phenom .product-story--phenom > section:not(
+    .product-hero--immersive,
+    #product-series,
+    #phenom-cta
+  ) {
+    border-top: 1px solid var(--phenom-mobile-section-divider) !important;
+  }
+}
+
+/* Mobile line-break and True Beauty order pass. Keep every established width,
+   type size and alignment; only balance existing lines and move the gallery
+   before its supporting paragraph. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro > p:not(.eyebrow),
+    .visual-chapter__copy > p:not(.eyebrow),
+    .key-layout-layer__copy > p:last-child,
+    .detail-sequence__intro > p:not(.eyebrow),
+    .specs-chapter__header > p:not(.eyebrow)
+  ) {
+    overflow-wrap: normal;
+    text-wrap: balance;
+    word-break: normal;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro {
+    display: contents;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro > h2 {
+    order: 1;
+    margin-bottom: var(--phenom-mobile-content-gap);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__gallery {
+    order: 2;
+    margin-bottom: var(--phenom-mobile-content-gap);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro > p:not(.eyebrow) {
+    order: 3;
+    margin: 0;
+  }
+}
+
+/* Keep the mobile hero on the approved page-wide type scale and bring the
+   product 10% closer without changing the hero's layout height. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-hero--immersive h1 {
+    font-size: var(--phenom-mobile-heading-size) !important;
+    font-weight: 650;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    font-size: var(--phenom-mobile-copy-size) !important;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage__picture {
+    aspect-ratio: var(--phenom-mobile-photo-ratio);
+    overflow: hidden;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage__image {
+    transform: none;
+    transform-origin: 50% 50%;
+  }
+}
+
+/* Final mobile typography system.
+   Keep the approved composition and crops; refine hierarchy, reading rhythm
+   and line breaking only below the frozen desktop breakpoint. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --phenom-mobile-heading-size: clamp(33px, 8.8vw, 48px);
+    --phenom-mobile-copy-size: clamp(16.5px, 4.62vw, 18px);
+    --phenom-mobile-heading-weight: 600;
+    --phenom-mobile-copy-leading: 1.56;
+    --phenom-mobile-ui-size: clamp(11px, 3.05vw, 13px);
+  }
+
+  body.product-page--phenom .product-hero--immersive h1,
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header,
+    .visual-chapter__copy
+  ) > h2,
+  body.product-page--phenom .product-story--phenom .visual-chapter h2,
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > h2 {
+    font-size: var(--phenom-mobile-heading-size) !important;
+    font-weight: var(--phenom-mobile-heading-weight) !important;
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__intro,
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro,
+    .key-layout-chapter__intro,
+    .detail-sequence__intro,
+    .specs-chapter__header,
+    .visual-chapter__copy
+  ) > p:not(.eyebrow),
+  body.product-page--phenom #phenom-entropy .visual-chapter__platforms,
+  body.product-page--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: var(--phenom-mobile-copy-size) !important;
+    font-weight: 400 !important;
+    line-height: var(--phenom-mobile-copy-leading) !important;
+    letter-spacing: -0.005em;
+    overflow-wrap: normal;
+    text-wrap: pretty;
+    word-break: normal;
+  }
+
+  /* Let prose form natural lines instead of preserving desktop fragments. */
+  body.product-page--phenom .product-story--phenom :is(
+    .visual-chapter__copy,
+    .detail-sequence__intro
+  ) .chapter-text-line {
+    display: inline;
+    white-space: normal;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    .visual-chapter__copy,
+    .detail-sequence__intro
+  ) .chapter-text-line + .chapter-text-line::before {
+    content: " ";
+  }
+
+  /* Closing copy contains two separate thoughts and keeps paragraph rhythm. */
+  body.product-page--phenom #phenom-cta .chapter-text-line {
+    display: block;
+  }
+
+  body.product-page--phenom #phenom-cta .chapter-text-line + .chapter-text-line {
+    margin-top: var(--phenom-mobile-paragraph-gap);
+  }
+
+  /* Keep the functional layout stable, but distribute its reserved air. */
+  body.product-page--phenom .key-layout-layer__copy {
+    align-content: center;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy h3 {
+    font-size: clamp(11.5px, 3.08vw, 13px) !important;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.085em;
+  }
+
+  body.product-page--phenom .key-layout-layer__copy > p:last-child {
+    font-size: clamp(16px, 4.36vw, 17px) !important;
+    line-height: 1.52 !important;
+    text-wrap: pretty;
+  }
+
+  body.product-page--phenom :is(
+    .key-layout-models__label,
+    .key-layout-tabs__button,
+    .series-card h3,
+    .series-card__key-count,
+    .series-card__trait
+  ) {
+    font-size: var(--phenom-mobile-ui-size) !important;
+  }
+
+  body.product-page--phenom :is(
+    .key-layout-models__label,
+    .key-layout-tabs__button
+  ) {
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+  }
+
+  /* True Beauty uses one caption hierarchy in both locales. */
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption {
+    font-size: clamp(12px, 3.35vw, 14px) !important;
+    line-height: 1.28;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption strong {
+    font-size: inherit !important;
+    font-weight: 600;
+    letter-spacing: 0.015em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  /* Compact specification table with a clear label/value hierarchy. */
+  body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+    font-weight: 750;
+    line-height: 1.35;
+    letter-spacing: 0.075em;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__note {
+    line-height: 1.4;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: 12px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row :is(dt, dd) {
+    line-height: 1.4;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dt {
+    color: var(--text);
+    font-weight: 650;
+    letter-spacing: 0.015em;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dd {
+    color: var(--text-soft);
+    font-weight: 400;
+  }
+
+  /* Fine alignment for the compact mobile specification table. */
+  body.product-page--phenom #phenom-specs .specs-chapter__note {
+    display: flex;
+    min-height: 34px;
+    padding-block: 8px;
+    align-items: center;
+    text-align: left;
+  }
+
+  body.product-page--phenom #phenom-specs
+    .specs-chapter__group:nth-child(2)
+    .specs-chapter__row:nth-child(2)
+    dt,
+  body.product-page--phenom #phenom-specs
+    .specs-chapter__group:nth-child(4)
+    .specs-chapter__row:nth-child(1)
+    dt {
+    align-self: center;
+  }
+
+}
+
+/* Final mobile composition polish. Preserve every approved size and crop;
+   tighten only the four remaining relationships called out in review. */
+@media (max-width: 980px) {
+  /* Keep the stable layer-copy reserve, but place its content against the
+     diagram so every layer has the same deliberate 24px hand-off. */
+  body.product-page--phenom .key-layout-layer__copy {
+    align-content: end;
+    min-height: 140px;
+  }
+
+  html[lang^="ru"] body.product-page--phenom .key-layout-layer__copy {
+    min-height: clamp(140px, calc(253px - 22.86vw), 180px);
+  }
+
+  html[lang^="en"] body.product-page--phenom .key-layout-layer__copy {
+    min-height: clamp(140px, calc(229px - 22.86vw), 156px);
+  }
+
+  /* The cue sits visually between the hero and the following heading. */
+  body.product-page--phenom .phenom-scroll-cue {
+    transform: translate(-50%, 50%);
+  }
+
+  /* Lock True Beauty to title -> gallery -> supporting copy, including when
+     older editorial rules are present earlier in the cascade. */
+  body.product-page--phenom #phenom-curves .detail-sequence__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro {
+    display: contents;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro > h2 {
+    order: 1;
+    margin-bottom: var(--phenom-mobile-content-gap);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__gallery {
+    order: 2;
+    margin-bottom: var(--phenom-mobile-content-gap);
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__intro > p:not(.eyebrow) {
+    order: 3;
+    margin: 0;
+  }
+
+  /* Let both locales use the full authored label, without forced mobile line
+     breaks. Removing the two-line reserve also brings the dividers up. */
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption {
+    min-height: 0;
+    padding-block: 10px 6px;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__item figcaption strong,
+  html[lang^="ru"] body.product-page--phenom #phenom-curves
+  .detail-sequence__item:last-child figcaption strong {
+    min-height: 0;
+    font-size: inherit !important;
+    line-height: 1.28;
+    white-space: normal;
+    text-wrap: wrap;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__label--split > .detail-sequence__label-default {
+    display: inline;
+  }
+
+  body.product-page--phenom #phenom-curves .detail-sequence__label-mobile {
+    display: none;
+  }
+
+  /* Keep the longest Russian label on one line on common compact phones;
+     320px remains free to wrap instead of shrinking to unreadable type. */
+  @media (min-width: 350px) and (max-width: 380px) {
+    body.product-page--phenom .product-story--phenom #phenom-curves .detail-sequence__item figcaption {
+      gap: 2px;
+      font-size: 11.5px !important;
+    }
+
+    body.product-page--phenom #phenom-curves .detail-sequence__item figcaption strong {
+      letter-spacing: 0;
+    }
+  }
+
+  /* All specification labels share the same vertical centring rule. */
+  body.product-page--phenom #phenom-specs .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    align-items: center;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dt {
+    align-self: auto;
+  }
+}
+
+/* Keep the mobile hero on the same supporting-copy tier as the series
+   introduction; the final composition below centers it above the image. */
+@media (max-width: 980px) {
+  body.product-page--phenom .site-header .brand,
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    font-size: var(--phenom-mobile-copy-size) !important;
+    font-weight: 400 !important;
+    line-height: var(--phenom-mobile-copy-leading) !important;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    align-self: flex-end;
+    width: max-content;
+    max-width: 100%;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom #phenom-finger-geometry .chapter-text-line {
+    display: block;
+  }
+
+  body.product-page--phenom #phenom-finger-geometry
+  .chapter-text-line + .chapter-text-line::before {
+    content: none;
+  }
+
+}
+
+/* Use the landing’s mobile copy tier in the specs; give long labels their own
+   column on compact screens. Values wrap within the remaining track. */
+@media (max-width: 980px) {
+  body.product-page--phenom {
+    --phenom-spec-copy-size: var(--phenom-mobile-copy-size);
+  }
+}
+
+@media (min-width: 341px) and (max-width: 980px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
+/* Match the Phenom reference hierarchy on compact layouts too. */
+@media (max-width: 980px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+    color: var(--text);
+    letter-spacing: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dt {
+    color: var(--text-soft);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dd {
+    color: var(--text-soft);
+  }
+}
+
+/* Two tracks stop fitting long translated labels below phone widths.
+   Keep the same type scale and dividers; let each label/value pair stack. */
+@media (max-width: 360px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+  }
+}
+
+/* Phenom mobile specs: editorial type and spacing, without the table frame.
+   JS only adds the accordion; the unenhanced content remains readable. */
+@media (max-width: 980px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group + .specs-chapter__group {
+    border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion {
+    gap: 0;
+  }
+
+  body.product-page--phenom .product-story--phenom #phenom-specs .specs-chapter__group h3 {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: clamp(19px, 5.1vw, 21px);
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__toggle {
+    display: flex;
+    width: 100%;
+    min-height: 56px;
+    padding: 15px 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    text-align: left;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__toggle::after {
+    content: '';
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+  }
+
+  body.product-page--phenom #phenom-specs .is-open .specs-chapter__toggle::after {
+    transform: translateY(2px) rotate(225deg);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion
+  .specs-chapter__group:not(.is-open) :is(.specs-chapter__note, dl) {
+    display: none;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion
+  .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion
+  .specs-chapter__group:last-child .specs-chapter__row {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 2px;
+    padding: 8px 0 12px;
+    border: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion
+  .specs-chapter__row :is(dt, dd) {
+    width: 100%;
+    min-width: 0;
+    line-height: 1.4;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion
+  .specs-chapter__row dt {
+    color: var(--text-soft);
+    font-size: clamp(17px, 4.7vw, 19px);
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion
+  .specs-chapter__row dd {
+    color: var(--text-soft);
+    font-size: clamp(16px, 4.35vw, 17.5px);
+    font-weight: 400;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups--accordion
+  .specs-chapter__note {
+    min-height: 0;
+    padding: 0 0 8px;
+    border: 0;
+    font-size: clamp(15px, 4vw, 16px);
+  }
+}
+
+/* Mobile story rhythm: each chapter fills at least one screen, while longer
+   copy and interactive chapters grow naturally instead of being clipped. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story--phenom > :is(
+    #product-series, #modularity, .key-layout-chapter,
+    #phenom-finger-geometry, #phenom-curves, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-entropy, #phenom-wired,
+    #phenom-specs
+  ) {
+    min-height: 100svh !important;
+  }
+
+  /* Keep the mobile hero in one screen: title, fading image, then description.
+     The desktop composition remains unchanged. */
+  body.product-page--phenom .product-hero--immersive {
+    display: flex;
+    min-height: 100svh;
+    padding: clamp(112px, 14svh, 150px) 0 72px;
+    overflow: hidden;
+    flex-direction: column;
+    background: var(--bg);
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage {
+    position: relative;
+    inset: auto;
+    order: 2;
+    flex: 1 0 clamp(260px, 42svh, 420px);
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    margin: clamp(18px, 3svh, 28px) 0 0;
+    background: var(--bg);
+    pointer-events: none;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage__picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage__image {
+    /* Crop empty photo margins while keeping both keyboard halves in frame. */
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: 120%;
+    height: auto;
+    transform: translateY(-50%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 73%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 73%, transparent);
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-stage::after,
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-stage::after {
+    display: none;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__copy {
+    display: contents;
+  }
+
+  body.product-page--phenom .product-hero--immersive h1 {
+    order: 1;
+    flex: none;
+    width: calc(100% - 2 * var(--gutter));
+    max-width: 16ch;
+    margin: 0 auto;
+    font-size: clamp(34px, 10.8vw, 52px) !important;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    align-self: center;
+    text-align: center;
+  }
+
+  html[lang^="ru"] body.product-page--phenom .product-hero--immersive h1 {
+    font-size: clamp(28px, 8vw, 38px) !important;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    order: 3;
+    flex: none;
+    width: calc(100% - 2 * var(--gutter));
+    max-width: 25rem;
+    margin: 0 auto;
+    align-self: center;
+    text-align: center !important;
+  }
+
+  body.product-page--phenom .site-header {
+    color: var(--text);
+  }
+
+  body.product-page--phenom .site-header .brand,
+  body.product-page--phenom .site-header .brand i {
+    color: var(--text);
+  }
+
+  body.product-page--phenom .site-header .theme-toggle {
+    border-color: transparent;
+    color: #242225;
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  /* The header stays on a light field in both themes. Keep the toggle dark
+     even while the button retains hover/focus after a theme switch. */
+  html body.product-page--phenom .site-header .theme-toggle:is(:hover, :focus-visible) {
+    border-color: transparent;
+    color: #242225;
+    background: transparent;
+  }
+
+  /* Keep the opening photograph on a light field; the dark theme starts
+     cleanly at the following series section. */
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive {
+    background: #f6f4f2;
+  }
+
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-stage {
+    background: transparent;
+  }
+
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive h1,
+  html[data-theme="dark"] body.product-page--phenom .site-header,
+  html[data-theme="dark"] body.product-page--phenom .site-header .brand,
+  html[data-theme="dark"] body.product-page--phenom .site-header .brand i {
+    color: #242225;
+  }
+
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-stage__picture {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  html[data-theme="dark"] body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    color: #514b4f;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue {
+    bottom: 18px;
+    color: var(--text);
+    transform: translateX(-50%);
+  }
+}
+
+/* Phenom mobile: an unpaged model list and the K:04 media-first chapter rhythm. */
+.series-card__mobile-heading { display: none; }
+@media (max-width: 980px) {
+  body.product-page--phenom #product-series .series-gallery {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-flow: row !important;
+    grid-auto-columns: auto !important;
+    gap: 48px !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.product-page--phenom #product-series .series-card {
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: none;
+  }
+
+  body.product-page--phenom #product-series .series-showcase__intro > p:not(.eyebrow) {
+    font-size: 0.95rem !important;
+    font-weight: 400 !important;
+    line-height: 1.6;
+  }
+
+  body.product-page--phenom #product-series .series-card__mobile-heading {
+    display: flex;
+    order: 0;
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 16px;
+    padding: 0 !important;
+    align-items: baseline;
+    gap: 0.4em;
+    color: var(--text);
+    font-size: clamp(13px, 3.8vw, 15.2px) !important;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.025em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  body.product-page--phenom #product-series .series-card__mobile-index {
+    color: var(--text-soft);
+    font-weight: 500;
+  }
+
+  body.product-page--phenom #product-series .series-card__mobile-key-count,
+  body.product-page--phenom #product-series .series-card__mobile-heading .series-card__heading-separator {
+    color: var(--text-soft);
+    font-weight: 400;
+  }
+
+  body.product-page--phenom #product-series .series-card__visual {
+    order: 1;
+    width: 100%;
+    aspect-ratio: 3 / 2 !important;
+  }
+
+  body.product-page--phenom #product-series .series-card__caption {
+    display: block;
+    order: 2;
+  }
+
+  body.product-page--phenom #product-series .series-card__caption > .series-card__index,
+  body.product-page--phenom #product-series .series-card__heading {
+    display: none;
+  }
+
+  body.product-page--phenom #product-series .series-card__traits {
+    margin-top: 16px;
+  }
+
+  body.product-page--phenom #product-series .series-card__trait {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--text-soft);
+    font-size: 15.2px !important;
+    line-height: 1.6;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom #product-series .series-card__trait::before {
+    content: none;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__media {
+    display: block;
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    margin: 0 !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    padding: 40px var(--gutter) 72px !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > .eyebrow {
+    order: 0;
+    width: 100%;
+    max-width: 36rem;
+    margin: 0 0 20px !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > h2 {
+    order: 1;
+    width: 100% !important;
+    max-width: 36rem !important;
+    margin: 0 !important;
+    align-self: flex-start !important;
+    font-size: 1.85rem !important;
+    font-weight: 600 !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.025em;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > :is(p:not(.eyebrow), .visual-chapter__metrics) {
+    order: 2;
+    width: 100% !important;
+    max-width: 36rem;
+    margin: 20px 0 0 !important;
+    font-size: 0.95rem !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    text-align: left !important;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: var(--phenom-mobile-paragraph-gap) !important;
+  }
+}
+
+/* Phenom mobile reading rhythm: keep the approved type weight and photo order. */
+@media (max-width: 980px) {
+  body.product-page--phenom #product-series .series-showcase__intro > p:not(.eyebrow) {
+    width: min(100%, 42ch);
+    max-width: 42ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  body.product-page--phenom #product-series .series-showcase__text-line {
+    text-wrap: balance;
+  }
+
+  body.product-page--phenom #product-series .series-showcase__text-line + .series-showcase__text-line {
+    margin-top: 6px;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity, #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow),
+  body.product-page--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    max-width: 48ch;
+    text-wrap: pretty;
+  }
+
+  body.product-page--phenom .product-story--phenom #phenom-additive-manufacturing
+  .visual-chapter__copy > p:not(.eyebrow) {
+    text-wrap: balance;
+  }
+
+  body.product-page--phenom .product-story--phenom #modularity
+  .visual-chapter__copy > p:not(.eyebrow) + p:not(.eyebrow) {
+    margin-top: 9px !important;
+  }
+
+  /* Only the first sentence gets a pause; authored desktop fragments reflow freely. */
+  body.product-page--phenom #phenom-finger-geometry .chapter-text-line {
+    display: inline;
+  }
+
+  body.product-page--phenom #phenom-finger-geometry .chapter-text-line:first-child {
+    display: block;
+    margin-bottom: 6px;
+  }
+}

@@ -1,0 +1,58 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $sectionID := $chapter.section_id -}}
+{{- if not $sectionID -}}
+  {{- errorf "Specifications declared by %s have no section_id" $page.File.Path -}}
+{{- end -}}
+{{- if not $chapter.groups -}}
+  {{- errorf "Specifications %q declared by %s have no groups" $chapter.id $page.File.Path -}}
+{{- end -}}
+{{- $titleID := printf "%s-title" $sectionID -}}
+<section
+  id="{{ $sectionID }}"
+  class="specs-chapter section"
+  aria-labelledby="{{ $titleID }}"
+  data-product-chapter="{{ $chapter.id }}"
+>
+  <div class="specs-chapter__inner">
+    <header class="specs-chapter__header">
+      {{ with $chapter.eyebrow }}<p class="eyebrow">{{ . }}</p>{{ end }}
+      {{ partial "phenom/product/heading.html" (dict "id" $titleID "chapter" $chapter) }}
+      <p>{{ $chapter.text }}</p>
+    </header>
+    <div class="specs-chapter__groups">
+      {{- range $groupIndex, $group := $chapter.groups -}}
+        {{- if not $group.items -}}
+          {{- errorf "Specification group %d in %s is empty" $groupIndex $page.File.Path -}}
+        {{- end -}}
+        <section
+          class="specs-chapter__group"
+          aria-labelledby="{{ $sectionID }}-group-{{ $groupIndex }}"
+          data-specs-item-count="{{ len $group.items }}"
+        >
+          <div class="specs-chapter__heading">
+            <h3 id="{{ $sectionID }}-group-{{ $groupIndex }}">{{ $group.title }}</h3>
+            {{ with $group.note }}<p class="specs-chapter__note">{{ . }}</p>{{ end }}
+          </div>
+          <dl>
+            {{- range $group.items -}}
+              <div class="specs-chapter__row">
+                <dt>{{ .label }}</dt>
+                <dd>
+                  {{- with .links -}}
+                    {{- range $index, $link := . -}}
+                      {{- if $index }}<span class="specs-chapter__link-separator" aria-hidden="true"> · </span>{{ end -}}
+                      <a href="{{ $link.href }}">{{ $link.label }}</a>
+                    {{- end -}}
+                  {{- else -}}
+                    {{ .value }}
+                  {{- end -}}
+                </dd>
+              </div>
+            {{- end -}}
+          </dl>
+        </section>
+      {{- end -}}
+    </div>
+  </div>
+</section>

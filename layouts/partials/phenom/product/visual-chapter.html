@@ -1,0 +1,67 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $storyID := .story_id | default "" -}}
+{{- $sectionID := $chapter.section_id -}}
+{{- if not $sectionID -}}
+  {{- errorf "Visual chapter declared by %s has no section_id" $page.File.Path -}}
+{{- end -}}
+{{- $titleID := printf "%s-title" $sectionID -}}
+{{- $variant := $chapter.variant | default "bleed-edge" | urlize -}}
+{{- $copyPosition := $chapter.copy_position | default "left" | urlize -}}
+<section
+  id="{{ $sectionID }}"
+  class="visual-chapter visual-chapter--{{ $variant }} visual-chapter--copy-{{ $copyPosition }}"
+  aria-labelledby="{{ $titleID }}"
+  {{- with $storyID }} data-product-chapter="{{ . }}"{{ end -}}
+>
+  {{ partial "phenom/product/chapter-media.html" (dict
+    "page" $page
+    "media" $chapter.media
+    "class" "visual-chapter__media"
+    "placeholder_id" ($chapter.media.placeholder_id | default ($storyID | default $sectionID))
+  ) }}
+  <div class="visual-chapter__copy">
+    {{ with $chapter.eyebrow }}<p class="eyebrow">{{ . }}</p>{{ end }}
+    {{ partial "phenom/product/heading.html" (dict "id" $titleID "chapter" $chapter) }}
+    {{- if or $chapter.text_lines $chapter.text -}}
+      <p>{{ with $chapter.text_lines }}{{ range $i, $line := . }}{{ if $i }} {{ end }}<span class="chapter-text-line">{{ if and (eq $i 0) $chapter.mobile_break_after (in $line $chapter.mobile_break_after) }}{{ $parts := split $line $chapter.mobile_break_after }}{{ index $parts 0 }}{{ $chapter.mobile_break_after }}<span class="chapter-desktop-space">&nbsp;</span><span class="chapter-mobile-break">{{ trim (delimit (after 1 $parts) $chapter.mobile_break_after) " " }}</span>{{ else }}{{ $line }}{{ end }}</span>{{ end }}{{ else }}{{ $chapter.text }}{{ end }}</p>
+    {{- end -}}
+    {{- with $chapter.metrics -}}
+      <dl class="visual-chapter__metrics">
+        {{- range . -}}
+          <div class="visual-chapter__metric">
+            <dt>{{ .label }}</dt>
+            <dd>{{ .value }}</dd>
+          </div>
+        {{- end -}}
+      </dl>
+    {{- end -}}
+    {{ range $chapter.text_extra }}<p>{{ . }}</p>{{ end }}
+    {{- with $chapter.text_extra_lines -}}
+      <p>{{ range $i, $line := . }}{{ if $i }} {{ end }}<span class="chapter-text-line">{{ . }}</span>{{ end }}</p>
+    {{- end -}}
+    {{- with $chapter.platforms -}}
+      <div class="visual-chapter__platforms" aria-label="{{ .label }}">
+        <p class="visual-chapter__platforms-label">{{ .label }}</p>
+        <ul class="visual-chapter__platforms-list">
+          {{- range .items -}}
+            <li>
+              <strong>{{ .name }}</strong>
+              <span>{{ .detail }}</span>
+            </li>
+          {{- end -}}
+        </ul>
+      </div>
+    {{- end -}}
+    {{- with $chapter.action -}}
+      {{- if not .label -}}
+        {{- errorf "CTA chapter %q declared by %s has no action label" $sectionID $page.File.Path -}}
+      {{- end -}}
+      {{- if .href -}}
+        <a class="visual-chapter__action" href="{{ .href }}">{{ .label }}</a>
+      {{- else -}}
+        <span class="visual-chapter__action" data-cta-action-pending>{{ .label }}</span>
+      {{- end -}}
+    {{- end -}}
+  </div>
+</section>

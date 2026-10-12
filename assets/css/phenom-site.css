@@ -1,0 +1,6074 @@
+:root {
+  --bg: #f6f4f2;
+  --bg-elevated: #fcfbfa;
+  --surface: #ebe7e4;
+  --text: #242225;
+  --text-soft: #716b6e;
+  --line: #d8d3d0;
+  --line-strong: #bcb4b1;
+  --accent: #bd838d;
+  --accent-deep: #8f5963;
+  --accent-soft: #eee0e2;
+  --grid-line: rgb(143 89 99 / 7%);
+  --ambient: rgb(189 131 141 / 12%);
+  --shell: 1240px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-space: clamp(5.5rem, 10vw, 9rem);
+  --font-sans: "Zen Kaku Gothic New", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --bg: #1e1e1e;
+  --bg-elevated: #181719;
+  --surface: #211f22;
+  --text: #f0eced;
+  --text-soft: #aaa3a6;
+  --line: #302e32;
+  --line-strong: #4a464c;
+  --accent: #c58b95;
+  --accent-deep: #d5a2aa;
+  --accent-soft: #271a1e;
+  --grid-line: rgb(213 162 170 / 6%);
+  --ambient: rgb(197 139 149 / 9%);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 55% -12rem, var(--ambient), transparent 38rem),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-elevated);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 520;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(3.2rem, 8.2vw, 7rem);
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.4rem, 5vw, 4.7rem);
+}
+
+h3 {
+  margin-bottom: 0.85rem;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+}
+
+.product-story--phenom h1,
+.product-story--phenom h2,
+.product-story--phenom h3 {
+  text-wrap: balance;
+}
+
+.product-story--phenom p,
+.product-story--phenom li,
+.product-story--phenom dd {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 4px;
+}
+
+.shell {
+  width: min(100% - (2 * var(--gutter)), var(--shell));
+  margin-inline: auto;
+}
+
+.eyebrow {
+  margin-bottom: 1rem;
+  color: var(--accent-deep);
+  font-size: 0.75rem;
+  font-weight: 720;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.7rem 1rem;
+  transform: translateY(-160%);
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 650;
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Header */
+
+.site-header {
+  position: relative;
+  z-index: 10;
+  height: 4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header__inner,
+.site-header__actions {
+  display: flex;
+  align-items: center;
+}
+
+.site-header__inner {
+  height: 100%;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-header__actions {
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-size: 1rem;
+  font-weight: 690;
+  letter-spacing: -0.03em;
+}
+
+.brand i {
+  color: var(--line-strong);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.header-back,
+.language-link {
+  color: var(--text-soft);
+  font-size: 0.83rem;
+  font-weight: 620;
+  transition: color 150ms ease;
+}
+
+.language-link {
+  min-width: 2.6rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  text-align: center;
+}
+
+.header-back:hover,
+.header-back:focus-visible,
+.language-link:hover,
+.language-link:focus-visible {
+  color: var(--text);
+}
+
+.theme-toggle {
+  display: inline-grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  place-items: center;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  border-color: var(--line-strong);
+  background: var(--surface);
+}
+
+.theme-toggle svg {
+  grid-area: 1 / 1;
+  width: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.55;
+}
+
+html[data-theme="dark"] .theme-toggle__sun,
+html[data-theme="light"] .theme-toggle__moon {
+  display: none;
+}
+
+/* Home */
+
+.home-hero {
+  min-height: clamp(31rem, 68vh, 47rem);
+  padding-top: clamp(4rem, 10vw, 8.5rem);
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.home-hero h1 {
+  max-width: 10.8ch;
+}
+
+.home-hero__intro,
+.product-hero__intro {
+  max-width: 43rem;
+  margin-bottom: 0;
+  color: var(--text-soft);
+  font-size: clamp(1.08rem, 1.65vw, 1.35rem);
+  line-height: 1.68;
+}
+
+.product-index {
+  border-top: 1px solid var(--line-strong);
+}
+
+.product-index__item {
+  display: grid;
+  min-height: 12rem;
+  grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding-block: clamp(2rem, 4.5vw, 3.4rem);
+  border-bottom: 1px solid var(--line);
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.product-index__item:hover,
+.product-index__item:focus-visible {
+  background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
+}
+
+.product-index__number {
+  padding-top: 0.35rem;
+  color: var(--accent-deep);
+  font-size: 0.75rem;
+  font-weight: 720;
+  letter-spacing: 0.14em;
+}
+
+.product-index__copy {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(13rem, 0.8fr) minmax(14rem, 0.65fr) minmax(16rem, 1fr);
+  align-items: start;
+  gap: clamp(1rem, 4vw, 4.5rem);
+}
+
+.product-index__name {
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 520;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.product-index__descriptor {
+  padding-top: 0.35rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 640;
+  line-height: 1.45;
+}
+
+.product-index__summary {
+  max-width: 31rem;
+  padding-top: 0.25rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.product-index__arrow {
+  color: var(--accent-deep);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* Product */
+
+.product-hero {
+  display: grid;
+  min-height: calc(100vh - 4rem);
+  min-height: calc(100dvh - 4rem);
+  grid-template-columns: minmax(0, 0.95fr) minmax(22rem, 1.05fr);
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+.product-hero h1 {
+  max-width: 11ch;
+  font-size: clamp(3.3rem, 6.8vw, 6.4rem);
+}
+
+.product-facts {
+  display: flex;
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+  padding: 0;
+  flex-wrap: wrap;
+  gap: 0;
+  list-style: none;
+}
+
+.product-facts li {
+  padding: 0.4rem 1rem;
+  border-left: 1px solid var(--line);
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  font-weight: 680;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.product-facts li:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.product-stage {
+  position: relative;
+  display: flex;
+  min-height: clamp(24rem, 52vw, 39rem);
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background-color: var(--bg-elevated);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: clamp(2.5rem, 5vw, 4rem) clamp(2.5rem, 5vw, 4rem);
+}
+
+.product-stage::before,
+.product-stage::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.product-stage::before {
+  width: 58%;
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 1px solid var(--accent);
+  opacity: 0.35;
+}
+
+.product-stage::after {
+  inset: 50% 9% auto;
+  border-top: 1px solid var(--line-strong);
+}
+
+.product-stage__index,
+.product-stage__label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.72rem;
+  font-weight: 670;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.product-stage__index {
+  color: var(--accent-deep);
+}
+
+.product-stage__label {
+  max-width: 17rem;
+  color: var(--text-soft);
+  text-align: right;
+}
+
+/* Immersive product hero */
+
+.hero-layout-immersive {
+  --immersive-gutter: clamp(1.5rem, 4.4vw, 5.5rem);
+  --immersive-content-width: min(80vw, calc(100% - (2 * var(--immersive-gutter))));
+  --immersive-text: #f7f4f3;
+  --immersive-text-soft: rgb(247 244 243 / 78%);
+  --immersive-line: rgb(247 244 243 / 24%);
+  --immersive-image-shade: rgb(18 14 16 / 0%);
+  --immersive-image-edge-shade: rgb(18 14 16 / 10%);
+  --immersive-image-edge-clear: rgb(18 14 16 / 0%);
+}
+
+.product-page--phenom.hero-layout-immersive {
+  --immersive-text-soft: rgb(247 244 243 / 88%);
+  --immersive-line: rgb(247 244 243 / 38%);
+}
+
+.hero-layout-immersive .site-header {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6.5rem;
+  border-bottom: 0;
+  color: var(--immersive-text);
+}
+
+.hero-layout-immersive .site-header__inner {
+  position: relative;
+  width: var(--immersive-content-width);
+  max-width: none;
+}
+
+.hero-layout-immersive .brand i {
+  color: var(--immersive-text-soft);
+}
+
+.hero-layout-immersive .language-link,
+.hero-layout-immersive .theme-toggle {
+  border-color: var(--immersive-line);
+  color: var(--immersive-text-soft);
+}
+
+.hero-layout-immersive .language-link:hover,
+.hero-layout-immersive .language-link:focus-visible,
+.hero-layout-immersive .theme-toggle:hover,
+.hero-layout-immersive .theme-toggle:focus-visible {
+  border-color: var(--immersive-text-soft);
+  background: rgb(255 255 255 / 10%);
+  color: var(--immersive-text);
+}
+
+.hero-layout-immersive .site-header :focus-visible {
+  outline-color: var(--immersive-text);
+}
+
+.product-hero--immersive {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #282326;
+  color: var(--immersive-text);
+}
+
+.product-hero--immersive .product-stage {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: #f3f3f3;
+}
+
+.product-hero--immersive .product-stage::before {
+  display: none;
+}
+
+.product-hero--immersive .product-stage::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  border: 0;
+  background:
+    radial-gradient(ellipse 48% 20% at left top, var(--immersive-image-edge-shade) 0 62%, var(--immersive-image-edge-clear) 100%),
+    radial-gradient(ellipse 48% 20% at right top, var(--immersive-image-edge-shade) 0 62%, var(--immersive-image-edge-clear) 100%),
+    radial-gradient(ellipse 48% 45% at left bottom, var(--immersive-image-edge-shade) 0 62%, var(--immersive-image-edge-clear) 100%),
+    radial-gradient(ellipse 48% 45% at right bottom, var(--immersive-image-edge-shade) 0 62%, var(--immersive-image-edge-clear) 100%),
+    var(--immersive-image-shade);
+  content: "";
+  pointer-events: none;
+}
+
+.product-page--phenom .product-hero--immersive .product-stage::after {
+  background:
+    linear-gradient(180deg, rgb(18 14 16 / 18%) 0%, rgb(18 14 16 / 7%) 8%, transparent 18%),
+    linear-gradient(0deg, rgb(18 14 16 / 30%) 0%, rgb(18 14 16 / 20%) 14%, transparent 30%);
+}
+
+.product-page--phenom .site-header,
+.product-page--phenom .product-hero__copy {
+  text-shadow: none;
+}
+
+.product-page--phenom .language-link,
+.product-page--phenom .theme-toggle {
+  background: rgb(18 14 16 / 6%);
+}
+
+.product-stage__picture {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.product-stage__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 48%;
+}
+
+.product-stage__placeholder {
+  position: absolute;
+  inset: 0;
+}
+
+.product-stage__placeholder .chapter-media__placeholder-label {
+  top: clamp(7rem, 16vh, 10rem);
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  width: min(70%, 28rem);
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.product-hero--immersive .product-stage__index,
+.product-hero--immersive .product-stage__label {
+  display: none;
+}
+
+.product-hero--immersive .product-hero__copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: var(--immersive-content-width);
+  max-width: none;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding-block: clamp(7rem, 11vh, 9rem) clamp(2.75rem, 6vh, 5rem);
+  grid-template-areas:
+    "media media"
+    "title intro";
+  grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.55fr);
+  grid-template-rows: minmax(12rem, 1fr) auto;
+  column-gap: clamp(3rem, 8vw, 10rem);
+  row-gap: clamp(1.5rem, 3vh, 2.5rem);
+}
+
+.product-hero--immersive .product-hero__copy::before {
+  min-height: clamp(14rem, 34vh, 27rem);
+  content: "";
+  grid-area: media;
+  pointer-events: none;
+}
+
+.product-hero--immersive h1 {
+  align-self: end;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  color: var(--immersive-text);
+  font-size: clamp(4.1rem, 5.2vw, 6.5rem);
+  font-weight: 650;
+  letter-spacing: normal;
+  line-height: 0.94;
+  text-transform: uppercase;
+  text-wrap: balance;
+  grid-area: title;
+}
+
+.product-hero--immersive .product-hero__intro {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  justify-self: end;
+  max-width: 31rem;
+  margin: 0;
+  color: var(--immersive-text-soft);
+  font-size: clamp(1rem, 1.2vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.42;
+  grid-area: intro;
+}
+
+.product-hero__intro-line {
+  display: block;
+}
+
+.product-hero__intro-line:last-child {
+  white-space: nowrap;
+}
+
+@media (min-width: 681px) {
+  html[lang^="ru"] .product-hero--immersive h1 {
+    font-size: clamp(3.9rem, 4.65vw, 5.8rem);
+  }
+}
+
+@media (min-width: 1200px) {
+  .product-hero--immersive h1 {
+    font-size: clamp(3.1rem, 4vw, 5rem);
+    text-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  html[lang^="ru"] .product-hero--immersive h1 {
+    font-size: clamp(2.25rem, 3vw, 4rem);
+  }
+}
+
+.section {
+  padding-block: var(--section-space);
+  border-top: 1px solid var(--line);
+}
+
+.section-heading {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1.45fr);
+  gap: clamp(2rem, 7vw, 8rem);
+  margin-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.section-heading h2 {
+  max-width: 13ch;
+}
+
+.series-showcase {
+  overflow: hidden;
+}
+
+.series-showcase__intro,
+.series-gallery {
+  width: calc(100% - (2 * var(--gutter)));
+  max-width: 112rem;
+  margin-inline: auto;
+}
+
+.series-showcase__intro {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.4fr) minmax(18rem, 0.75fr) minmax(18rem, 0.85fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 6rem);
+  margin-bottom: clamp(3rem, 6vw, 5.5rem);
+}
+
+.series-showcase__intro .eyebrow {
+  margin: 0;
+}
+
+.series-showcase__intro h2 {
+  max-width: 11ch;
+  margin: 0;
+}
+
+.series-showcase__intro > p:last-child {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.product-story--phenom .series-showcase__intro {
+  grid-template-areas:
+    "eyebrow ."
+    "title text";
+  grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+  column-gap: clamp(3rem, 6vw, 7rem);
+  row-gap: 1rem;
+  margin-bottom: clamp(3rem, 6vw, 5.5rem);
+}
+
+@media (min-width: 1200px) {
+  .product-story--phenom .series-showcase {
+    --phenom-series-space: clamp(9.2rem, calc(13.75vw - 1.11rem), 11.18rem);
+    padding-block: var(--phenom-series-space);
+  }
+
+  .product-story--phenom .series-showcase__intro {
+    row-gap: clamp(1.25rem, 1.75vw, 1.625rem);
+    margin-bottom: clamp(6rem, 7.5vw, 7rem);
+  }
+
+  .product-story--phenom .series-showcase__intro > p:last-child {
+    max-width: none;
+    min-width: max-content;
+    padding-top: 0;
+  }
+
+  .product-story--phenom .series-showcase__text-line {
+    white-space: nowrap;
+  }
+}
+
+.product-story--phenom .series-showcase__intro .eyebrow {
+  grid-area: eyebrow;
+}
+
+.product-story--phenom .series-showcase__intro h2 {
+  max-width: none;
+  grid-area: title;
+  font-size: clamp(2.75rem, 4vw, 4.75rem);
+  white-space: nowrap;
+}
+
+.product-story--phenom .series-showcase__intro > p:last-child {
+  max-width: 30rem;
+  padding-top: 0.45rem;
+  justify-self: end;
+  grid-area: text;
+  font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+}
+
+.series-showcase__text-line {
+  display: block;
+}
+
+.series-showcase__text-line + .series-showcase__text-line {
+  margin-top: 0.45em;
+}
+
+html[lang^="ru"] .product-story--phenom .series-showcase__intro h2 {
+  font-size: clamp(2.5rem, 3.25vw, 4rem);
+}
+
+.product-story--phenom .section-title__line {
+  display: block;
+  white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+  .product-story--phenom .series-showcase__intro h2,
+  .product-story--phenom .series-showcase__intro > p:last-child,
+  .product-story--phenom .key-layout-chapter__intro h2,
+  .product-story--phenom .key-layout-chapter__intro > p:last-child,
+  .product-story--phenom #phenom-curves .detail-sequence__intro h2,
+  .product-story--phenom #phenom-curves .detail-sequence__intro > p:last-child {
+    align-self: center;
+  }
+
+  .product-story--phenom .series-showcase__intro > p:last-child,
+  .product-story--phenom .key-layout-chapter__intro > p:last-child,
+  .product-story--phenom #phenom-curves .detail-sequence__intro > p:last-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+.series-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+
+.series-card {
+  min-width: 0;
+}
+
+.series-card__visual {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background-color: var(--bg-elevated);
+}
+
+.product-story--phenom .series-card__visual {
+  border: 0;
+  border-radius: 0.3125rem;
+  background: transparent;
+}
+
+
+
+.series-card__picture,
+.series-card__image,
+.series-card__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.series-card__media {
+  position: relative;
+}
+
+.series-card__image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.series-card__index {
+  position: absolute;
+  z-index: 1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.series-card__index {
+  top: 1rem;
+  left: 1rem;
+  color: var(--accent-deep);
+}
+
+.product-story--phenom .series-card__caption {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.product-story--phenom .series-card__caption > .series-card__index {
+  position: static;
+  padding-top: 1rem;
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+}
+
+.product-story--phenom .series-card__caption-copy {
+  min-width: 0;
+}
+
+.series-card__heading {
+  border-bottom: 1px solid var(--line);
+}
+
+.series-card h3 {
+  margin: 0;
+  padding: 1rem 0 0.85rem;
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+.product-story--phenom .series-card h3{
+  padding: clamp(1.1rem, 1.5vw, 1.5rem) 0 clamp(1.4rem, 1.75vw, 1.75rem);
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  font-weight: 600;
+}
+
+.product-story--phenom .series-card h3 {
+  padding-block: 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.series-card__key-count {
+  color: var(--text-soft);
+  font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.product-story--phenom .series-card__key-count {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.series-card__heading-separator {
+  color: var(--text-soft);
+  font-weight: 400;
+}
+
+.series-card__traits {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.series-card__trait {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+  line-height: 1.6;
+}
+
+.series-card__trait::before {
+  flex: none;
+  color: var(--text-soft);
+  content: "•";
+  opacity: 0.62;
+}
+
+.product-story--phenom .series-card__trait {
+  gap: 0;
+  padding-block: 0.8rem;
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  letter-spacing: 0.035em;
+  line-height: 1.45;
+}
+
+.product-story--phenom .series-card__trait::before {
+  display: none;
+}
+
+.visual-chapter {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  border-top: 1px solid rgb(255 255 255 / 18%);
+  background: #111012;
+  color: #f7f4f3;
+}
+
+.visual-chapter::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgb(13 10 12 / 54%) 0%, rgb(13 10 12 / 36%) 31%, rgb(13 10 12 / 10.5%) 60%, transparent 78%),
+    linear-gradient(0deg, rgb(13 10 12 / 22.5%) 0%, transparent 46%);
+  content: "";
+  pointer-events: none;
+}
+
+.visual-chapter__media {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.visual-chapter__media .chapter-media__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+#phenom-finger-geometry .chapter-media__image {
+  object-position: 50% 70%;
+}
+
+#phenom-keycaps-switches .chapter-media__image {
+  object-position: 50% 25%;
+  transform: translateX(-5%) scale(1.1);
+  transform-origin: center;
+}
+
+#phenom-wired .chapter-media__image {
+  object-position: 48% 50%;
+  transform: translate(4%, 7%) scale(1.34);
+  transform-origin: 42% 40%;
+}
+
+@media (min-width: 981px) {
+  #modularity .chapter-media__image {
+    object-position: 68% 35%;
+    transform: none;
+  }
+
+
+
+
+}
+
+.visual-chapter__copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: calc(100% - (2 * var(--gutter)));
+  max-width: 112rem;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding-block: clamp(6rem, 10vh, 9rem) clamp(3.5rem, 8vh, 7rem);
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.visual-chapter .eyebrow {
+  margin: 0 0 1.5rem;
+  color: rgb(247 244 243 / 72%);
+}
+
+.visual-chapter h2 {
+  max-width: 10ch;
+  margin: 0;
+  color: #f7f4f3;
+  font-size: clamp(3.5rem, 6vw, 7rem);
+  font-weight: 650;
+  letter-spacing: normal;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.visual-chapter__copy > p:not(.eyebrow) {
+  max-width: 32rem;
+  margin: 1.75rem 0 0;
+  color: rgb(247 244 243 / 82%);
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.visual-chapter__metrics {
+  display: grid;
+  width: min(100%, 42rem);
+  margin: 1.5rem 0 0;
+  border-block: 1px solid rgb(247 244 243 / 32%);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.visual-chapter__metric {
+  padding: 1rem 1.15rem 1.05rem 0;
+}
+
+.visual-chapter__metric + .visual-chapter__metric {
+  padding-left: 1.15rem;
+  border-left: 1px solid rgb(247 244 243 / 32%);
+}
+
+.visual-chapter__metric dt {
+  margin: 0 0 0.35rem;
+  color: rgb(247 244 243 / 66%);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.visual-chapter__metric dd {
+  margin: 0;
+  color: #f7f4f3;
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.visual-chapter__platforms {
+  width: min(100%, 40rem);
+  margin-top: 1.75rem;
+  border-block: 1px solid var(--line-strong);
+}
+
+.visual-chapter__platforms-label {
+  margin: 0;
+  padding-block: 0.75rem;
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.visual-chapter__platforms-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+}
+
+.visual-chapter__platforms-list li {
+  display: grid;
+  min-width: 0;
+  padding: 0.9rem 1rem 1rem 0;
+  gap: 0.18rem;
+}
+
+.visual-chapter__platforms-list li + li {
+  padding-left: 1rem;
+  border-left: 1px solid var(--line);
+}
+
+.visual-chapter__platforms-list strong {
+  color: var(--text);
+  font-size: 0.94rem;
+  font-weight: 650;
+}
+
+.visual-chapter__platforms-list span {
+  color: var(--text-soft);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.visual-chapter--copy-right::after {
+  background:
+    linear-gradient(270deg, rgb(13 10 12 / 54%) 0%, rgb(13 10 12 / 36%) 31%, rgb(13 10 12 / 10.5%) 60%, transparent 78%),
+    linear-gradient(0deg, rgb(13 10 12 / 22.5%) 0%, transparent 46%);
+}
+
+#phenom-keycaps-switches::after {
+  background:
+    linear-gradient(270deg, rgb(13 10 12 / 27%) 0%, rgb(13 10 12 / 18%) 31%, rgb(13 10 12 / 5.25%) 60%, transparent 78%),
+    linear-gradient(0deg, rgb(13 10 12 / 11.25%) 0%, transparent 46%);
+}
+
+#phenom-wired::after {
+  background:
+    linear-gradient(90deg, rgb(13 10 12 / 27%) 0%, rgb(13 10 12 / 18%) 31%, rgb(13 10 12 / 5.25%) 60%, transparent 78%),
+    linear-gradient(0deg, rgb(13 10 12 / 11.25%) 0%, transparent 46%);
+}
+
+@media (min-width: 981px) {
+  #phenom-additive-manufacturing-title {
+    max-width: 14ch;
+    font-size: clamp(3rem, 4.6vw, 5.75rem);
+  }
+
+  #phenom-wired-title {
+    max-width: 11ch;
+  }
+
+  html[lang^="ru"] #modularity-title {
+    max-width: 15ch;
+  }
+}
+
+.visual-chapter--copy-right .visual-chapter__copy {
+  align-items: flex-end;
+}
+
+.visual-chapter--copy-right .visual-chapter__copy > .eyebrow,
+.visual-chapter--copy-right .visual-chapter__copy > h2,
+.visual-chapter--copy-right .visual-chapter__copy > p:not(.eyebrow) {
+  width: min(100%, 32rem);
+  max-width: 32rem;
+  text-align: left;
+}
+
+@media (min-width: 981px) {
+  .product-story--phenom .visual-chapter--copy-right:not(.visual-chapter--split-left) .visual-chapter__copy {
+    display: grid;
+    grid-template-columns: min-content;
+    align-content: end;
+    align-items: start;
+    justify-content: end;
+  }
+
+  .product-story--phenom .visual-chapter--copy-right:not(.visual-chapter--split-left) .visual-chapter__copy > .eyebrow,
+  .product-story--phenom .visual-chapter--copy-right:not(.visual-chapter--split-left) .visual-chapter__copy > h2,
+  .product-story--phenom .visual-chapter--copy-right:not(.visual-chapter--split-left) .visual-chapter__copy > p:not(.eyebrow) {
+    width: auto;
+    max-width: none;
+  }
+
+  .product-story--phenom .visual-chapter--copy-right:not(.visual-chapter--split-left) .visual-chapter__copy > p:not(.eyebrow) {
+    max-width: 32rem;
+  }
+
+  /* Keep the finger-geometry heading on its established left edge while the
+     supporting paragraph uses the wider, three-line composition. */
+  #phenom-finger-geometry .visual-chapter__copy {
+    grid-template-columns: 32rem;
+    transform: translateX(calc(clamp(-5rem, -5vw, -3.5rem) - 5.5rem));
+  }
+
+  #phenom-finger-geometry .visual-chapter__copy > p:not(.eyebrow) {
+    width: 38rem;
+    max-width: 38rem;
+    justify-self: start;
+  }
+}
+
+.visual-chapter--copy-center::after {
+  background: linear-gradient(0deg, rgb(13 10 12 / 51%) 0%, rgb(13 10 12 / 16.5%) 48%, transparent 75%);
+}
+
+.visual-chapter--copy-center .visual-chapter__copy {
+  align-items: center;
+  text-align: center;
+}
+
+.visual-chapter__action {
+  display: inline-flex;
+  min-height: 3.25rem;
+  margin-top: 2rem;
+  padding-inline: 1.4rem;
+  border: 1px solid rgb(247 244 243 / 52%);
+  align-items: center;
+  justify-content: center;
+  color: #f7f4f3;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.product-story--phenom #phenom-cta .visual-chapter__action {
+  border-radius: 0.3125rem;
+}
+
+@media (min-width: 981px) {
+  .product-story--phenom #phenom-cta .visual-chapter__copy {
+    padding-bottom: clamp(1.75rem, 4vh, 3.5rem);
+  }
+
+  .product-story--phenom #phenom-cta h2,
+  .product-story--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+    max-width: none;
+    white-space: nowrap;
+  }
+}
+
+.chapter-media {
+  width: 100%;
+  height: 100%;
+}
+
+.chapter-media--image,
+.chapter-media__image {
+  display: block;
+}
+
+.chapter-media__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chapter-media__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #f7f7f5;
+  object-fit: contain;
+}
+
+.chapter-media--theme-video .chapter-media__video {
+  grid-area: 1 / 1;
+  opacity: 1;
+  transition: opacity 280ms ease;
+}
+
+.chapter-media--theme-video .chapter-media__video--dark,
+html[data-theme="dark"] .chapter-media--theme-video .chapter-media__video--light {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .chapter-media--theme-video .chapter-media__video--dark {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+:is(#phenom-entropy) .chapter-media--video {
+  display: grid;
+  padding: clamp(1.5rem, 2.5vw, 3rem) clamp(1.25rem, 2vw, 2.5rem);
+  place-items: center;
+}
+
+:is(#phenom-entropy) .chapter-media__video {
+  width: min(100%, 88rem);
+  height: auto;
+  max-height: calc(100svh - clamp(4rem, 8vw, 9rem));
+  border: 1px solid var(--line-strong);
+  border-radius: clamp(0.75rem, 1vw, 1.125rem);
+  box-shadow: 0 1.5rem 4rem rgb(46 33 38 / 8%);
+}
+
+@media (min-width: 981px) {
+  :is(#phenom-entropy) {
+    --entropy-edge: max(clamp(2rem, 3.5vw, 4rem), calc((100vw - 112rem) / 2));
+
+    grid-template-columns: minmax(0, 1.5fr) minmax(28rem, 0.8fr);
+  }
+
+  :is(#phenom-entropy) .chapter-media--video {
+    padding-right: 0;
+    padding-left: max(1.5rem, calc(var(--entropy-edge) - 4rem));
+    place-items: center start;
+  }
+
+  :is(#phenom-entropy) .chapter-media__video {
+    width: min(100%, 78rem, calc(100vw - 40rem));
+  }
+
+  :is(#phenom-entropy) .visual-chapter__copy {
+    padding-right: var(--entropy-edge);
+    padding-bottom: clamp(8rem, calc(8vw + 3rem), 12rem);
+    align-items: flex-end;
+  }
+
+  :is(#phenom-entropy) .visual-chapter__copy > .eyebrow,
+  :is(#phenom-entropy) .visual-chapter__copy > h2,
+  :is(#phenom-entropy) .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 40rem);
+  }
+}
+
+.chapter-media--focus-right .chapter-media__image {
+  object-position: 72% 50%;
+}
+
+.chapter-media--placeholder {
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgb(247 244 243 / 22%);
+  background:
+    radial-gradient(circle at 72% 28%, rgb(238 198 206 / 34%), transparent 29%),
+    linear-gradient(135deg, #aca2a6 0%, #776d72 46%, #3b3539 100%);
+  color: #f7f4f3;
+}
+
+.chapter-media--placeholder::before,
+.chapter-media--placeholder::after,
+.chapter-media__placeholder-graphic {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.chapter-media--placeholder::before {
+  inset: 10%;
+  border: 1px solid rgb(247 244 243 / 32%);
+  border-radius: 48% 52% 38% 62%;
+  transform: rotate(-8deg);
+}
+
+.chapter-media--placeholder::after {
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 49.9%, rgb(247 244 243 / 12%) 50%, transparent 50.1%),
+    linear-gradient(0deg, transparent 49.9%, rgb(247 244 243 / 12%) 50%, transparent 50.1%);
+}
+
+.chapter-media__placeholder-graphic {
+  z-index: 1;
+  top: 28%;
+  left: 22%;
+  width: 56%;
+  height: 44%;
+  border: 1px solid rgb(247 244 243 / 62%);
+  border-radius: 50%;
+  transform: rotate(8deg);
+}
+
+.chapter-media__placeholder-label {
+  position: absolute;
+  z-index: 2;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  display: block;
+  font-size: clamp(0.62rem, 0.8vw, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.chapter-media--curve-keywell .chapter-media__placeholder-graphic {
+  top: 24%;
+  left: -8%;
+  width: 116%;
+  height: 52%;
+  border-radius: 50% 50% 18% 18%;
+  transform: rotate(-6deg);
+}
+
+.chapter-media--curve-columns .chapter-media__placeholder-graphic {
+  top: 18%;
+  left: 20%;
+  width: 60%;
+  height: 62%;
+  border-radius: 1rem;
+  background: repeating-linear-gradient(90deg, transparent 0 15%, rgb(247 244 243 / 20%) 15% 17%);
+  transform: perspective(20rem) rotateY(-22deg) rotate(4deg);
+}
+
+.chapter-media--curve-thumb .chapter-media__placeholder-graphic {
+  top: 32%;
+  left: 16%;
+  width: 72%;
+  height: 34%;
+  border-radius: 50% 18% 50% 18%;
+  transform: rotate(-18deg);
+}
+
+.chapter-media--curve-profile .chapter-media__placeholder-graphic {
+  top: 36%;
+  left: -4%;
+  width: 108%;
+  height: 28%;
+  border-radius: 50% 50% 12% 12%;
+  transform: rotate(4deg);
+}
+
+.chapter-media--finger-geometry .chapter-media__placeholder-graphic {
+  top: 24%;
+  left: 12%;
+  width: 31%;
+  height: 52%;
+  border-radius: 52% 36% 58% 42%;
+  box-shadow: 45vw 0 0 -1px rgb(247 244 243 / 8%), 45vw 0 0 0 rgb(247 244 243 / 62%);
+  transform: rotate(-10deg);
+}
+
+.chapter-media--additive {
+  background:
+    repeating-linear-gradient(0deg, rgb(247 244 243 / 7%) 0 1px, transparent 1px 9px),
+    radial-gradient(circle at 72% 28%, rgb(238 198 206 / 34%), transparent 29%),
+    linear-gradient(135deg, #a99fa3, #4c4448);
+}
+
+.chapter-media--additive .chapter-media__placeholder-graphic {
+  top: 15%;
+  left: 14%;
+  width: 72%;
+  height: 70%;
+  border-radius: 34% 66% 41% 59%;
+  transform: rotate(14deg);
+}
+
+.chapter-media--keycaps-switches .chapter-media__placeholder-graphic {
+  top: 18%;
+  left: 18%;
+  width: 64%;
+  height: 64%;
+  border-radius: 1rem;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 18%, rgb(247 244 243 / 18%) 18% 20%),
+    repeating-linear-gradient(0deg, transparent 0 18%, rgb(247 244 243 / 18%) 18% 20%);
+  transform: perspective(35rem) rotateX(54deg) rotateZ(-28deg);
+}
+
+.chapter-media--wired .chapter-media__placeholder-graphic {
+  top: 18%;
+  left: 42%;
+  width: 42%;
+  height: 64%;
+  border-width: 2px;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 50% 0 0;
+  transform: rotate(16deg);
+}
+
+.chapter-media--entropy .chapter-media__placeholder-graphic {
+  top: 18%;
+  left: 12%;
+  width: 76%;
+  height: 64%;
+  border-radius: 0.8rem;
+  background:
+    linear-gradient(90deg, rgb(247 244 243 / 16%) 0 24%, transparent 24%),
+    repeating-linear-gradient(0deg, transparent 0 15%, rgb(247 244 243 / 14%) 15% 17%);
+  transform: none;
+}
+
+.chapter-media--closing .chapter-media__placeholder-graphic {
+  top: 20%;
+  left: 8%;
+  width: 84%;
+  height: 60%;
+  border-radius: 50% 45% 48% 52%;
+  transform: rotate(-3deg);
+}
+
+
+
+
+
+[class*="chapter-media--series-"] .chapter-media__placeholder-graphic {
+  top: 31%;
+  left: 14%;
+  width: 72%;
+  height: 38%;
+  border-radius: 48% 30% 45% 24%;
+  transform: rotate(-7deg);
+}
+
+.chapter-media--series-mini .chapter-media__placeholder-graphic {
+  left: 19%;
+  width: 62%;
+}
+
+.chapter-media--series-micro .chapter-media__placeholder-graphic {
+  left: 24%;
+  width: 52%;
+}
+
+.chapter-media--modularity .chapter-media__placeholder-graphic {
+  top: 22%;
+  left: 12%;
+  width: 30%;
+  height: 56%;
+  border-radius: 48% 32% 52% 28%;
+  box-shadow: 46vw 0 0 -1px rgb(247 244 243 / 8%), 46vw 0 0 0 rgb(247 244 243 / 62%);
+  transform: rotate(-7deg);
+}
+
+.chapter-media--wireless .chapter-media__placeholder-graphic {
+  top: 18%;
+  left: 29%;
+  width: 42%;
+  height: 64%;
+  border: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 18%, rgb(247 244 243 / 55%) 18.5% 19.5%, transparent 20% 34%, rgb(247 244 243 / 42%) 34.5% 35.5%, transparent 36% 50%, rgb(247 244 243 / 30%) 50.5% 51.5%, transparent 52%);
+  transform: none;
+}
+
+.chapter-media--layout .chapter-media__placeholder-graphic {
+  top: 20%;
+  left: 10%;
+  width: 80%;
+  height: 60%;
+  border-radius: 1rem;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 7%, rgb(247 244 243 / 22%) 7% 8.5%),
+    repeating-linear-gradient(0deg, transparent 0 19%, rgb(247 244 243 / 22%) 19% 21%);
+  transform: perspective(45rem) rotateX(44deg);
+}
+
+.chapter-media--column-stagger .chapter-media__placeholder-graphic {
+  top: 12%;
+  left: 16%;
+  width: 68%;
+  height: 76%;
+  border-radius: 1rem;
+  background: repeating-linear-gradient(90deg, transparent 0 14%, rgb(247 244 243 / 22%) 14% 16%);
+  transform: skewY(-8deg) rotate(-6deg);
+}
+
+.chapter-media--display .chapter-media__placeholder-graphic {
+  top: 16%;
+  left: 17%;
+  width: 66%;
+  height: 68%;
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(90deg, rgb(247 244 243 / 16%) 0 24%, transparent 24%),
+    repeating-linear-gradient(0deg, transparent 0 14%, rgb(247 244 243 / 15%) 14% 16%);
+  transform: perspective(40rem) rotateY(-8deg);
+}
+
+.chapter-media--angled-case .chapter-media__placeholder-graphic {
+  top: 35%;
+  left: 16%;
+  width: 68%;
+  height: 32%;
+  border-radius: 18% 18% 10% 10%;
+  transform: perspective(35rem) rotateX(58deg) rotateZ(-8deg);
+}
+
+.chapter-media--compact .chapter-media__placeholder-graphic {
+  top: 25%;
+  left: 27%;
+  width: 46%;
+  height: 50%;
+  border-radius: 35% 25% 40% 22%;
+  transform: rotate(-7deg);
+}
+
+[class*="chapter-media--accessory-"] .chapter-media__placeholder-graphic {
+  top: 27%;
+  left: 22%;
+  width: 56%;
+  height: 46%;
+  border-radius: 38% 62% 44% 56%;
+  transform: rotate(-8deg);
+}
+
+.detail-sequence {
+  overflow: hidden;
+}
+
+.product-story--phenom #phenom-curves {
+  padding-block-start: calc(var(--section-space) - 0.5rem);
+  padding-block-end: calc(var(--section-space) + 0.5rem);
+}
+
+.detail-sequence__inner,
+.layout-preview__inner,
+.specs-chapter__inner {
+  width: calc(100% - (2 * var(--gutter)));
+  max-width: 112rem;
+  margin-inline: auto;
+}
+
+.detail-sequence__intro,
+.layout-preview__intro,
+.specs-chapter__header {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.4fr) minmax(18rem, 0.75fr) minmax(18rem, 0.85fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 6rem);
+  margin-bottom: clamp(3rem, 6vw, 5.5rem);
+}
+
+.detail-sequence__intro .eyebrow,
+.detail-sequence__intro h2,
+.detail-sequence__intro > p:last-child,
+.layout-preview__intro .eyebrow,
+.layout-preview__intro h2,
+.layout-preview__intro > p:last-child,
+.specs-chapter__header .eyebrow,
+.specs-chapter__header h2,
+.specs-chapter__header > p:last-child {
+  margin: 0;
+}
+
+.detail-sequence__intro h2,
+.layout-preview__intro h2,
+.specs-chapter__header h2 {
+  max-width: 11ch;
+}
+
+.detail-sequence__intro > p:last-child,
+.layout-preview__intro > p:last-child,
+.specs-chapter__header > p:last-child {
+  max-width: 35rem;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+}
+
+@media (min-width: 1200px) {
+  .product-story--phenom #phenom-specs .specs-chapter__header {
+    grid-template-areas:
+      "eyebrow ."
+      "title text";
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    column-gap: clamp(3rem, 6vw, 7rem);
+    row-gap: clamp(1.25rem, 1.75vw, 1.625rem);
+    margin-bottom: clamp(6rem, 7.5vw, 7rem);
+  }
+
+  .product-story--phenom #phenom-specs .specs-chapter__header .eyebrow {
+    grid-area: eyebrow;
+  }
+
+  .product-story--phenom #phenom-specs .specs-chapter__header h2 {
+    grid-area: title;
+    font-size: clamp(2.75rem, 4vw, 4.75rem);
+  }
+
+  .product-story--phenom #phenom-specs .specs-chapter__header > p:last-child {
+    width: min(100%, 35rem);
+    max-width: none;
+    align-self: center;
+    justify-self: end;
+    grid-area: text;
+    font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__intro {
+    grid-template-areas:
+      "eyebrow ."
+      "title text";
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    column-gap: clamp(3rem, 6vw, 7rem);
+    row-gap: clamp(1.25rem, 1.75vw, 1.625rem);
+    margin-bottom: clamp(6rem, 7.5vw, 7rem);
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__intro .eyebrow {
+    grid-area: eyebrow;
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__intro h2 {
+    max-width: none;
+    grid-area: title;
+    font-size: clamp(2.75rem, 4vw, 4.75rem);
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-curves .detail-sequence__intro h2 {
+    font-size: clamp(2.5rem, 3.25vw, 4rem);
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__intro > p:last-child {
+    width: min(100%, 35rem);
+    max-width: none;
+    justify-self: end;
+    grid-area: text;
+    font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+  }
+}
+
+.detail-sequence__gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--detail-sequence-columns, 4), minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.4vw, 1.5rem);
+}
+
+.detail-sequence--3 {
+  --detail-sequence-columns: 3;
+}
+
+.detail-sequence--3 .detail-sequence__gallery {
+  align-items: start;
+}
+
+.detail-sequence__item {
+  min-width: 0;
+  margin: 0;
+}
+
+.detail-sequence__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+}
+
+.product-story--phenom #phenom-curves .detail-sequence__media {
+  overflow: hidden;
+  border-radius: 0.3125rem;
+}
+
+.detail-sequence__item figcaption {
+  display: grid;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--line);
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.detail-sequence__item figcaption strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.layout-preview {
+  overflow: hidden;
+  background: #f4f3f0;
+}
+
+html[data-theme="dark"] .layout-preview {
+  background: var(--bg);
+}
+
+.layout-preview__stage {
+  border-top: 1px solid var(--line-strong);
+}
+
+.source-layout-diagram {
+  display: grid;
+  min-height: clamp(22rem, 44vw, 42rem);
+  padding: clamp(2rem, 5vw, 5rem);
+  background:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    var(--bg-elevated);
+  background-size: 2rem 2rem;
+  align-items: center;
+}
+
+.source-layout-diagram--split-keyboard {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 5rem);
+}
+
+.source-layout-diagram__half,
+.source-layout-diagram__pad {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.source-layout-diagram__pad {
+  width: min(100%, 34rem);
+  margin-inline: auto;
+}
+
+.source-layout-diagram__key rect {
+  fill: var(--bg-elevated);
+  stroke: var(--line-strong);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.source-layout-diagram__key text,
+.source-layout-diagram__encoder text {
+  fill: var(--text);
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-anchor: middle;
+}
+
+.source-layout-diagram__key--multiline text,
+.source-layout-diagram__key--small-legend text,
+.source-layout-diagram__encoder text {
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.source-layout-diagram__encoder circle {
+  fill: var(--accent-soft);
+  stroke: var(--accent-deep);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.layout-preview__facts {
+  display: grid;
+  margin: 0;
+  border-bottom: 1px solid var(--line-strong);
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.layout-preview__fact {
+  min-width: 0;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  border-right: 1px solid var(--line);
+}
+
+.layout-preview__fact:last-child {
+  border-right: 0;
+}
+
+.layout-preview__fact dt,
+.layout-preview__fact dd {
+  margin: 0;
+}
+
+.layout-preview__fact dt {
+  margin-bottom: 0.55rem;
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.layout-preview__fact dd {
+  color: var(--text);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+}
+
+.visual-chapter--split-left {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(28rem, 0.85fr);
+  border-top-color: var(--line);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.visual-chapter--split-left::after {
+  display: none;
+}
+
+.visual-chapter--split-left .visual-chapter__media {
+  position: relative;
+  inset: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.visual-chapter--split-left .visual-chapter__copy {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  padding: clamp(5rem, 8vw, 9rem) clamp(2rem, 3.5vw, 4rem);
+  align-items: flex-start;
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.visual-chapter--split-left .eyebrow {
+  color: var(--accent-deep);
+}
+
+.visual-chapter--split-left h2 {
+  max-width: 100%;
+  color: var(--text);
+  font-size: clamp(2.7rem, 3.25vw, 4.6rem);
+}
+
+.visual-chapter--split-left .visual-chapter__copy > p:not(.eyebrow) {
+  color: var(--text-soft);
+}
+
+.specs-chapter {
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
+.specs-chapter__groups {
+  display: grid;
+  border-top: 1px solid var(--line-strong);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.specs-chapter__group {
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-right: 1px solid var(--line);
+}
+
+.specs-chapter__group:last-child {
+  border-right: 0;
+}
+
+.specs-chapter__group h3 {
+  margin: 0 0 clamp(2rem, 4vw, 3.5rem);
+  color: var(--accent-deep);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.specs-chapter__group dl {
+  margin: 0;
+}
+
+.specs-chapter__group:has(.specs-chapter__note) h3 {
+  margin-bottom: 0.75rem;
+}
+
+.specs-chapter__note {
+  margin: 0 0 1.5rem;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.specs-chapter__row {
+  display: grid;
+  padding-block: 1rem;
+  border-top: 1px solid var(--line);
+  grid-template-columns: minmax(6rem, 0.7fr) minmax(0, 1.3fr);
+  gap: 1rem;
+}
+
+.product-story--phenom .specs-chapter__row {
+  grid-template-columns: minmax(7.25rem, 0.8fr) minmax(0, 1.2fr);
+}
+
+
+
+
+
+
+
+@media (min-width: 1360px) {
+  .product-story--phenom #phenom-specs .specs-chapter__row {
+    grid-template-columns: minmax(6rem, 0.7fr) minmax(0, 1.3fr);
+  }
+}
+
+.specs-chapter__row dt,
+.specs-chapter__row dd {
+  margin: 0;
+}
+
+.specs-chapter__row dt {
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.specs-chapter__row dd {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.key-layout-chapter {
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #f4f3f0;
+}
+
+html[data-theme="dark"] .key-layout-chapter {
+  background: var(--bg);
+}
+
+.key-layout-chapter__inner {
+  width: calc(100% - (2 * var(--gutter)));
+  max-width: 112rem;
+  margin-inline: auto;
+}
+
+.key-layout-chapter__intro {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.4fr) minmax(18rem, 0.75fr) minmax(18rem, 0.85fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 6rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.key-layout-chapter__intro .eyebrow,
+.key-layout-chapter__intro h2,
+.key-layout-chapter__intro > p:last-child {
+  margin: 0;
+}
+
+.key-layout-chapter__intro h2 {
+  max-width: 10ch;
+}
+
+.key-layout-chapter__intro > p:last-child {
+  max-width: 35rem;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.product-story--phenom .key-layout-chapter__intro--centered {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.product-story--phenom .key-layout-chapter__intro--centered h2 {
+  max-width: none;
+}
+
+@media (min-width: 1200px) {
+  .product-story--phenom .key-layout-chapter__intro {
+    grid-template-areas:
+      "eyebrow ."
+      "title text";
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    column-gap: clamp(3rem, 6vw, 7rem);
+    row-gap: clamp(1.25rem, 1.75vw, 1.625rem);
+    margin-bottom: clamp(6rem, 7.5vw, 7rem);
+  }
+
+  .product-story--phenom .key-layout-chapter__intro .eyebrow {
+    grid-area: eyebrow;
+  }
+
+  .product-story--phenom .key-layout-chapter__intro h2 {
+    max-width: none;
+    grid-area: title;
+    font-size: clamp(2.75rem, 4vw, 4.75rem);
+    white-space: nowrap;
+  }
+
+  html[lang^="ru"] .product-story--phenom .key-layout-chapter__intro h2 {
+    font-size: clamp(2.5rem, 3.25vw, 4rem);
+  }
+
+  .product-story--phenom .key-layout-chapter__intro > p:last-child {
+    width: min(100%, 35rem);
+    max-width: none;
+    justify-self: end;
+    grid-area: text;
+    font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+  }
+
+  .product-story--phenom .key-layout-chapter__intro--centered {
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-story--phenom .key-layout-chapter__intro--centered h2 {
+    max-width: none;
+    white-space: normal;
+  }
+}
+
+.key-layout-models {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.key-layout-models__legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.key-layout-models__controls {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+  overflow-x: auto;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-elevated);
+  scrollbar-width: thin;
+}
+
+.product-story--phenom .key-layout-models__controls {
+  border-radius: 0.3125rem;
+}
+
+.key-layout-models__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.key-layout-models__label {
+  display: grid;
+  min-width: clamp(5.25rem, 8vw, 7.5rem);
+  min-height: 3rem;
+  padding-inline: 1rem;
+  place-items: center;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.key-layout-models__input:not(:first-child) + .key-layout-models__label {
+  border-left: 1px solid var(--line-strong);
+}
+
+.key-layout-models__label:hover,
+.key-layout-models__input:focus-visible + .key-layout-models__label {
+  color: var(--text);
+}
+
+.key-layout-models__input:focus-visible + .key-layout-models__label {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: -4px;
+}
+
+.key-layout-models__input:checked + .key-layout-models__label {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.key-layout-tabs {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  margin: clamp(1rem, 2vw, 1.75rem) auto 0;
+  overflow-x: auto;
+  justify-content: safe center;
+  scrollbar-width: thin;
+}
+
+.key-layout-tabs__button {
+  flex: 0 0 auto;
+  min-height: 3.5rem;
+  padding: 0 1.35rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.key-layout-tabs__button:hover,
+.key-layout-tabs__button:focus-visible,
+.key-layout-tabs__button.is-active {
+  color: var(--text);
+}
+
+.key-layout-tabs__button.is-active {
+  border-bottom-color: var(--accent-deep);
+}
+
+.key-layout-panels {
+  min-height: 0;
+}
+
+.key-layout-model-stage[hidden] {
+  display: none;
+}
+
+.key-layout-layer {
+  --key-layout-copy-track: clamp(17rem, 24vw, 30rem);
+  --key-layout-stage-gap: clamp(1rem, 2vw, 2.5rem);
+
+  display: grid;
+  min-height: clamp(25rem, 34vw, 38rem);
+  padding-block: clamp(1.75rem, 3vw, 3rem) 0;
+  grid-template-columns: minmax(0, 1fr) var(--key-layout-copy-track) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--key-layout-stage-gap);
+}
+
+.key-layout-layer[hidden] {
+  display: none;
+}
+
+/* Phenom layout transitions: stack only the outgoing and incoming views while
+   their short crossfade runs. Normal document flow and all other product
+   explorers keep their existing geometry. */
+body.product-page--phenom :is(
+  .key-layout-model-stages,
+  .key-layout-panels
+).is-layout-transitioning {
+  display: grid;
+}
+
+body.product-page--phenom .key-layout-model-stages.is-layout-transitioning > .key-layout-model-stage,
+body.product-page--phenom .key-layout-panels.is-layout-transitioning > .key-layout-layer {
+  min-width: 0;
+  grid-area: 1 / 1;
+}
+
+body.product-page--phenom :is(.is-layout-entering, .is-layout-leaving) {
+  position: relative;
+}
+
+body.product-page--phenom .is-layout-entering {
+  z-index: 2;
+}
+
+body.product-page--phenom .is-layout-leaving {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.key-layout-diagram {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) var(--key-layout-copy-track) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--key-layout-stage-gap);
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.key-layout-diagram__half--left {
+  grid-column: 1;
+}
+
+.key-layout-diagram__half--right {
+  grid-column: 3;
+}
+
+.key-layout-diagram__half,
+.key-layout-diagram__half-dark {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.key-layout-diagram__half-dark {
+  display: none;
+}
+
+.key-layout-diagram__half-dark--left {
+  grid-column: 1;
+}
+
+.key-layout-diagram__half-dark--right {
+  grid-column: 3;
+}
+
+html[data-theme="dark"] .key-layout-diagram__half--light {
+  display: none;
+}
+
+html[data-theme="dark"] .key-layout-diagram__half-dark {
+  display: block;
+}
+
+.key-layout-layer__copy {
+  align-self: center;
+  z-index: 1;
+  grid-column: 2;
+  grid-row: 1;
+  transform: translateY(clamp(-4.75rem, -4vw, -2.5rem));
+}
+
+.product-story--phenom .key-layout-layer__copy {
+  justify-self: center;
+  text-align: center;
+}
+
+.key-layout-layer__copy h3 {
+  margin: 0;
+  font-size: clamp(1.65rem, 2.25vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.key-layout-layer__copy > p:last-child {
+  max-width: 30rem;
+  margin: 1.2rem 0 0;
+  color: #707070;
+  font-size: clamp(0.92rem, 1.05vw, 1.08rem);
+  line-height: 1.55;
+}
+
+.product-story--phenom .key-layout-layer__copy > p:last-child {
+  margin-inline: auto;
+}
+
+html[data-theme="dark"] .key-layout-layer__copy > p:last-child {
+  color: var(--text-soft);
+}
+
+.principles__list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-strong);
+  list-style: none;
+}
+
+.principles__list li {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding-block: clamp(2rem, 4vw, 3.5rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.principles__list li > div {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.8fr) minmax(16rem, 1fr);
+  gap: clamp(2rem, 8vw, 9rem);
+}
+
+.principles__number {
+  color: var(--accent-deep);
+  font-size: 0.75rem;
+  font-weight: 720;
+  letter-spacing: 0.14em;
+}
+
+.principles__list p {
+  max-width: 40rem;
+  margin-bottom: 0;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.software {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(3rem, 9vw, 10rem);
+}
+
+.software__heading,
+.software__body {
+  min-width: 0;
+}
+
+.software__heading h2 {
+  max-width: 10ch;
+}
+
+.software__body > p {
+  max-width: 42rem;
+  margin-bottom: 2.75rem;
+  color: var(--text-soft);
+  font-size: clamp(1.08rem, 1.6vw, 1.3rem);
+  line-height: 1.7;
+}
+
+.software__body ul {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-strong);
+  list-style: none;
+}
+
+.software__body li {
+  position: relative;
+  padding: 1.2rem 0 1.2rem 1.7rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.software__body li::before {
+  position: absolute;
+  top: 1.7rem;
+  left: 0;
+  width: 0.42rem;
+  height: 0.42rem;
+  background: var(--accent);
+  content: "";
+}
+
+/* Footer and 404 */
+
+.site-footer {
+  margin-top: var(--section-space);
+  border-top: 1px solid var(--line);
+}
+
+.hero-layout-immersive .site-footer {
+  margin-top: 0;
+}
+
+.site-footer__inner {
+  display: flex;
+  min-height: 6rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  color: var(--text-soft);
+  font-size: 0.78rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  color: var(--accent-deep);
+  font-weight: 680;
+}
+
+.not-found {
+  min-height: calc(100vh - 10rem);
+  min-height: calc(100dvh - 10rem);
+  padding-block: clamp(6rem, 14vw, 12rem);
+}
+
+.not-found h1 {
+  max-width: 12ch;
+}
+
+.not-found > p:not(.eyebrow) {
+  max-width: 38rem;
+  margin-bottom: 2rem;
+  color: var(--text-soft);
+  font-size: 1.15rem;
+}
+
+.text-link {
+  color: var(--accent-deep);
+  font-weight: 670;
+}
+
+@media (max-width: 1199px) {
+  .product-story--phenom .series-showcase__intro {
+    grid-template-areas:
+      "eyebrow"
+      "title"
+      "text";
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .product-story--phenom .series-showcase__intro h2,
+  html[lang^="ru"] .product-story--phenom .series-showcase__intro h2 {
+    white-space: normal;
+  }
+
+  .product-story--phenom .series-showcase__intro > p:last-child {
+    max-width: 36rem;
+    padding-top: 0.5rem;
+    justify-self: start;
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 980px) {
+  .hero-layout-immersive {
+    --immersive-content-width: min(96vw, 120svh);
+  }
+
+  .key-layout-chapter {
+    min-height: 0;
+  }
+
+  .key-layout-chapter__intro {
+    grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1.65fr);
+  }
+
+  .key-layout-chapter__intro > p:last-child {
+    grid-column: 2;
+  }
+
+  .key-layout-layer {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .key-layout-diagram,
+  .key-layout-layer__copy {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .key-layout-diagram {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 4rem);
+  }
+
+  .key-layout-diagram__half--left,
+  .key-layout-diagram__half--right,
+  .key-layout-diagram__half-dark--left,
+  .key-layout-diagram__half-dark--right {
+    grid-column: auto;
+  }
+
+  .key-layout-layer__copy {
+    width: min(100%, 36rem);
+    transform: none;
+  }
+
+  .visual-chapter {
+    min-height: 0;
+    border-top-color: var(--line);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .visual-chapter::after {
+    display: none;
+  }
+
+  .visual-chapter__media {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  .visual-chapter__media .chapter-media__image {
+    object-position: center;
+  }
+
+  #phenom-wired .chapter-media__image {
+    transform: translateY(11%) scale(1.28);
+    transform-origin: 42% 42%;
+  }
+
+  .visual-chapter__copy {
+    width: 100%;
+    min-height: 0;
+    padding: clamp(2.5rem, 7vw, 4.5rem) var(--gutter) clamp(4.5rem, 10vw, 7rem);
+  }
+
+  .visual-chapter--copy-right .visual-chapter__copy,
+  .visual-chapter--copy-center .visual-chapter__copy {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .visual-chapter--split-left {
+    display: block;
+  }
+
+  .visual-chapter--split-left .visual-chapter__media {
+    min-height: 0;
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  :is(#phenom-entropy) .chapter-media--video {
+    height: auto;
+    aspect-ratio: auto;
+    padding: 1.25rem;
+  }
+
+  :is(#phenom-entropy) .chapter-media__video {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .visual-chapter--split-left .visual-chapter__copy {
+    width: 100%;
+    min-height: 0;
+    padding: clamp(2.5rem, 7vw, 4.5rem) var(--gutter) clamp(4.5rem, 10vw, 7rem);
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .visual-chapter .eyebrow {
+    color: var(--accent-deep);
+  }
+
+  .visual-chapter h2 {
+    max-width: 12ch;
+    color: var(--text);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .visual-chapter--split-left h2 {
+    max-width: 100%;
+    font-size: clamp(2.4rem, 7vw, 4.75rem);
+  }
+
+  .visual-chapter__copy > p:not(.eyebrow) {
+    color: var(--text-soft);
+  }
+
+  .visual-chapter__action {
+    border-color: var(--line-strong);
+    color: var(--text);
+  }
+
+  .detail-sequence__intro,
+  .layout-preview__intro,
+  .specs-chapter__header {
+    grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1.65fr);
+  }
+
+  .detail-sequence__intro > p:last-child,
+  .layout-preview__intro > p:last-child,
+  .specs-chapter__header > p:last-child {
+    grid-column: 2;
+  }
+
+  .detail-sequence__gallery,
+  .specs-chapter__groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .specs-chapter__group:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .specs-chapter__group:last-child {
+    border-top: 1px solid var(--line);
+  }
+
+  .series-showcase__intro {
+    grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1.65fr);
+  }
+
+  .series-showcase__intro > p:last-child {
+    grid-column: 2;
+  }
+
+  .product-story--phenom .series-showcase__intro {
+    grid-template-areas:
+      "eyebrow"
+      "title"
+      "text";
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .product-story--phenom .series-showcase__intro > p:last-child {
+    max-width: 36rem;
+    padding-top: 0.5rem;
+    grid-column: auto;
+  }
+
+  .product-index__copy {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.8fr);
+  }
+
+  .product-index__summary {
+    grid-column: 1 / -1;
+  }
+
+  .product-hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .product-hero__copy {
+    padding-top: 2rem;
+  }
+
+  .product-stage {
+    min-height: min(72vw, 38rem);
+  }
+
+  .section-heading,
+  .software {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .section-heading {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-heading h2,
+  .software__heading h2 {
+    max-width: 14ch;
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    --section-space: 4.5rem;
+  }
+
+  .site-header {
+    height: auto;
+    min-height: 4rem;
+  }
+
+  .site-header__inner {
+    min-height: 4rem;
+    flex-wrap: wrap;
+    padding-block: 0.55rem;
+  }
+
+  .site-header__actions {
+    margin-left: auto;
+  }
+
+  .header-back {
+    display: none;
+  }
+
+  .home-hero {
+    min-height: 30rem;
+    padding-top: 4rem;
+  }
+
+  .series-showcase__intro {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .series-showcase__intro > p:last-child {
+    grid-column: auto;
+  }
+
+  .detail-sequence__intro,
+  .layout-preview__intro,
+  .specs-chapter__header {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .detail-sequence__intro > p:last-child,
+  .layout-preview__intro > p:last-child,
+  .specs-chapter__header > p:last-child {
+    grid-column: auto;
+  }
+
+  .detail-sequence__gallery,
+  .specs-chapter__groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .detail-sequence__media {
+    aspect-ratio: 3 / 2;
+  }
+
+  .source-layout-diagram {
+    min-height: 20rem;
+    padding: 1.25rem 0.75rem;
+  }
+
+  .source-layout-diagram--split-keyboard {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+
+  .source-layout-diagram__half {
+    width: min(100%, 32rem);
+    margin-inline: auto;
+  }
+
+  .source-layout-diagram__pad {
+    width: min(100%, 25rem);
+  }
+
+  .layout-preview__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .layout-preview__fact,
+  .layout-preview__fact:last-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .specs-chapter__group,
+  .specs-chapter__group:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .specs-chapter__group + .specs-chapter__group {
+    border-top: 1px solid var(--line);
+  }
+
+  .product-story--phenom .specs-chapter__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .key-layout-chapter__intro {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .key-layout-chapter__intro > p:last-child {
+    grid-column: auto;
+  }
+
+  .key-layout-tabs {
+    max-width: 100%;
+  }
+
+  .key-layout-tabs__button {
+    min-height: 3.25rem;
+    padding-inline: 0.65rem;
+    font-size: 0.62rem;
+  }
+
+  .key-layout-layer {
+    padding-top: 2rem;
+  }
+
+  .key-layout-diagram {
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.35rem;
+  }
+
+  .key-layout-diagram__half,
+  .key-layout-diagram__half-dark {
+    width: min(100%, 32rem);
+    margin-inline: auto;
+  }
+
+  .key-layout-layer__copy h3 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .series-gallery {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .visual-chapter h2 {
+    font-size: clamp(2.7rem, 12vw, 4rem);
+  }
+
+  .home-hero h1,
+  .software h2 {
+    overflow-wrap: anywhere;
+  }
+
+  .product-index__item {
+    min-height: 0;
+    grid-template-columns: 2.3rem minmax(0, 1fr) auto;
+    gap: 0.75rem;
+  }
+
+  .product-index__copy {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .product-index__name {
+    overflow-wrap: anywhere;
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+
+  .product-index__descriptor,
+  .product-index__summary {
+    grid-column: auto;
+    padding-top: 0;
+  }
+
+  .product-hero {
+    gap: 3.5rem;
+    padding-top: 4rem;
+  }
+
+  .product-hero h1 {
+    overflow-wrap: anywhere;
+    font-size: clamp(3rem, 14vw, 4.7rem);
+  }
+
+  .product-facts {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .product-facts li,
+  .product-facts li:first-child {
+    padding: 0.65rem 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .product-facts li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .product-stage {
+    min-height: 23rem;
+    align-items: flex-end;
+    flex-direction: column;
+  }
+
+  .product-stage__label {
+    max-width: 14rem;
+  }
+
+  .principles__list li {
+    grid-template-columns: 2.3rem minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .principles__list li > div {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .site-footer__inner {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 1.5rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .key-layout-diagram {
+    width: calc(100% + (2 * var(--gutter)));
+    margin-left: calc(-1 * var(--gutter));
+  }
+
+  .brand {
+    gap: 0.3rem;
+    font-size: 0.88rem;
+  }
+
+  .site-header__actions {
+    gap: 0.45rem;
+  }
+
+  .language-link,
+  .theme-toggle {
+    width: 2.5rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding-inline: 0;
+  }
+}
+
+@media (max-width: 980px) {
+  .product-hero--immersive .product-stage__picture {
+    right: -10%;
+    left: -10%;
+  }
+
+  .product-hero--immersive .product-stage__image {
+    object-fit: contain;
+    object-position: 50% 39%;
+  }
+
+
+
+
+
+
+
+  .product-hero--immersive .product-hero__copy {
+    grid-template-columns: minmax(0, 1.25fr) minmax(15rem, 0.75fr);
+    column-gap: clamp(2rem, 6vw, 4rem);
+  }
+
+  .product-hero--immersive h1 {
+    font-size: clamp(3.7rem, 7.4vw, 5.2rem);
+  }
+
+  html[lang^="ru"] .product-hero--immersive h1 {
+    font-size: clamp(2.35rem, 5.1vw, 3rem);
+  }
+}
+
+@media (max-width: 680px) {
+  .hero-layout-immersive {
+    --immersive-gutter: 1.25rem;
+    --immersive-content-width: calc(100% - (2 * var(--immersive-gutter)));
+  }
+
+  .hero-layout-immersive .site-header {
+    height: auto;
+    min-height: 4.75rem;
+  }
+
+  .hero-layout-immersive .site-header__inner {
+    min-height: 4.75rem;
+    flex-wrap: nowrap;
+  }
+
+  .hero-layout-immersive .brand {
+    flex: none;
+  }
+
+  .product-hero--immersive {
+    min-height: 100svh;
+  }
+
+  .product-hero--immersive .product-hero__copy {
+    min-height: 100svh;
+    padding-block: 6.75rem 3.5rem;
+    grid-template-areas:
+      "media"
+      "title"
+      "intro";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(13rem, 1fr) auto auto;
+    gap: 1.25rem;
+  }
+
+  .product-hero--immersive .product-hero__copy::before {
+    min-height: clamp(13rem, 38svh, 22rem);
+  }
+
+  .product-hero--immersive h1 {
+    max-width: 12ch;
+    overflow-wrap: normal;
+    font-size: clamp(3rem, 13vw, 4.75rem);
+    line-height: 0.96;
+  }
+
+  html[lang^="ru"] .product-hero--immersive h1 {
+    font-size: clamp(1.9rem, 8.6vw, 3.65rem);
+  }
+
+  .product-hero--immersive .product-hero__intro {
+    justify-self: end;
+    max-width: 38rem;
+    font-size: 1rem;
+  }
+
+  .product-hero--immersive .product-stage {
+    min-height: 0;
+  }
+
+  .product-hero--immersive .product-stage__picture {
+    right: -5%;
+    left: -5%;
+  }
+
+  .product-page--phenom .product-hero--immersive .product-stage::after {
+    background:
+      linear-gradient(180deg, rgb(18 14 16 / 20%) 0%, rgb(18 14 16 / 8%) 10%, transparent 20%),
+      linear-gradient(0deg, rgb(18 14 16 / 32%) 0%, rgb(18 14 16 / 22%) 28%, transparent 58%);
+  }
+}
+
+@media (max-width: 390px) {
+  .product-hero--immersive h1 {
+    font-size: clamp(2.75rem, 13.5vw, 3.5rem);
+  }
+
+  html[lang^="ru"] .product-hero--immersive h1 {
+    font-size: clamp(1.85rem, 8.5vw, 2.1rem);
+  }
+
+  .hero-layout-immersive .brand {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+.interactive-layout { width: 100%; padding: clamp(1rem, 3vw, 3rem) 0; }
+.interactive-layout .key-layout-models__controls { border-radius: .3125rem; }
+.interactive-layout .source-layout-diagram--interactive {
+  display: grid; padding: 0; min-height: 0; background: none;
+  grid-template-columns: minmax(0,1fr) var(--key-layout-copy-track) minmax(0,1fr);
+  gap: var(--key-layout-stage-gap);
+}
+.interactive-layout__half { display: block; width: 100%; height: auto; }
+.interactive-layout__half--left { grid-column: 1; }
+.interactive-layout__half--right { grid-column: 3; }
+.interactive-key rect, .interactive-layout__encoder rect, .interactive-layout__encoder circle {
+  fill: #fff; stroke: #e7e5e4; stroke-width: 1.4;
+}
+.interactive-key text, .interactive-layout__encoder text {
+  fill: #302e32; font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 19px; font-weight: 400; text-anchor: middle;
+}
+.interactive-key .interactive-key__label--compact, .interactive-layout__encoder text { font-size: 14px; }
+.interactive-key .interactive-key__secondary { fill: #d25052; }
+.interactive-key .interactive-key__hold { font-size: 16px; }
+.interactive-key--numbers rect { fill:#d25052; stroke:#d25052; }
+.interactive-key--symbols rect { fill:#79c8db; stroke:#79c8db; }
+.interactive-key--function rect { fill:#f0e4a0; stroke:#e8d780; }
+.interactive-key--cursor rect { fill:#91d69b; stroke:#91d69b; }
+.interactive-key--numbers text { fill:#fff; }
+.interactive-key--inactive { opacity:.48; }
+.interactive-layout__rotation { fill:none; stroke:#302e32; stroke-width:2; }
+html[data-theme="dark"] .interactive-key--base rect,
+html[data-theme="dark"] .interactive-layout__encoder rect,
+html[data-theme="dark"] .interactive-layout__encoder circle { fill:#302e32; stroke:#474448; }
+html[data-theme="dark"] .interactive-key--base text,
+html[data-theme="dark"] .interactive-layout__encoder text { fill:#f4f1f2; }
+html[data-theme="dark"] .interactive-key--base .interactive-key__secondary { fill:#d25052; }
+html[data-theme="dark"] .interactive-layout__rotation { stroke:#f4f1f2; }
+
+
+
+.interactive-layout__pad { display:block; width:min(100%,30rem); margin:auto; }
+@media (max-width: 980px) {
+  .interactive-layout .key-layout-layer { grid-template-columns:minmax(0,1fr); }
+  .interactive-layout .source-layout-diagram--interactive {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-column:1; grid-row:1; gap:1rem;
+  }
+  .interactive-layout__half--right { grid-column:2; }
+  .interactive-layout .key-layout-layer__copy { grid-column:1; grid-row:2; margin:1rem auto 0; }
+
+}
+@media (max-width: 540px) {
+  .interactive-layout--split-keyboard .source-layout-diagram--interactive { grid-template-columns:minmax(0,1fr); }
+  .interactive-layout__half--right { grid-column:1; }
+  .interactive-layout .key-layout-tabs { width:100%; justify-content:flex-start; }
+  .interactive-layout .key-layout-tabs__button { padding-inline:1rem; }
+}
+html[data-theme="dark"] .interactive-key--base.interactive-key--numbers rect { fill:#d25052; stroke:#d25052; }
+html[data-theme="dark"] .interactive-key--base.interactive-key--symbols rect { fill:#79c8db; stroke:#79c8db; }
+
+.interactive-layout--split-keyboard .key-layout-layer__copy { justify-self:center; text-align:center; }
+.interactive-key__icon { fill:none; stroke:#302e32; stroke-width:2; stroke-linejoin:round; stroke-linecap:round; }
+html[data-theme="dark"] .interactive-key--base .interactive-key__icon { stroke:#f4f1f2; }
+.interactive-layout--split-keyboard .interactive-key--base rect { fill:#fff; stroke:#e7e5e4; }
+html[data-theme="dark"] .interactive-layout--split-keyboard .interactive-key--base rect { fill:#302e32; stroke:#474448; }
+.interactive-layout .interactive-key--base.interactive-key--numbers .interactive-key__layer-icon { stroke:#d25052; }
+.interactive-layout .interactive-key--base.interactive-key--symbols .interactive-key__layer-icon { stroke:#79c8db; }
+.interactive-key--numbers .interactive-key__icon { stroke:#fff; }
+
+/* Explicit Phenom line breaks requested by Alexey; heading font sizes unchanged. */
+@media (min-width:981px) {
+  #phenom-finger-geometry h2 .section-title__line {
+    width: max-content;
+    max-width: var(--photo-heading-room, 100%);
+    white-space: normal;
+  }
+  html[lang^="ru"] #phenom-curves .detail-sequence__intro > p:last-child {
+    max-width:none; width:max-content; justify-self:end;
+  }
+  #phenom-curves .chapter-text-line { display:block; }
+}
+
+@media (min-width:981px) {
+  html[lang^="ru"] #phenom-wired .visual-chapter__copy > p:not(.eyebrow) {
+    max-width:none; width:max-content;
+  }
+}
+
+@media (min-width:981px) {
+  #phenom-wired .chapter-text-line { display:block; white-space:nowrap; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Keep the two requested layout-intro sentences on separate desktop lines. */
+.key-layout-intro-line { display: block; }
+@media (min-width: 1200px) {
+  html[lang^="ru"] .product-story--phenom .key-layout-chapter__intro {
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+  html[lang^="ru"] .product-story--phenom .key-layout-chapter__intro > p:last-child {
+    width: max-content;
+  }
+  .key-layout-intro-line { white-space: nowrap; }
+}
+
+/* Keep the Russian Phenom hero typography aligned with the English version. */
+html[lang^="ru"] .product-page--phenom .product-hero--immersive .product-hero__intro {
+  font-weight: 400;
+  line-height: 1.42;
+}
+@media (min-width: 981px) {
+  html[lang^="ru"] .product-page--phenom .product-hero--immersive h1 {
+    font-size: clamp(4.1rem, 5.2vw, 6.5rem);
+  }
+
+  html[lang^="ru"] .product-page--phenom .product-hero--immersive .product-hero__intro {
+    transform: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  html[lang^="ru"] .product-page--phenom .product-hero--immersive h1 {
+    font-size: clamp(3.1rem, 4vw, 5rem);
+  }
+}
+
+/* Phenom: carry the immersive hero edges through the complete story. */
+@media (min-width: 981px) {
+  body.product-page--phenom {
+    --phenom-story-edge: max(5vw, var(--immersive-gutter));
+    --phenom-story-width: calc(100% - (2 * var(--phenom-story-edge)));
+    --phenom-layout-edge: max(5vw, var(--immersive-gutter));
+    --phenom-layout-width: calc(100% - (2 * var(--phenom-layout-edge)));
+    --phenom-gallery-edge: max(5vw, var(--immersive-gutter));
+    --phenom-gallery-width: calc(100% - (2 * var(--phenom-gallery-edge)));
+    --immersive-content-width: var(--phenom-story-width);
+  }
+
+  .product-story--phenom :is(
+    .series-showcase__intro,
+    .detail-sequence__inner,
+    .specs-chapter__inner
+  ) {
+    width: var(--phenom-story-width);
+    max-width: none;
+  }
+
+  .product-story--phenom .key-layout-chapter__inner {
+    width: var(--phenom-layout-width);
+    max-width: none;
+  }
+
+  .product-story--phenom .visual-chapter:not(.visual-chapter--split-left) .visual-chapter__copy {
+    width: var(--phenom-story-width);
+    max-width: none;
+  }
+
+  /* Meet: larger, more photographic frames, with the last frame locked to
+     the same right edge as the hero's supporting copy. */
+  .product-story--phenom .series-gallery {
+    width: var(--phenom-gallery-width);
+    max-width: none;
+    margin-inline: auto;
+    gap: clamp(1rem, 1.6vw, 2rem);
+  }
+
+  .product-story--phenom .series-showcase {
+    padding-block: clamp(4rem, 5vw, 6rem);
+  }
+
+  .product-story--phenom .series-showcase__intro,
+  .product-story--phenom #phenom-curves .detail-sequence__inner {
+    width: var(--phenom-gallery-width);
+  }
+
+  .product-story--phenom .series-showcase__intro,
+  .product-story--phenom #phenom-curves .detail-sequence__intro {
+    margin-bottom: clamp(3rem, 4vw, 4.5rem);
+  }
+
+  .product-story--phenom .series-card__visual {
+    aspect-ratio: 4 / 3;
+  }
+
+  .product-story--phenom .series-card__image {
+    object-position: center;
+  }
+
+  .product-story--phenom #modularity-title,
+  .product-story--phenom #phenom-finger-geometry-title {
+    max-width: 14ch;
+  }
+
+  .product-story--phenom #phenom-additive-manufacturing-title {
+    width: min(100%, 43rem);
+    max-width: 43rem;
+    font-size: clamp(2.7rem, 4vw, 5rem);
+  }
+
+  .product-story--phenom #phenom-keycaps-switches-title {
+    max-width: 12ch;
+  }
+
+  .product-story--phenom #phenom-entropy-title {
+    font-size: clamp(2.6rem, 3.35vw, 4.15rem);
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy-title {
+    font-size: clamp(2.25rem, 2.8vw, 3.5rem);
+  }
+
+  .product-story--phenom #phenom-cta .visual-chapter__copy {
+    width: var(--phenom-story-width);
+  }
+}
+
+/* K:04 uses the same editorial frame as Phenom. Keep the K:04-specific
+   diagrams and specification copy, but align their scale, edges and rhythm. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Layout layer controls: the lower group now uses the same neutral outlined
+   construction as the model selector, with dividers and no accent fill. */
+body.product-page--phenom .key-layout-tabs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  width: min(100%, 28rem);
+  max-width: 100%;
+  overflow: hidden;
+  justify-content: stretch;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.3125rem;
+  background: transparent;
+}
+
+body.product-page--phenom .key-layout-tabs__button {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+  min-height: 3.125rem;
+  padding-inline: 1.1rem;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 0;
+  border-bottom: 0;
+  background: transparent;
+  text-align: center;
+  white-space: nowrap;
+}
+
+body.product-page--phenom .key-layout-tabs__button + .key-layout-tabs__button {
+  border-left: 1px solid var(--line-strong);
+}
+
+body.product-page--phenom .key-layout-tabs__button.is-active {
+  border-bottom-color: transparent;
+  background: rgb(19 17 18 / 6%);
+  color: var(--text);
+}
+
+html[data-theme="dark"] body.product-page--phenom .key-layout-tabs__button.is-active {
+  background: rgb(255 255 255 / 8%);
+}
+
+@media (min-width: 981px) {
+  body.product-page--phenom .key-layout-models__label,
+  body.product-page--phenom .key-layout-tabs__button {
+    font-size: clamp(0.92rem, 1.05vw, 1.08rem);
+    letter-spacing: 0.04em;
+  }
+
+  body.product-page--phenom .key-layout-tabs {
+    width: min(100%, 33rem);
+  }
+
+  html[lang^="ru"] .product-story--phenom #modularity .chapter-text-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  html[lang^="en"] .product-story--phenom #modularity .chapter-text-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-entropy .chapter-text-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  body.product-page--phenom .key-layout-tabs {
+    transform: translateY(clamp(3.75rem, 4.5vw, 5rem));
+  }
+
+  /* Give the additive-manufacturing explanation the same visual span as its
+     heading instead of constraining it to the generic narrow copy column. */
+  .product-story--phenom #phenom-additive-manufacturing .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 46rem);
+    max-width: 46rem;
+    line-height: 1.4;
+  }
+
+  html[lang^="ru"] .product-story--phenom :is(
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-entropy,
+    #phenom-wired
+  ) .chapter-text-line {
+    display: block;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .chapter-text-line {
+    display: block;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 42rem);
+    max-width: 42rem;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches-title {
+    width: min(100%, 42rem);
+    max-width: 42rem;
+    font-size: clamp(2.7rem, 4vw, 5rem);
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy {
+    grid-template-columns: minmax(0, min(42rem, 42vw));
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy > p:not(.eyebrow) {
+    margin-top: 1.25rem;
+    font-size: clamp(1rem, min(1.25vw, 2.2vh), 1.2rem);
+    line-height: 1.4;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy > p + p {
+    margin-top: 0.85rem;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__metrics {
+    margin-top: 0.9rem;
+    border-block: 0;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__metric {
+    padding-block: 0.8rem 0.85rem;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__metric dt {
+    font-size: 0.72rem;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__metric dd {
+    font-size: clamp(1rem, 1.25vw, 1.25rem);
+  }
+
+  :is(
+    .product-story--phenom #phenom-entropy) .visual-chapter__copy > .eyebrow,
+  :is(
+    .product-story--phenom #phenom-entropy) .visual-chapter__copy > h2,
+  :is(
+    .product-story--phenom #phenom-entropy) .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 40rem);
+    max-width: 40rem;
+  }
+
+  :is(
+    .product-story--phenom #phenom-entropy) .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: clamp(1rem, min(1.25vw, 2.2vh), 1.2rem);
+    line-height: 1.4;
+  }
+
+  /* The longer RU Entropy copy needs a wider reading measure. Expand the
+     right column toward the media while keeping its outer edge aligned. */
+  html[lang^="ru"] .product-story--phenom #phenom-entropy {
+    grid-template-columns: minmax(0, 1.4fr) minmax(24rem, 0.9fr);
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .chapter-media--video {
+    padding-block: clamp(5rem, 8vw, 9rem);
+    place-items: center start;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    padding-block: clamp(5rem, 8vw, 9rem);
+    justify-content: center;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 40rem);
+    max-width: 40rem;
+    text-wrap: pretty;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-curves .detail-sequence__intro > p:last-child {
+    width: min(100%, 31rem);
+    max-width: 31rem;
+    justify-self: end;
+    text-wrap: balance;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-wired .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 40rem);
+    max-width: 40rem;
+    white-space: normal;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-wired .chapter-text-line {
+    white-space: normal;
+  }
+}
+
+/* Meet is an introduction, not fine print: preserve the photographic scale
+   while making its copy and model captions readable at desktop distance. */
+@media (min-width: 981px) {
+  .product-story--phenom .series-showcase__intro h2 {
+    font-size: clamp(3.5rem, 4.75vw, 5.5rem);
+    line-height: 0.98;
+  }
+
+  .product-story--phenom .series-showcase__intro > p:last-child {
+    max-width: 36rem;
+    font-size: clamp(1.05rem, 1.25vw, 1.3rem);
+    line-height: 1.5;
+  }
+
+  .product-story--phenom .series-card__caption > .series-card__index,
+  .product-story--phenom .series-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .product-story--phenom .series-card__trait {
+    font-size: 0.9rem;
+  }
+
+  .product-story--phenom #phenom-cta h2 {
+    white-space: nowrap;
+  }
+
+  .product-story--phenom #phenom-cta .chapter-text-line {
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+/* Phenom EN refinements: keep the established full-screen sections while
+   matching their copy scale, outer edges, and vertical rhythm. */
+@media (min-width: 981px) {
+  :is(html[lang^="en"], html[lang^="ru"]) .product-story--phenom #modularity-title {
+    width: min(100%, 43rem);
+    max-width: 43rem;
+    font-size: clamp(2.7rem, 4vw, 5rem);
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-curves {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-block: 0;
+    align-items: center;
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-curves .detail-sequence__inner {
+    padding-block: clamp(3rem, 5vh, 5rem);
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-entropy {
+    --phenom-entropy-edge: var(--phenom-story-edge);
+
+    padding-inline: var(--phenom-entropy-edge);
+    column-gap: clamp(2rem, 4vw, 5rem);
+    grid-template-columns: minmax(0, 1.4fr) minmax(24rem, 0.9fr);
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-entropy .chapter-media--video {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: clamp(5rem, 8vw, 9rem) 0;
+    place-items: center;
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-entropy .chapter-media__video {
+    width: 100%;
+    max-width: none;
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: clamp(5rem, 8vw, 9rem) 0;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  html[lang^="en"] .product-story--phenom #phenom-entropy .visual-chapter__copy > .eyebrow,
+  html[lang^="en"] .product-story--phenom #phenom-entropy .visual-chapter__copy > h2,
+  html[lang^="en"] .product-story--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 40rem);
+    max-width: 40rem;
+  }
+
+}
+
+/* Desktop alignment corrections. Keep each chapter's approved scale and
+   height; only align copy to the shared 01/04 gallery frame. */
+@media (min-width: 981px) {
+  html[lang^="ru"] .product-story--phenom #phenom-entropy {
+    padding-inline: var(--phenom-story-edge);
+    column-gap: clamp(2rem, 4vw, 5rem);
+    grid-template-columns: minmax(0, 1.4fr) minmax(24rem, 0.9fr);
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .chapter-media--video,
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: clamp(5rem, 8vw, 9rem) 0;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .chapter-media--video {
+    place-items: center;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .chapter-media__video {
+    width: 100%;
+    max-width: none;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy > :is(h2, p:not(.eyebrow), dl) {
+    width: min(100%, 42rem);
+    max-width: 42rem;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy {
+    justify-content: end;
+    grid-template-columns: minmax(0, min(42rem, 42vw));
+    transform: translateX(clamp(2rem, 3vw, 3.75rem));
+  }
+
+  .product-story--phenom #phenom-curves {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-block: 0;
+    align-items: center;
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__inner {
+    padding-block: clamp(3rem, 5vh, 5rem);
+    transform: translateY(-2.375rem);
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__intro > p:last-child,
+  .product-story--phenom #phenom-specs .specs-chapter__header > p:last-child {
+    justify-self: end;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1199px) {
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy {
+    grid-template-columns: minmax(0, 48vw);
+  }
+
+  .product-story--phenom #phenom-specs .specs-chapter__header h2,
+  .product-story--phenom #phenom-cta h2,
+  .product-story--phenom #phenom-cta .chapter-text-line {
+    white-space: normal;
+  }
+}
+
+/* Phenom feature chapters: keep the approved modularity copy scale and rhythm
+   consistent across the other full-screen product stories. */
+@media (min-width: 981px) {
+  .product-story--phenom #modularity .visual-chapter__copy {
+    transform: translateY(clamp(-3.5rem, -5vh, -2rem));
+  }
+
+  .product-story--phenom :is(
+    #phenom-additive-manufacturing,
+    #phenom-wired
+  ) .visual-chapter__copy {
+    transform: translateY(clamp(-3.5rem, -5vh, -2rem));
+  }
+
+  .product-story--phenom #phenom-finger-geometry .visual-chapter__copy {
+    transform: translate(
+      calc(clamp(-5rem, -5vw, -3.5rem) - 5.5rem),
+      clamp(-4.5rem, -7.5vh, -3rem)
+    );
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy {
+    transform: translate(
+      clamp(2rem, 3vw, 3.75rem),
+      clamp(-3.5rem, -5vh, -2rem)
+    );
+  }
+
+  :is(html[lang^="en"], html[lang^="ru"]) .product-story--phenom :is(
+    #modularity-title,
+    #phenom-finger-geometry-title,
+    #phenom-additive-manufacturing-title,
+    #phenom-keycaps-switches-title,
+    #phenom-wired-title
+  ) {
+    font-size: clamp(2.97rem, 4.4vw, 5.5rem);
+  }
+
+  .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 40rem);
+    max-width: 40rem;
+    font-size: clamp(1.1rem, 1.375vw, 1.32rem);
+  }
+
+  .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > h2 + p:not(.eyebrow) {
+    margin-top: 3.5rem;
+  }
+}
+
+/* Phenom chapter-specific composition corrections. */
+@media (min-width: 981px) {
+  .product-story--phenom #phenom-additive-manufacturing .visual-chapter__copy {
+    transform: none;
+  }
+
+  .product-story--phenom #phenom-additive-manufacturing-title {
+    font-size: clamp(2.7rem, 4vw, 5rem);
+  }
+
+  .product-story--phenom #phenom-additive-manufacturing .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 46rem);
+    max-width: 46rem;
+    margin-top: 2.75rem;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    line-height: 1.4;
+  }
+
+  .product-story--phenom #phenom-finger-geometry .visual-chapter__copy > p:not(.eyebrow) {
+    width: 42rem;
+    max-width: 42rem;
+  }
+
+  .product-story--phenom #phenom-keycaps-switches .visual-chapter__copy {
+    transform: translate(clamp(4rem, 5vw, 7rem), clamp(1rem, 2.5vh, 2.5rem));
+  }
+
+  .product-story--phenom #phenom-wired .visual-chapter__copy {
+    transform: none;
+  }
+
+  .product-story--phenom #phenom-wired .visual-chapter__copy > p:not(.eyebrow) {
+    width: min(100%, 42rem);
+    max-width: 42rem;
+    text-wrap: pretty;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    justify-content: center;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .visual-chapter__copy > p + p {
+    margin-top: 0.85rem;
+  }
+
+  /* Preserve the established media and copy geometry; move only the copy. */
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    align-items: flex-end;
+    transform: none;
+  }
+
+  html[lang^="ru"] .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    align-items: flex-start;
+    transform: translateX(clamp(-4rem, -3vw, -2rem));
+  }
+}
+
+@media (max-width: 680px) {
+  .visual-chapter__platforms-list {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-chapter__platforms-list li {
+    padding: 0.8rem 0;
+  }
+
+  .visual-chapter__platforms-list li + li {
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+}
+
+/* Entropy follows the approved Figma composition: the typographic dash stays
+   with the product name, while the claim starts on the following line. */
+.product-story--phenom #phenom-entropy-title.section-title--lead {
+  display: block;
+  width: min(100%, 40rem);
+  max-width: 40rem;
+  text-wrap: balance;
+}
+
+.product-story--phenom #phenom-entropy-title .section-title__lead {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.product-story--phenom #phenom-entropy-title .section-title__divider {
+  display: inline-block;
+  width: 32px;
+  height: 5px;
+  margin-left: 8px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--text);
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: middle;
+  transform: translateY(-0.08em);
+}
+
+.product-story--phenom #phenom-entropy-title .section-title__body {
+  display: block;
+}
+
+.product-story--phenom #phenom-entropy-title .section-title__line {
+  display: block;
+  white-space: normal;
+}
+
+.product-story--phenom #phenom-entropy-title .section-title__line + .section-title__line::before {
+  content: none;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms {
+  width: min(100%, 40rem);
+  margin-top: 2.5rem;
+  border: 0;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-label {
+  padding: 0 0 0.55rem;
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-list {
+  display: flex;
+  width: max-content;
+  max-width: none;
+  border: 0;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-list li {
+  flex: none;
+  width: auto;
+  box-sizing: border-box;
+  padding: 0.8rem 3.125rem 0.85rem 0;
+  text-align: left;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-list li + li {
+  padding-left: 3.125rem;
+  position: relative;
+  border-left: 0;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-list li + li::before {
+  position: absolute;
+  top: 0.8rem;
+  bottom: 0.85rem;
+  left: 0;
+  width: 1px;
+  background: var(--line);
+  content: "";
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-list li:last-child {
+  padding-right: 0;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-list strong {
+  color: var(--text);
+  font-size: clamp(1.05rem, 1.25vw, 1.3rem);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  text-transform: none;
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__platforms-list span {
+  color: var(--text-soft);
+  font-size: 0.76rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+@media (max-width: 680px) {
+  .product-story--phenom #phenom-entropy .visual-chapter__platforms-list {
+    display: grid;
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .product-story--phenom #phenom-entropy .visual-chapter__platforms-list li {
+    width: 100%;
+    padding: 0.8rem 0;
+  }
+
+  .product-story--phenom #phenom-entropy .visual-chapter__platforms-list li + li {
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .product-story--phenom #phenom-entropy .visual-chapter__platforms-list li + li::before {
+    content: none;
+  }
+}
+
+/* Phenom switch metrics: match the content-led separator rhythm used by the
+   Entropy platform row. Keep the approved title-to-copy gap, then use a
+   consistent 36px vertical rhythm for every following content group. */
+@media (min-width: 981px) {
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics {
+    display: flex;
+    width: max-content;
+    max-width: 100%;
+    margin-top: 36px;
+    border: 0;
+    grid-template-columns: none;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metric {
+    position: relative;
+    flex: none;
+    padding: 0 50px 0 0;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metric + .visual-chapter__metric {
+    padding: 0 50px;
+    border-left: 0;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metric + .visual-chapter__metric::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: rgb(247 244 243 / 32%);
+    content: "";
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metric:last-child {
+    padding-right: 0;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics + p,
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics + p + p {
+    margin-top: 36px;
+  }
+}
+
+/* Phenom switch copy: compact the vertical rhythm and lift the complete copy
+   group by 30px from the previous position. */
+@media (min-width: 981px) {
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__copy {
+    transform: translateY(calc(clamp(1rem, 2.5vh, 2.5rem) + 9px));
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__copy > h2 + p:not(.eyebrow) {
+    margin-top: 50px;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics,
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics + p,
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics + p + p {
+    margin-top: 25px;
+  }
+}
+
+/* Phenom desktop uses the approved 2560px composition as its scale baseline.
+   Scaling the root unit with the viewport keeps type, copy measures, controls,
+   gaps and offsets in one proportion instead of letting vw/vh and fixed rem
+   limits drift apart on Full HD and large desktop displays. */
+@media (min-width: 981px) {
+  html:has(body.product-page--phenom) {
+    /* 2560×1440 is the 1:1 desktop reference. Scale by the limiting viewport
+       axis; 16:10 screens retain their extra height as outer breathing room. */
+    font-size: clamp(10px, min(0.625vw, 1.111111vh), 24px);
+  }
+
+  .product-story--phenom #phenom-entropy-title .section-title__divider {
+    width: 2rem;
+    height: 0.3125rem;
+    margin-left: 0.5rem;
+    border-radius: 0.125rem;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics {
+    margin-top: 2.25rem;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metric {
+    padding-right: 3.125rem;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metric + .visual-chapter__metric {
+    padding-inline: 3.125rem;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics + p,
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__metrics + p + p {
+    margin-top: 1.5625rem;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__copy {
+    transform: translateY(calc(clamp(1rem, 2.5vh, 2.5rem) + 0.5625rem));
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    .product-story--phenom
+    #phenom-keycaps-switches
+    .visual-chapter__copy > h2 + p:not(.eyebrow) {
+    margin-top: 3.125rem;
+  }
+}
+
+/* Phenom desktop composition. The 2560×1440 layout is the 1:1 reference;
+   the shared root scale below keeps its typography, measures and controls in
+   proportion at smaller and larger desktop resolutions. */
+@media (min-width: 981px) {
+  .product-page--phenom .product-hero__intro {
+    font-weight: 400;
+    line-height: 1.42;
+  }
+
+  .product-story--phenom > :is(
+    .series-showcase,
+    .key-layout-chapter,
+    .detail-sequence,
+    .specs-chapter,
+    .visual-chapter
+  ) {
+    min-height: 100vh;
+    min-height: 100svh;
+    box-sizing: border-box;
+  }
+
+  /* Editorial sections use their spare height outside the content group.
+     Internal gaps remain identical to the 2560px reference. */
+  .product-story--phenom .series-showcase,
+  .product-story--phenom #phenom-curves,
+  .product-story--phenom #phenom-specs {
+    display: flex;
+    padding-block: clamp(4rem, 6vh, 6rem);
+    align-items: center;
+  }
+
+  .product-story--phenom .series-showcase {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .product-story--phenom .series-showcase > :is(.series-showcase__intro, .series-gallery) {
+    flex: none;
+  }
+
+  .product-story--phenom .series-showcase__intro,
+  .product-story--phenom #phenom-curves .detail-sequence__intro,
+  .product-story--phenom #phenom-specs .specs-chapter__header {
+    margin-bottom: clamp(3.5rem, 4.5vw, 4.75rem);
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__inner {
+    padding-block: 0;
+  }
+
+  /* Full-screen layout explorer: compact only the internal rhythm that used
+     to accumulate into a 1.5-screen chapter on tall displays. */
+  .product-story--phenom .key-layout-chapter {
+    display: flex;
+    padding-block: clamp(3rem, 5vh, 5rem);
+    align-items: center;
+  }
+
+  .product-story--phenom .key-layout-chapter__inner {
+    display: block;
+    min-height: 0;
+  }
+
+  .product-story--phenom .key-layout-chapter__intro {
+    margin-bottom: clamp(2.75rem, 4.5vh, 4rem);
+  }
+
+  .product-story--phenom .key-layout-layer {
+    height: auto;
+    min-height: clamp(29rem, min(40vw, 56vh), 58rem);
+    padding-top: clamp(1.25rem, 2vh, 2rem);
+  }
+
+  .product-story--phenom .key-layout-model-stages {
+    display: block;
+    min-height: 0;
+  }
+
+  .product-story--phenom .key-layout-model-stage:not([hidden]) {
+    display: block;
+    min-height: 0;
+  }
+
+  .product-story--phenom .key-layout-panels {
+    min-height: 0;
+  }
+
+  body.product-page--phenom .key-layout-tabs {
+    margin-top: clamp(1.5rem, 2vh, 2rem);
+    transform: none;
+  }
+
+  body.product-page--phenom .key-layout-models__label,
+  body.product-page--phenom .key-layout-tabs__button {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  /* Keep all image-led chapters on one shared typographic system. */
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom :is(
+    #modularity-title,
+    #phenom-finger-geometry-title,
+    #phenom-additive-manufacturing-title,
+    #phenom-keycaps-switches-title,
+    #phenom-wired-title
+  ) {
+    font-size: clamp(2.97rem, 4.4vw, 5.5rem);
+  }
+
+  .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy > p:not(.eyebrow) {
+    max-width: 40rem;
+    font-size: clamp(1.1rem, 1.375vw, 1.32rem);
+    line-height: 1.5;
+  }
+
+  /* Keep the two additive-manufacturing thoughts as balanced paragraphs.
+     The wider measure keeps "3D-печати" with the preceding phrase instead
+     of leaving a short orphan line at the shared desktop type scale. */
+  .product-story--phenom
+    #phenom-additive-manufacturing
+    .visual-chapter__copy
+    > p:not(.eyebrow) {
+    width: min(100%, 46rem);
+    max-width: 46rem;
+    text-wrap: pretty;
+  }
+
+  .product-story--phenom #modularity .visual-chapter__copy {
+    transform: none;
+  }
+
+  .product-story--phenom #modularity .visual-chapter__copy > :is(h2, p:not(.eyebrow)) {
+    width: min(100%, 43rem);
+    max-width: 43rem;
+  }
+
+  /* Entropy: retain the approved video scale, add a deliberate inter-column
+     gap, and center the complete media/copy pair as one composition. */
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy {
+    padding-inline: var(--phenom-story-edge);
+    column-gap: clamp(5rem, 5vw, 8rem);
+    grid-template-columns: minmax(0, 1.55fr) minmax(22rem, 0.65fr);
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy .chapter-media--video,
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-block: clamp(5rem, 7vh, 7rem);
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy .chapter-media--video {
+    padding-inline: 0;
+    place-items: center;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy .chapter-media__video {
+    width: 100%;
+    max-width: none;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"]) .product-story--phenom #phenom-entropy .visual-chapter__copy {
+    padding-inline: 0;
+    align-items: flex-start;
+    justify-content: center;
+    transform: none;
+  }
+
+  /* Specs share the same fluid measure as the rest of the story. */
+  .product-story--phenom #phenom-specs .specs-chapter__inner {
+    width: var(--phenom-story-width);
+  }
+
+  .product-story--phenom #phenom-specs .specs-chapter__groups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .product-story--phenom #phenom-cta .visual-chapter__copy {
+    padding-bottom: clamp(4rem, 6vh, 6rem);
+  }
+}
+
+/* Specifications are intentionally a compact reference chapter rather than
+   a forced full-screen scene. Restore its natural content height. */
+@media (min-width: 981px) {
+  .product-story--phenom #phenom-specs {
+    display: block;
+    min-height: 0;
+    padding-block: var(--section-space);
+  }
+}
+
+
+@media (min-width: 981px) {
+
+
+
+
+
+
+
+
+
+
+  /* K:04 keeps the exact 2560px editorial measure and stops widening above
+     it, so 2880px gains outer air instead of oversized cards and diagrams. */
+
+
+
+
+
+
+  /* Three-up portrait galleries are the only editorial chapters whose
+     natural 3:4 cards can exceed a short desktop viewport. Cap the visible
+     media height while retaining the source crop and captions. */
+
+
+
+
+  /* Layout explorers stay as one centered composition. Their internal gaps
+     scale with the shared root instead of accumulating into a second screen. */
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+/* Phenom typography alignment requested from the approved desktop review.
+   Keep every equality explicit so later responsive tuning cannot split the
+   paired labels, descriptions and table copy again. */
+body.product-page--phenom {
+  --phenom-navigation-size: clamp(1rem, 1.2vw, 1.3rem);
+  --phenom-hero-copy-size: clamp(1.15rem, 1.38vw, 1.495rem);
+  --phenom-intro-copy-size: clamp(1.2075rem, 1.4375vw, 1.495rem);
+  --phenom-body-copy-size: clamp(1.265rem, 1.58125vw, 1.518rem);
+  --phenom-entropy-copy-size: clamp(1.15rem, 1.4375vw, 1.38rem);
+  --phenom-spec-copy-size: var(--phenom-desktop-copy-size, var(--phenom-body-copy-size));
+  --phenom-scene-height: 112.5svh;
+  --phenom-fullscreen-height: 100svh;
+  --phenom-copy-measure: 40rem;
+  --phenom-control-surface: #fcfbfa;
+  --phenom-control-border: #d8cfd1;
+  --phenom-control-divider: #ded6d8;
+  --phenom-control-hover: #f5ebee;
+  --phenom-control-active-bg: #ead8de;
+  --phenom-control-active-color: #7d4854;
+}
+
+html[data-theme="dark"] body.product-page--phenom {
+  --phenom-control-surface: #302c2e;
+  --phenom-control-border: #4d4448;
+  --phenom-control-divider: #494145;
+  --phenom-control-hover: #3c3035;
+  --phenom-control-active-bg: #744956;
+  --phenom-control-active-color: #fff4f7;
+}
+
+/* The hero breadcrumb and its supporting line deliberately share one size. */
+:is(html[lang^="ru"], html[lang^="en"])
+  body.product-page--phenom
+  .product-hero--immersive
+  .product-hero__intro {
+  font-size: var(--phenom-hero-copy-size);
+}
+
+:is(html[lang^="ru"], html[lang^="en"])
+  body.product-page--phenom
+  .site-header
+  .brand {
+  font-size: var(--phenom-navigation-size);
+}
+
+/* Series overview: all caption-table entries match the introductory copy. */
+.product-story--phenom .series-showcase__intro > p:last-child,
+.product-story--phenom .series-card__caption > .series-card__index,
+.product-story--phenom .series-card h3,
+.product-story--phenom .series-card__key-count,
+.product-story--phenom .series-card__trait {
+  font-size: var(--phenom-intro-copy-size);
+}
+
+/* Layout descriptions use the module-copy size but retain their lighter
+   weight to preserve hierarchy beneath the layer name. */
+.product-story--phenom .key-layout-layer__copy > p:last-child,
+.product-story--phenom #modularity .visual-chapter__copy > p:not(.eyebrow) {
+  font-size: var(--phenom-body-copy-size);
+}
+
+.product-story--phenom .key-layout-layer__copy > p:last-child {
+  font-weight: 400;
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+/* Finger geometry, the gallery explanation and every numbered gallery
+   caption form one supporting-text tier. */
+.product-story--phenom #phenom-finger-geometry .visual-chapter__copy > p:not(.eyebrow),
+.product-story--phenom #phenom-curves .detail-sequence__intro > p:last-child,
+.product-story--phenom #phenom-curves .detail-sequence__item figcaption {
+  font-size: var(--phenom-body-copy-size);
+}
+
+/* Additive manufacturing keeps the final paragraph anchored by the chapter's
+   bottom alignment; halving both gaps moves only the title and first paragraph
+   down toward it. */
+.product-story--phenom
+  #phenom-additive-manufacturing
+  .visual-chapter__copy
+  > h2 + p:not(.eyebrow),
+.product-story--phenom
+  #phenom-additive-manufacturing
+  .visual-chapter__copy
+  > p + p {
+  margin-top: 0.875rem;
+}
+
+@media (min-width: 981px) {
+  :is(html[lang^="ru"], html[lang^="en"])
+    body.product-page--phenom
+    .product-story--phenom
+    #phenom-additive-manufacturing
+    .visual-chapter__copy
+    > h2 + p:not(.eyebrow) {
+    margin-top: 1.75rem;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    body.product-page--phenom
+    .product-story--phenom
+    #phenom-additive-manufacturing
+    .visual-chapter__copy
+    > p + p {
+    margin-top: 1.375rem;
+  }
+}
+
+/* Repeated prose inside switches, Entropy and the CTA remains one size within
+   each chapter, including the final paragraph/line. */
+.product-story--phenom #phenom-keycaps-switches .visual-chapter__copy > p:not(.eyebrow),
+.product-story--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+  font-size: var(--phenom-body-copy-size);
+}
+
+.product-story--phenom #phenom-entropy .visual-chapter__copy > p:not(.eyebrow) {
+  font-size: var(--phenom-entropy-copy-size);
+}
+
+/* One thought per paragraph across the image-led chapters. The copy is
+   already split semantically in content; this shared gap gives those breaks
+   one consistent visual rhythm at every viewport scale. */
+:is(html[lang^="ru"], html[lang^="en"])
+  body.product-page--phenom
+  .product-story--phenom
+  :is(
+    #modularity,
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  )
+  .visual-chapter__copy > p + p {
+  margin-top: 1.25rem;
+}
+
+/* The complete specifications table uses the same size as its upper-right
+   introduction; weight, case and colour still distinguish labels and values. */
+.product-story--phenom #phenom-specs :is(
+  .specs-chapter__header > p:last-child,
+  .specs-chapter__group h3,
+  .specs-chapter__note,
+  .specs-chapter__row dt,
+  .specs-chapter__row dd
+) {
+  font-size: var(--phenom-spec-copy-size);
+}
+
+/* Image-led Phenom scenes retain a short cinematic tail. Information-led
+   chapters override this shared height with the fullscreen token below. */
+body.product-page--phenom .product-story--phenom > section:not(.product-hero--immersive) {
+  min-height: 112.5vh;
+  min-height: var(--phenom-scene-height);
+}
+
+body.product-page--phenom .product-story--phenom #phenom-curves {
+  min-height: 125vh;
+  min-height: 125svh;
+}
+
+@media (min-width: 981px) {
+  body.product-page--phenom .product-story--phenom #phenom-curves {
+    min-height: 112.5vh;
+    min-height: var(--phenom-scene-height);
+  }
+
+  body.product-page--phenom .product-story--phenom .visual-chapter__copy,
+  body.product-page--phenom .product-story--phenom #phenom-entropy :is(.chapter-media--video, .visual-chapter__copy) {
+    min-height: 100vh;
+    min-height: var(--phenom-fullscreen-height);
+  }
+
+}
+
+@media (min-width: 981px) and (max-width: 1599px) {
+  html[lang^="en"]
+    body.product-page--phenom
+    .product-story--phenom
+    #phenom-entropy
+    .chapter-text-line {
+    white-space: normal;
+  }
+}
+
+/* Keep the working composition inside the first viewport while image-led
+   scenes continue through their short cinematic tail. */
+@media (min-width: 981px) {
+  /* The breadcrumb, not the hero title, belongs to the supporting-copy tier. */
+  body.product-page--phenom .site-header .brand {
+    color: var(--immersive-text-soft);
+    font-size: var(--phenom-navigation-size);
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.42;
+  }
+
+  /* Keep these three copy groups on the same fullscreen baseline while their
+     images continue through the short cinematic tail of each section. */
+  .product-story--phenom :is(
+    #modularity,
+    #phenom-finger-geometry,
+    #phenom-additive-manufacturing
+  ) .visual-chapter__copy {
+    min-height: 100vh;
+    min-height: var(--phenom-fullscreen-height);
+    padding-bottom: clamp(3.5rem, 8vh, 7rem);
+  }
+
+  .product-story--phenom #modularity .visual-chapter__copy,
+  .product-story--phenom #phenom-additive-manufacturing .visual-chapter__copy {
+    transform: none;
+  }
+
+  /* Meet the series: use the available viewport for deliberate vertical air
+     between the introduction, images and the two caption rows. */
+  .product-story--phenom .series-showcase__intro {
+    margin-bottom: clamp(5.5rem, 7vh, 7rem);
+  }
+
+  .product-story--phenom .series-card h3 {
+    padding-block: 1.35rem;
+  }
+
+  .product-story--phenom .series-card__caption > .series-card__index {
+    padding-top: 1.35rem;
+  }
+
+  .product-story--phenom .series-card__trait {
+    padding-block: 1.05rem;
+  }
+
+  /* The split layout uses one shared gap value on both sides of its copy,
+     keeping the left/centre/right tracks optically equidistant. */
+  .product-story--phenom .key-layout-layer,
+  .product-story--phenom .key-layout-diagram {
+    --key-layout-stage-gap: clamp(3rem, 3vw, 4rem);
+  }
+
+  /* Curves: remove the old upward nudge, enlarge the intro/gallery interval,
+     and make photo names quieter without changing their approved size. */
+  .product-story--phenom #phenom-curves .detail-sequence__intro {
+    margin-bottom: clamp(5.5rem, 7vh, 7rem);
+  }
+
+  .product-story--phenom #phenom-curves .detail-sequence__item figcaption strong {
+    font-weight: 450;
+  }
+}
+
+/* Phenom final positioning pass from the 2560/2880 visual review. */
+@media (min-width: 981px) {
+  /* The supporting line belongs immediately below the specifications title. */
+  body.product-page--phenom .product-story--phenom > section#phenom-specs {
+    display: block;
+    min-height: 0;
+    height: auto;
+    padding-block: 4.5rem;
+  }
+
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-specs
+    .specs-chapter__header {
+    display: grid;
+    grid-template-areas:
+      "title"
+      "text";
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1rem;
+    margin-bottom: 3.6rem;
+  }
+
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-specs
+    .specs-chapter__header h2 {
+    width: auto;
+    grid-area: title;
+  }
+
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-specs
+    .specs-chapter__header > p:last-child {
+    width: min(100%, 35rem);
+    justify-self: start;
+    grid-area: text;
+  }
+
+}
+
+@media (min-width: 1920px) {
+  /* Keep the long third gallery label on one line only where the four-column
+     gallery has enough measured width to avoid crowding adjacent captions. */
+  .product-story--phenom #phenom-curves .detail-sequence__item figcaption strong {
+    white-space: nowrap;
+  }
+}
+
+/* Phenom layout controls: move only the model selector down by one existing
+   heading gap (doubling that visual interval) while keeping the diagram and
+   layer copy in place. Layer tabs retain the Standard segment width, so the
+   complete control grows when Mini/Micro add the Functions tab. */
+@media (min-width: 981px) {
+  body.product-page--phenom .key-layout-models__controls {
+    transform: translateY(clamp(2.75rem, 4.5vh, 4rem));
+  }
+
+  body.product-page--phenom .key-layout-tabs {
+    width: max-content;
+    grid-auto-columns: 8.25rem;
+  }
+}
+
+/* Information-led chapters occupy one viewport on regular desktop screens;
+   min-height still lets unusually short viewports grow instead of clipping. */
+@media (min-width: 981px) {
+  html:has(body.product-page--phenom) {
+    scroll-snap-type: y proximity;
+  }
+
+  body.product-page--phenom .product-story--phenom > :is(
+    .series-showcase,
+    .key-layout-chapter,
+    #phenom-curves,
+    #phenom-entropy,
+    #phenom-cta
+  ) {
+    min-height: 100vh !important;
+    min-height: var(--phenom-fullscreen-height) !important;
+    scroll-snap-align: start;
+  }
+
+  body.product-page--phenom .product-story--phenom > :is(
+    .series-showcase,
+    .key-layout-chapter,
+    #phenom-curves
+  ) {
+    padding-block: clamp(3rem, 5vh, 5rem) !important;
+  }
+
+  /* Centre the gallery by its visible content, not by the old technical box.
+     The base media height used to make captions overflow the gallery's
+     measured height, while an absent eyebrow still reserved an empty grid
+     row above the title. Include captions in flow and remove that empty row;
+     the half-pixel offset only neutralises final flex rounding. */
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-curves
+    .detail-sequence__inner {
+    transform: translateY(-0.5px);
+  }
+
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-curves
+    .detail-sequence__media {
+    height: auto;
+  }
+
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-curves
+    .detail-sequence__intro--untagged {
+    grid-template-areas: "title text";
+    grid-template-rows: auto;
+    row-gap: 0;
+  }
+
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-entropy
+    :is(.chapter-media--video, .visual-chapter__copy),
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-cta
+    .visual-chapter__copy {
+    min-height: 100vh !important;
+    min-height: var(--phenom-fullscreen-height) !important;
+  }
+}
+
+/* Phenom layout controls share one tokenised segmented-control language. */
+body.product-page--phenom :is(
+  .key-layout-models__controls,
+  .key-layout-tabs
+) {
+  border: 1px solid var(--phenom-control-border);
+  background: var(--phenom-control-surface);
+  box-shadow: none;
+}
+
+body.product-page--phenom :is(
+  .key-layout-models__label,
+  .key-layout-tabs__button
+) {
+  min-height: 3.125rem;
+  color: var(--text-soft);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+body.product-page--phenom :is(
+  .key-layout-models__input:not(:first-child) + .key-layout-models__label,
+  .key-layout-tabs__button + .key-layout-tabs__button
+) {
+  border-left: 1px solid var(--phenom-control-divider);
+}
+
+body.product-page--phenom .key-layout-models__label:hover,
+body.product-page--phenom .key-layout-tabs__button:hover {
+  background: var(--phenom-control-hover);
+  color: var(--text);
+}
+
+body.product-page--phenom .key-layout-models__input:checked + .key-layout-models__label,
+body.product-page--phenom .key-layout-tabs__button.is-active {
+  background: var(--phenom-control-active-bg);
+  color: var(--phenom-control-active-color);
+}
+
+body.product-page--phenom .key-layout-models__input:focus-visible + .key-layout-models__label,
+body.product-page--phenom .key-layout-tabs__button:focus-visible,
+body.product-page--phenom .key-layout-models__input:checked:focus-visible + .key-layout-models__label,
+body.product-page--phenom .key-layout-tabs__button.is-active:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 0;
+  box-shadow: inset 0 0 0 1px var(--accent-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.product-page--phenom :is(
+    .key-layout-models__label,
+    .key-layout-tabs__button
+  ) {
+    transition: none;
+  }
+}
+
+/* Phenom copy grid trial. Keep every approved vertical position intact while
+   giving the six image-led copy groups one desktop reading measure. Left-led
+   scenes stay on the shared 5vw start edge; right-led scenes and Entropy stay
+   on the matching end edge. */
+@media (min-width: 981px) {
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity,
+    #phenom-additive-manufacturing,
+    #phenom-wired
+  ) .visual-chapter__copy > :is(
+    h2,
+    p:not(.eyebrow),
+    .visual-chapter__metrics,
+    .visual-chapter__platforms
+  ) {
+    width: var(--phenom-copy-measure);
+    max-width: var(--phenom-copy-measure);
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    body.product-page--phenom
+    .product-story--phenom
+    #modularity
+    .chapter-text-line {
+    white-space: normal;
+  }
+
+  html[lang^="ru"]
+    body.product-page--phenom
+    .product-story--phenom
+    #modularity
+    .chapter-text-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  html[lang^="en"]
+    body.product-page--phenom
+    .product-story--phenom
+    #modularity
+    .chapter-text-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #phenom-finger-geometry,
+    #phenom-keycaps-switches
+  ) .visual-chapter__copy {
+    grid-template-columns: minmax(0, var(--phenom-copy-measure));
+    justify-content: end;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #phenom-finger-geometry,
+    #phenom-keycaps-switches
+  ) .visual-chapter__copy > :is(
+    h2,
+    p:not(.eyebrow),
+    .visual-chapter__metrics,
+    .visual-chapter__platforms
+  ) {
+    width: var(--phenom-copy-measure) !important;
+    max-width: var(--phenom-copy-measure) !important;
+    justify-self: end;
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    body.product-page--phenom
+    .product-story--phenom
+    #phenom-entropy {
+    grid-template-columns: minmax(0, 1fr) var(--phenom-copy-measure);
+  }
+
+  :is(html[lang^="ru"], html[lang^="en"])
+    body.product-page--phenom
+    .product-story--phenom
+    #phenom-entropy
+    .visual-chapter__copy > :is(
+      h2,
+      p:not(.eyebrow),
+      .visual-chapter__metrics,
+      .visual-chapter__platforms
+    ) {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Phenom navigation affordances. The hero cue points to the first chapter;
+   the fixed return control appears only after the first viewport. */
+body.product-page--phenom .phenom-scroll-cue {
+  position: absolute;
+  z-index: 4;
+  bottom: clamp(1.25rem, 2.4vh, 2.25rem);
+  left: 50%;
+  display: grid;
+  width: 2.75rem;
+  height: 3.75rem;
+  transform: translateX(-50%);
+  place-items: end center;
+  color: var(--immersive-text);
+}
+
+body.product-page--phenom .phenom-scroll-cue__line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 1.75rem;
+  transform: translateX(-50%);
+  background: currentColor;
+  opacity: 0.72;
+  transform-origin: top;
+}
+
+body.product-page--phenom .phenom-scroll-cue svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  animation: phenom-scroll-cue 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+body.product-page--phenom .phenom-scroll-cue:hover,
+body.product-page--phenom .phenom-scroll-cue:focus-visible {
+  color: #fff;
+}
+
+body.product-page--phenom .phenom-back-to-top {
+  position: fixed;
+  z-index: 30;
+  right: max(1.5rem, env(safe-area-inset-right));
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  display: inline-flex;
+  min-height: 3.125rem;
+  padding-inline: 1.25rem 0.9rem;
+  transform: translateY(0.75rem);
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.3125rem;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  box-shadow: 0 0.75rem 2.5rem rgb(18 14 16 / 12%);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  backdrop-filter: blur(12px);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+body.product-page--phenom .phenom-back-to-top.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.product-page--phenom .phenom-back-to-top:hover,
+body.product-page--phenom .phenom-back-to-top:focus-visible {
+  background: var(--text);
+  color: var(--bg);
+}
+
+body.product-page--phenom .phenom-back-to-top svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+@keyframes phenom-scroll-cue {
+  0%, 100% { transform: translateY(-0.2rem); opacity: 0.55; }
+  45% { transform: translateY(0.2rem); opacity: 1; }
+}
+
+/* The closing action matches the complete Standard/Mini/Micro selector rather
+   than one segment. It keeps the selector's height, radius and type rhythm. */
+@media (min-width: 981px) {
+  body.product-page--phenom #phenom-cta .visual-chapter__action {
+    position: relative;
+    isolation: isolate;
+    width: calc(clamp(15.75rem, 24vw, 22.5rem) + 0.25rem);
+    max-width: 100%;
+    min-height: 3.125rem;
+    padding-inline: 1rem;
+    overflow: hidden;
+    border-color: rgb(247 244 243 / 64%);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition:
+      border-color 150ms ease,
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__action::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    transform: translateX(-101%);
+    background: #f7f4f3;
+    content: "";
+    transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__action:hover,
+  body.product-page--phenom #phenom-cta .visual-chapter__action:focus-visible {
+    border-color: #f7f4f3;
+    transform: translateY(-0.125rem);
+    color: #111012;
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__action:hover::before,
+  body.product-page--phenom #phenom-cta .visual-chapter__action:focus-visible::before {
+    transform: translateX(0);
+  }
+
+  body.product-page--phenom #phenom-cta .visual-chapter__action:active {
+    transform: translateY(0) scale(0.99);
+  }
+}
+
+/* Specifications join the information-led full-screen chapters. The section
+   may still grow on short viewports, so no table content can be clipped. */
+@media (min-width: 981px) {
+  body.product-page--phenom .product-story--phenom > section#phenom-specs {
+    display: flex;
+    min-height: 100vh !important;
+    min-height: var(--phenom-fullscreen-height) !important;
+    height: auto;
+    padding-block: clamp(3rem, 5vh, 5rem) !important;
+    align-items: center;
+    scroll-snap-align: start;
+  }
+
+  body.product-page--phenom
+    .product-story--phenom
+    #phenom-specs
+    .specs-chapter__inner {
+    flex: none;
+  }
+}
+
+@media (max-width: 980px) {
+  body.product-page--phenom .phenom-scroll-cue {
+    bottom: 1rem;
+    width: 2.5rem;
+    height: 3.25rem;
+    color: #fff;
+  }
+
+  body.product-page--phenom .phenom-back-to-top {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    width: 3rem;
+    min-height: 3rem;
+    padding: 0;
+    justify-content: center;
+  }
+
+  body.product-page--phenom .phenom-back-to-top span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.product-page--phenom .phenom-scroll-cue svg {
+    animation: none;
+  }
+
+  body.product-page--phenom :is(
+    .phenom-back-to-top,
+    #phenom-cta .visual-chapter__action,
+    #phenom-cta .visual-chapter__action::before
+  ) {
+    transition: none;
+  }
+}
+
+/* Final Phenom type and table safeguards. These rules intentionally sit
+   after the chapter-specific legacy overrides so every requested +15% role
+   reaches the rendered page without forcing words out of its measure. */
+@media (min-width: 981px) {
+  :is(html[lang^="ru"], html[lang^="en"])
+    body.product-page--phenom
+    .product-story--phenom
+    :is(
+      #modularity,
+      #phenom-finger-geometry,
+      #phenom-additive-manufacturing,
+      #phenom-keycaps-switches,
+      #phenom-wired,
+      #phenom-cta
+    )
+    .visual-chapter__copy > p:not(.eyebrow) {
+    font-size: var(--phenom-body-copy-size);
+    overflow-wrap: normal;
+    text-wrap: pretty;
+    word-break: normal;
+  }
+
+  html[lang^="ru"]
+    body.product-page--phenom
+    .product-story--phenom
+    #modularity
+    .visual-chapter__copy > p:not(.eyebrow),
+  html[lang^="ru"]
+    body.product-page--phenom
+    .product-story--phenom
+    #phenom-additive-manufacturing
+    .visual-chapter__copy > p + p {
+    text-wrap: balance;
+  }
+
+  html[lang^="ru"]
+    body.product-page--phenom
+    .product-story--phenom
+    #modularity
+    .chapter-text-line,
+  html[lang^="ru"]
+    body.product-page--phenom
+    .product-story--phenom
+    #phenom-additive-manufacturing
+    .visual-chapter__copy > p + p
+    .chapter-text-line {
+    display: inline;
+    white-space: normal;
+  }
+
+}
+
+/* Phenom review pass: keep every change scoped to the requested component.
+   The desktop scroll cue sits in the actual gap between the title and intro,
+   instead of using the viewport centre where the wide RU title reaches it. */
+@media (min-width: 981px) {
+  body.product-page--phenom .phenom-scroll-cue {
+    left: calc(76.4% - 2.25rem);
+    bottom: clamp(2.75rem, 6vh, 5rem);
+  }
+
+  /* The closing button returns to its content-led width. Only its label and
+     vertical rhythm grow, so it reads like the model selector without turning
+     into a full segmented control. */
+  body.product-page--phenom #phenom-cta .visual-chapter__action {
+    width: auto;
+    min-height: 3.25rem;
+    padding-inline: 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  /* Preserve one-line reference labels by giving their values the space that
+     was previously reserved for long row headings. */
+  body.product-page--phenom
+    #phenom-curves
+    .detail-sequence__item:nth-child(3)
+    figcaption strong,
+  body.product-page--phenom
+    #phenom-specs
+    .specs-chapter__group:nth-child(2)
+    .specs-chapter__row:nth-child(2)
+    dd {
+    white-space: nowrap;
+  }
+
+}
+
+/* Entropy copy now uses the current entropy.tools product description and a
+   compact primary action. The title no longer reserves space for the removed
+   product-name lead. */
+body.product-page--phenom #phenom-entropy-title {
+  width: min(100%, 40rem);
+  max-width: 40rem;
+  text-wrap: balance;
+}
+
+body.product-page--phenom #phenom-entropy .visual-chapter__action {
+  width: max-content;
+  min-height: 3.125rem;
+  margin-top: 2rem;
+  padding-inline: 1.35rem;
+  border-color: var(--accent);
+  border-radius: 0.3125rem;
+  background: var(--accent);
+  color: #fffafb;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+body.product-page--phenom #phenom-entropy .visual-chapter__action:hover,
+body.product-page--phenom #phenom-entropy .visual-chapter__action:focus-visible {
+  border-color: var(--accent-deep);
+  background: var(--accent-deep);
+  transform: translateY(-0.125rem);
+}
+
+body.product-page--phenom #phenom-entropy .visual-chapter__action:active {
+  transform: translateY(0) scale(0.99);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.product-page--phenom #phenom-entropy .visual-chapter__action {
+    transition: none;
+  }
+}
+
+body.product-page--phenom .phenom-scroll-cue__label {
+  display: none;
+}
+
+@media (min-width: 981px) {
+  body.product-page--phenom .product-hero__intro {
+    /* Match the language/theme control gap while reserving the cue itself.
+       The cue stays on the hero's right grid line; only the copy moves left. */
+    margin-right: calc(3.25rem + clamp(0.75rem, 2vw, 1.5rem));
+  }
+
+  body.product-page--phenom .phenom-scroll-cue {
+    right: var(--phenom-story-edge);
+    bottom: calc(clamp(2.75rem, 6vh, 5rem) + 0.5rem);
+    left: auto;
+    display: inline-flex;
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0;
+    transform: none;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(247 244 243 / 30%);
+    border-radius: 0.375rem;
+    background: rgb(18 14 16 / 30%);
+    color: rgb(247 244 243 / 88%);
+    backdrop-filter: blur(10px);
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue:hover,
+  body.product-page--phenom .phenom-scroll-cue:focus-visible {
+    border-color: rgb(247 244 243 / 58%);
+    background: rgb(18 14 16 / 50%);
+  }
+
+  body.product-page--phenom .phenom-scroll-cue svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  body.product-page--phenom .product-story--phenom > :is(
+    #phenom-additive-manufacturing,
+    #phenom-keycaps-switches,
+    #phenom-wired
+  ) .visual-chapter__copy {
+    padding-bottom: 1.75rem !important;
+    transform: none !important;
+  }
+}
+
+/* Phenom polish: keep section joins optically seamless, halve the Entropy
+   video-outline strength, and make the header controls use the same quiet
+   glass treatment as the hero scroll control. */
+body.product-page--phenom .product-story--phenom > :is(
+  #phenom-finger-geometry,
+  #phenom-additive-manufacturing,
+  #phenom-keycaps-switches,
+  #phenom-wired
+) {
+  border-top: 0;
+}
+
+body.product-page--phenom #phenom-entropy .chapter-media__video {
+  border: 0;
+  outline: 1px solid rgb(96 79 86 / 28%);
+  outline-offset: -1px;
+  box-shadow:
+    0 0.25rem 1rem rgb(72 58 64 / 8%),
+    0 1.5rem 4rem rgb(72 58 64 / 16%);
+  vertical-align: top;
+}
+
+html[data-theme="dark"] body.product-page--phenom #phenom-entropy .chapter-media__video {
+  outline-color: rgb(247 244 243 / 16%);
+  box-shadow:
+    0 0.25rem 1rem rgb(0 0 0 / 20%),
+    0 1.75rem 4.5rem rgb(0 0 0 / 34%);
+}
+
+body.product-page--phenom :is(.language-link, .theme-toggle) {
+  width: 3.25rem;
+  min-width: 3.25rem;
+  height: 3.25rem;
+  padding: 0;
+  border: 1px solid rgb(247 244 243 / 30%);
+  border-radius: 0.375rem;
+  background: rgb(18 14 16 / 30%);
+  color: rgb(247 244 243 / 88%);
+  backdrop-filter: blur(10px);
+}
+
+body.product-page--phenom :is(.language-link, .theme-toggle):hover,
+body.product-page--phenom :is(.language-link, .theme-toggle):focus-visible {
+  border-color: rgb(247 244 243 / 58%);
+  background: rgb(18 14 16 / 50%);
+  color: #fff;
+}
+
+@media (max-width: 980px) {
+  body.product-page--phenom .phenom-scroll-cue {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: 0.75rem;
+    left: auto;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    transform: none;
+    place-items: center;
+    border: 1px solid rgb(247 244 243 / 34%);
+    border-radius: 0.375rem;
+    background: rgb(18 14 16 / 28%);
+    backdrop-filter: blur(8px);
+  }
+
+  body.product-page--phenom .phenom-scroll-cue__label {
+    display: none;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+}
+
+/* Phenom desktop system pass. Keep the component scale in shared tokens so
+   RU/EN and every desktop width resolve from the same source of truth. */
+@media (min-width: 981px) {
+  body.product-page--phenom {
+    --phenom-desktop-heading-size: clamp(2.97rem, 4.4vw, 5.5rem);
+    --phenom-desktop-copy-size: var(--phenom-intro-copy-size);
+    --phenom-desktop-copy-weight: 400;
+    --phenom-desktop-copy-leading: 1.5;
+    --phenom-action-height: clamp(3.25rem, 3.2vw, 3.75rem);
+    --phenom-action-padding: clamp(1.5rem, 2vw, 2.25rem);
+    --phenom-action-size: clamp(0.84rem, 0.8vw, 0.95rem);
+    --phenom-action-radius: 0.3125rem;
+    --phenom-hero-bottom-space: clamp(2.75rem, 6vh, 5rem);
+    --phenom-hero-cue-size: 2rem;
+    /* Keep right-hand feature copy inside the composition instead of pinning
+       it to the outer grid edge. The inset scales with the desktop width. */
+    --phenom-desktop-copy-right-offset: clamp(-4.5rem, -4vw, -3rem);
+    --phenom-layer-base: #ead8de;
+    --phenom-layer-numbers: #d15150;
+    --phenom-layer-symbols: #79c9e2;
+    --phenom-layer-function: #ede1a5;
+    --phenom-layer-cursor: #86d994;
+    --phenom-layer-active-text: #302e32;
+  }
+
+  html[data-theme="dark"] body.product-page--phenom {
+    --phenom-layer-active-text: #fff7f8;
+  }
+
+  /* Keep finger geometry on the same right-hand desktop guide as switches. */
+  body.product-page--phenom .product-story--phenom #phenom-finger-geometry .visual-chapter__copy {
+    transform: translate(
+      var(--phenom-desktop-copy-right-offset),
+      clamp(-4.5rem, -7.5vh, -3rem)
+    );
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__copy {
+    padding-bottom: var(--phenom-hero-bottom-space);
+  }
+
+  body.product-page--phenom .site-header .brand,
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    /* This desktop contract intentionally outranks legacy locale-specific
+       adjustments: both labels are one shared supporting-copy tier. */
+    font-size: var(--phenom-hero-copy-size) !important;
+    font-weight: 500 !important;
+    line-height: 1.42;
+  }
+
+  body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    width: max-content;
+    max-width: min(31rem, 100%);
+    margin-right: 0;
+    justify-self: end;
+    text-align: right;
+  }
+
+  body.product-page--phenom .site-header .theme-toggle {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: rgb(247 244 243 / 72%);
+    opacity: 0.82;
+    backdrop-filter: none;
+    transition: color 150ms ease, opacity 150ms ease, background-color 150ms ease;
+  }
+
+  body.product-page--phenom .site-header .theme-toggle:hover,
+  body.product-page--phenom .site-header .theme-toggle:focus-visible {
+    border: 0;
+    background: rgb(247 244 243 / 8%);
+    color: #fff;
+    opacity: 1;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue {
+    right: auto;
+    bottom: calc((var(--phenom-hero-bottom-space) - var(--phenom-hero-cue-size)) / 2);
+    left: 50%;
+    width: var(--phenom-hero-cue-size);
+    height: var(--phenom-hero-cue-size);
+    transform: translateX(-50%);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: rgb(247 244 243 / 72%);
+    backdrop-filter: none;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue:hover,
+  body.product-page--phenom .phenom-scroll-cue:focus-visible {
+    border: 0;
+    background: transparent;
+    color: #fff;
+  }
+
+  body.product-page--phenom .phenom-scroll-cue svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    #modularity-title,
+    #phenom-finger-geometry-title,
+    #phenom-additive-manufacturing-title,
+    #phenom-keycaps-switches-title,
+    #phenom-entropy-title,
+    #phenom-wired-title
+  ) {
+    font-size: var(--phenom-desktop-heading-size);
+    font-weight: 650;
+    line-height: 0.96;
+  }
+
+  body.product-page--phenom .product-story--phenom :is(
+    .series-showcase__intro > p:last-child,
+    .key-layout-layer__copy > p:last-child,
+    #modularity .visual-chapter__copy > p:not(.eyebrow),
+    #phenom-finger-geometry .visual-chapter__copy > p:not(.eyebrow),
+    #phenom-curves .detail-sequence__intro > p:last-child,
+    #phenom-additive-manufacturing .visual-chapter__copy > p:not(.eyebrow),
+    #phenom-keycaps-switches .visual-chapter__copy > p:not(.eyebrow),
+    #phenom-entropy .visual-chapter__copy > p:not(.eyebrow),
+    #phenom-entropy .visual-chapter__platforms,
+    #phenom-wired .visual-chapter__copy > p:not(.eyebrow),
+    #phenom-cta .visual-chapter__copy > p:not(.eyebrow)
+  ) {
+    /* Earlier chapter-specific rules use different legacy tiers. The final
+       desktop system resolves every requested paragraph through one token. */
+    font-size: var(--phenom-desktop-copy-size) !important;
+    font-weight: var(--phenom-desktop-copy-weight) !important;
+    line-height: var(--phenom-desktop-copy-leading) !important;
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="base"] {
+    --phenom-layer-color: var(--phenom-layer-base);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="numbers"] {
+    --phenom-layer-color: var(--phenom-layer-numbers);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="symbols"] {
+    --phenom-layer-color: var(--phenom-layer-symbols);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="function"] {
+    --phenom-layer-color: var(--phenom-layer-function);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button[data-key-layout-layer-target="cursor"] {
+    --phenom-layer-color: var(--phenom-layer-cursor);
+  }
+
+  body.product-page--phenom .key-layout-tabs__button.is-active {
+    background: color-mix(
+      in srgb,
+      var(--phenom-layer-color) 50%,
+      var(--phenom-control-surface)
+    );
+    color: var(--phenom-layer-active-text);
+  }
+
+  html[data-theme="dark"]
+    body.product-page--phenom
+    .key-layout-tabs__button.is-active {
+    background: color-mix(
+      in srgb,
+      var(--phenom-layer-color) 50%,
+      var(--phenom-control-surface)
+    );
+    color: var(--phenom-layer-active-text);
+  }
+
+  body.product-page--phenom :is(
+    #phenom-entropy,
+    #phenom-cta
+  ) .visual-chapter__action {
+    width: auto;
+    min-height: var(--phenom-action-height);
+    padding-inline: var(--phenom-action-padding);
+    border-radius: var(--phenom-action-radius);
+    font-size: var(--phenom-action-size);
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+  }
+
+  body.product-page--phenom .phenom-back-to-top {
+    right: max(1.25rem, env(safe-area-inset-right));
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
+    min-height: 2.5rem;
+    padding-inline: 0.85rem 0.65rem;
+    gap: 0.45rem;
+    border-color: color-mix(in srgb, var(--line-strong) 64%, transparent);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    box-shadow: none;
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    backdrop-filter: blur(8px);
+  }
+
+  body.product-page--phenom .phenom-back-to-top.is-visible {
+    opacity: 0.58;
+  }
+
+  body.product-page--phenom .phenom-back-to-top:hover,
+  body.product-page--phenom .phenom-back-to-top:focus-visible {
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    color: var(--text);
+    opacity: 0.92;
+  }
+
+  body.product-page--phenom .phenom-back-to-top svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    stroke-width: 1.35;
+  }
+}
+
+/* Phenom content-system extension: hero supporting copy shares the series
+   introduction tier, controls use one readable glass treatment, and the
+   expanded specification set flows as a responsive six-group matrix. */
+body.product-page--phenom {
+  --phenom-hero-supporting-size: var(--phenom-intro-copy-size);
+  --phenom-hero-supporting-weight: 400;
+  --phenom-hero-text-color: rgb(247 244 243);
+  --phenom-hero-control-size: max(3.375rem, 44px);
+  --phenom-hero-control-icon-size: max(1.4rem, 22px);
+  --phenom-hero-control-stroke: 1.9;
+  --phenom-hero-control-color: rgb(247 244 243);
+}
+
+body.product-page--phenom .site-header .brand,
+body.product-page--phenom .product-hero--immersive .product-hero__intro {
+  font-size: var(--phenom-hero-supporting-size) !important;
+  font-weight: var(--phenom-hero-supporting-weight) !important;
+  line-height: 1.5;
+}
+
+body.product-page--phenom .site-header .brand {
+  color: var(--phenom-hero-text-color);
+  opacity: 1;
+}
+
+body.product-page--phenom .product-hero--immersive .product-hero__intro {
+  width: max-content;
+  max-width: min(34rem, 100%);
+  justify-self: end;
+  text-align: left;
+}
+
+body.product-page--phenom .site-header .theme-toggle {
+  width: var(--phenom-hero-control-size);
+  min-width: var(--phenom-hero-control-size);
+  height: var(--phenom-hero-control-size);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--phenom-hero-control-color);
+  opacity: 1;
+  backdrop-filter: none;
+  transition: color 150ms ease, transform 150ms ease;
+}
+
+body.product-page--phenom .site-header .theme-toggle svg {
+  width: var(--phenom-hero-control-icon-size);
+  height: var(--phenom-hero-control-icon-size);
+  stroke-width: var(--phenom-hero-control-stroke);
+}
+
+body.product-page--phenom .site-header .theme-toggle:hover,
+body.product-page--phenom .site-header .theme-toggle:focus-visible {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+body.product-page--phenom #phenom-finger-geometry .chapter-text-line {
+  display: block;
+  white-space: normal;
+}
+
+/* Phenom reference: quiet grey specification rows, black group headings,
+   and internal divider rules. Keep the shared landing type scale. */
+body.product-page--phenom #phenom-specs .specs-chapter__groups {
+  border-top: 0;
+}
+
+html:not([data-theme="dark"]) body.product-page--phenom #phenom-specs {
+  background: #fff;
+}
+
+body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+body.product-page--phenom #phenom-specs .specs-chapter__row dt {
+  color: var(--text-soft);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+body.product-page--phenom #phenom-specs .specs-chapter__row dd {
+  color: var(--text-soft);
+  font-weight: 400;
+}
+
+body.product-page--phenom #phenom-specs .specs-chapter__row dd a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+body.product-page--phenom #phenom-specs .specs-chapter__row dd a:hover,
+body.product-page--phenom #phenom-specs .specs-chapter__row dd a:focus-visible {
+  color: var(--accent-deep);
+}
+
+body.product-page--phenom #phenom-specs .specs-chapter__row dd a[href^="mailto:"] {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 981px) {
+  body.product-page--phenom .product-story--phenom #phenom-specs .specs-chapter__header {
+    display: block;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header h2 {
+    max-width: none;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__header > p:last-child {
+    margin-top: 0.45rem;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group {
+    padding: 0.75rem 1.6rem;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__heading {
+    min-height: 2.6rem;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group h3 {
+    margin-bottom: 0.4rem;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__note {
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row {
+    min-height: 2.5rem;
+    padding-block: 0;
+    align-items: center;
+    border-top: 0;
+    gap: 0.8rem;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row :is(dt, dd) {
+    line-height: 1.4;
+  }
+}
+
+@media (min-width: 1200px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__inner {
+    width: var(--phenom-story-width);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    /* Match the landing's fluid story width, without jumps at 1920px. */
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, calc(37.4vw - 6rem))
+      minmax(0, calc(19.3vw + 15.8rem));
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group .specs-chapter__row,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:last-child .specs-chapter__row {
+    grid-template-columns: minmax(0, max(8.5rem, 28%)) minmax(0, 1fr);
+    column-gap: var(--phenom-spec-label-gap);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 2) {
+    padding-left: clamp(3.1rem, 4.15vw, 6.65rem);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n) {
+    padding-left: clamp(2.2rem, calc(5.3vw - 1.75rem), 6.65rem);
+    padding-right: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 2) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(14rem, 10.3vw, 16.3rem)) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(11.3rem, 8vw, 12.8rem)) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group {
+    border-right: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 2),
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n) {
+    border-left: 1px solid var(--phenom-spec-grid-rule);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(n + 4) {
+    border-top: 1px solid var(--phenom-spec-grid-rule);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3) .specs-chapter__row:nth-child(2) dd {
+    white-space: nowrap;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group {
+    padding-block: clamp(0.75rem, calc(0.187vw + 0.526rem), 1rem);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 1) {
+    padding-left: clamp(1.6rem, 1.75vw, 2.75rem);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__heading {
+    min-height: clamp(2.6rem, calc(2.02vw + 0.18rem), 5.3rem);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(n + 4) .specs-chapter__heading {
+    min-height: clamp(2.6rem, calc(1.35vw + 0.98rem), 4.4rem);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row {
+    min-height: clamp(2.5rem, calc(0.673vw + 1.69rem), 3.4rem);
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1199px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(2n) {
+    border-right: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(n + 3) {
+    border-top: 1px solid var(--phenom-spec-grid-rule);
+  }
+}
+
+/* Phenom desktop specifications: equal column insets and row rhythm at every
+   desktop scale. Keep the shared type token and the mobile layout untouched. */
+@media (min-width: 981px) {
+  body.product-page--phenom #phenom-specs {
+    --phenom-spec-rule: color-mix(in srgb, var(--line) 72%, transparent);
+    --phenom-spec-grid-rule: color-mix(in srgb, var(--line) 82%, transparent);
+    --phenom-spec-cell-inset: clamp(1.3rem, 1.3vw, 2rem);
+    --phenom-spec-label-gap: clamp(1rem, 1.5vw, 2.4rem);
+    --phenom-spec-heading-height: 7rem;
+    --phenom-spec-row-height: 5.4rem;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    border-top: 1px solid color-mix(in srgb, var(--line-strong) 78%, transparent);
+    border-bottom: 1px solid var(--phenom-spec-grid-rule);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(n) {
+    padding-inline: var(--phenom-spec-cell-inset);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__heading,
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(n + 4) .specs-chapter__heading {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    align-content: center;
+    column-gap: 0.6em;
+    min-height: var(--phenom-spec-heading-height);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__heading h3 {
+    margin-bottom: 0;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__heading .specs-chapter__note {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: var(--phenom-spec-copy-size);
+    font-weight: 400;
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row {
+    min-height: var(--phenom-spec-row-height);
+    padding-block: 0.45rem;
+    column-gap: var(--phenom-spec-label-gap);
+    border-top: 1px solid var(--phenom-spec-rule);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__row dd {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (min-width: 1200px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    grid-template-columns: minmax(0, 31fr) minmax(0, 34fr) minmax(0, 35fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 1) .specs-chapter__row {
+    grid-template-columns: minmax(0, max(10rem, 27%)) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 2) .specs-chapter__row {
+    grid-template-columns: minmax(0, 13.4rem) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(11rem, 8vw, 12rem)) minmax(0, 1fr);
+  }
+}
+
+/* Give long values room from laptop widths upward; keep the 1200px
+   three-column fallback, where the narrower labels would collide. */
+@media (min-width: 1360px) {
+  body.product-page--phenom #phenom-specs {
+    --phenom-spec-label-gap: clamp(1rem, 1vw, 2rem);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 1) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(8rem, 8vw, 13rem)) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 2) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(9.5rem, 10vw, 15.5rem)) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(140px, 7.5vw, 204px)) minmax(0, 1fr);
+  }
+}
+
+/* A restrained measure keeps the matrix from spanning the entire large display. */
+@media (min-width: 2400px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__inner {
+    max-width: max(2500px, 86.8vw);
+  }
+}
+
+@media (min-width: 1920px) {
+  body.product-page--phenom #phenom-specs .specs-chapter__groups {
+    grid-template-columns: minmax(0, 30.3fr) minmax(0, 37fr) minmax(0, 32.7fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 1) .specs-chapter__row {
+    grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n + 2) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(245px, 8.7vw, 280px)) minmax(0, 1fr);
+  }
+
+  body.product-page--phenom #phenom-specs .specs-chapter__group:nth-child(3n) .specs-chapter__row {
+    grid-template-columns: minmax(0, clamp(190px, 8.8vw, 280px)) minmax(0, 1fr);
+  }
+}
