@@ -5058,6 +5058,26 @@ body.product-page--phenom .phenom-scroll-cue:focus-visible {
   color: #fff;
 }
 
+body.product-page--phenom .chapter-media__play {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  max-width: calc(100% - 24px);
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+body.product-page--phenom .chapter-media__play[hidden] { display: none; }
+
 body.product-page--phenom .phenom-back-to-top {
   position: fixed;
   z-index: 30;
@@ -5684,9 +5704,10 @@ body.product-page--phenom :is(.language-link, .theme-toggle):focus-visible {
   body.product-page--phenom .phenom-back-to-top {
     right: max(1.25rem, env(safe-area-inset-right));
     bottom: max(1.25rem, env(safe-area-inset-bottom));
-    min-height: 2.5rem;
-    padding-inline: 0.85rem 0.65rem;
-    gap: 0.45rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding-inline: 12px 10px;
+    gap: 6px;
     border-color: color-mix(in srgb, var(--line-strong) 64%, transparent);
     background: color-mix(in srgb, var(--bg) 78%, transparent);
     box-shadow: none;
@@ -5708,8 +5729,8 @@ body.product-page--phenom :is(.language-link, .theme-toggle):focus-visible {
   }
 
   body.product-page--phenom .phenom-back-to-top svg {
-    width: 0.95rem;
-    height: 0.95rem;
+    width: 18px;
+    height: 18px;
     stroke-width: 1.35;
   }
 }
