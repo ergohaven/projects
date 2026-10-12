@@ -1,0 +1,259 @@
+{{ define "main" }}
+  {{ $isPhenom := eq .TranslationKey "phenom" }}
+  {{ $heroVariant := .Params.hero_variant | default "split" }}
+  {{ $immersiveHero := eq $heroVariant "immersive" }}
+  {{ $heroImagePath := .Params.hero_image }}
+  {{ $heroMedia := .Params.hero_media }}
+  {{ $renderHeroImage := and $immersiveHero $heroImagePath }}
+  {{ $renderHeroPlaceholder := and $immersiveHero (not $heroImagePath) $heroMedia }}
+  <article class="product-story product-story--{{ .TranslationKey | urlize }}">
+    <section class="product-hero product-hero--{{ $heroVariant | urlize }}{{ if not $immersiveHero }} shell{{ end }}" aria-labelledby="product-title">
+      <div class="product-hero__copy">
+        {{ if not $immersiveHero }}<p class="eyebrow">{{ .Params.eyebrow }}</p>{{ end }}
+        <h1 id="product-title">{{ .Params.hero_title }}</h1>
+        <p class="product-hero__intro">
+          {{ if reflect.IsSlice .Params.hero_text }}
+            {{ range .Params.hero_text }}<span class="product-hero__intro-line">{{ . }}</span>{{ end }}
+          {{ else }}
+            {{ .Params.hero_text }}
+          {{ end }}
+        </p>
+        {{ if not $immersiveHero }}
+          <ul class="product-facts" aria-label="{{ .Params.facts_label }}">
+            {{ range .Params.facts }}<li>{{ . }}</li>{{ end }}
+          </ul>
+        {{ end }}
+      </div>
+      <div class="product-stage"{{ if not (or $renderHeroImage $renderHeroPlaceholder) }} role="img" aria-label="{{ .Params.visual_alt }}"{{ end }}>
+        {{ if $renderHeroImage }}
+          {{ $source := resources.Get $heroImagePath }}
+          {{ if not $source }}
+            {{ errorf "Hero image %q declared by %s was not found" $heroImagePath .File.Path }}
+          {{ end }}
+          {{ $webp720 := $source.Resize "720x webp q88" }}
+          {{ $webp1280 := $source.Resize "1280x webp q90" }}
+          {{ $webp1920 := $source.Resize "1920x webp q91" }}
+          {{ $webp2560 := $source.Resize "2560x webp q92" }}
+          {{ $jpeg720 := $source.Resize "720x jpg q88" }}
+          {{ $jpeg1280 := $source.Resize "1280x jpg q89" }}
+          {{ $jpeg1920 := $source.Resize "1920x jpg q90" }}
+          {{ $jpeg2560 := $source.Resize "2560x jpg q91" }}
+          <picture class="product-stage__picture">
+            <source
+              type="image/webp"
+              srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w, {{ $webp2560.RelPermalink }} 2560w"
+              sizes="100vw"
+            >
+            <img
+              class="product-stage__image"
+              src="{{ $jpeg1920.RelPermalink }}"
+              srcset="{{ $jpeg720.RelPermalink }} 720w, {{ $jpeg1280.RelPermalink }} 1280w, {{ $jpeg1920.RelPermalink }} 1920w, {{ $jpeg2560.RelPermalink }} 2560w"
+              sizes="100vw"
+              width="{{ $source.Width }}"
+              height="{{ $source.Height }}"
+              alt="{{ .Params.visual_alt }}"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            >
+          </picture>
+        {{ else if $renderHeroPlaceholder }}
+          {{ partial "phenom/product/chapter-media.html" (dict
+            "page" $
+            "media" $heroMedia
+            "class" "product-stage__placeholder"
+            "placeholder_id" ($heroMedia.placeholder_id | default "hero")
+          ) }}
+        {{ else }}
+          <span class="product-stage__index" aria-hidden="true">{{ .Params.visual_index }}</span>
+          <span class="product-stage__label">{{ .Params.visual_label }}</span>
+        {{ end }}
+      </div>
+      {{ if $isPhenom }}
+        <a
+          class="phenom-scroll-cue"
+          href="#product-series"
+          aria-label="{{ .Params.ui.scroll_label | default "Scroll to the next section" }}"
+          data-phenom-scroll-cue
+        >
+          <span class="phenom-scroll-cue__label" aria-hidden="true">{{ .Params.ui.scroll_hint | default "Scroll" }}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6.5 9 5.5 5.5L17.5 9"></path>
+          </svg>
+        </a>
+      {{ end }}
+    </section>
+
+    {{ with .Params.series }}
+      <section{{ if $isPhenom }} id="product-series"{{ end }} class="series-showcase section" aria-labelledby="series-title">
+        <header class="series-showcase__intro{{ if not .eyebrow }} series-showcase__intro--untagged{{ end }}">
+          {{ with .eyebrow }}<p class="eyebrow">{{ . }}</p>{{ end }}
+          <h2 id="series-title"{{ with .title_lines }} aria-label="{{ $.Params.series.title }}"{{ end }}>
+            {{- with .title_lines -}}
+              {{- range . }}<span class="section-title__line" aria-hidden="true">{{ . }}</span>{{ end -}}
+            {{- else -}}
+              {{- .title -}}
+            {{- end -}}
+          </h2>
+          <p>
+            {{ $mobileBreakBefore := .mobile_break_before }}
+            {{ with .text_lines }}
+              {{ range . }}
+                <span class="series-showcase__text-line">
+                  {{- if and $mobileBreakBefore (in . $mobileBreakBefore) -}}
+                    {{- replace . $mobileBreakBefore (printf "<span class=\"series-showcase__mobile-break\" aria-hidden=\"true\"></span>%s" $mobileBreakBefore) | safeHTML -}}
+                  {{- else -}}
+                    {{- . -}}
+                  {{- end -}}
+                </span>
+              {{ end }}
+            {{ else }}
+              {{ .text }}
+            {{ end }}
+          </p>
+        </header>
+        <div class="series-gallery" role="list" aria-label="{{ .gallery_label }}">
+          {{ range $index, $item := .items }}
+            <article class="series-card" role="listitem">
+              {{ if $isPhenom }}
+                <h3 class="series-card__mobile-heading"><span class="series-card__mobile-index" aria-hidden="true">0{{ add $index 1 }}</span><span class="series-card__mobile-name">{{ $item.name }}</span>{{ with $item.key_count }}<span class="series-card__mobile-key-count">{{ . }}</span>{{ end }}</h3>
+              {{ end }}
+              <div class="series-card__visual">
+                {{ if $item.image }}
+                  {{ $source := resources.Get $item.image }}
+                  {{ if not $source }}
+                    {{ errorf "Series image %q declared by %s was not found" $item.image $.File.Path }}
+                  {{ end }}
+                  {{ $webp720 := $source.Resize "720x webp q88" }}
+                  {{ $webp1280 := $source.Resize "1280x webp q90" }}
+                  {{ $webp1920 := $source.Resize "1920x webp q91" }}
+                  {{ $jpeg720 := $source.Resize "720x jpg q88" }}
+                  {{ $jpeg1280 := $source.Resize "1280x jpg q89" }}
+                  {{ $jpeg1920 := $source.Resize "1920x jpg q90" }}
+                  <picture class="series-card__picture">
+                    <source
+                      type="image/webp"
+                      srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w"
+                      sizes="(max-width: 700px) 100vw, 33vw"
+                    >
+                    <img
+                      class="series-card__image"
+                      src="{{ $jpeg1280.RelPermalink }}"
+                      srcset="{{ $jpeg720.RelPermalink }} 720w, {{ $jpeg1280.RelPermalink }} 1280w, {{ $jpeg1920.RelPermalink }} 1920w"
+                      sizes="(max-width: 700px) 100vw, 33vw"
+                      width="{{ $source.Width }}"
+                      height="{{ $source.Height }}"
+                      alt="{{ $item.image_alt }}"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  </picture>
+                {{ else }}
+                  {{ if not $item.id }}
+                    {{ errorf "Placeholder series item declared by %s has no id" $.File.Path }}
+                  {{ end }}
+                  {{ partial "phenom/product/chapter-media.html" (dict
+                    "page" $
+                    "media" $item
+                    "class" "series-card__media"
+                    "placeholder_id" ($item.placeholder_id | default (printf "series-%s" $item.id))
+                  ) }}
+                {{ end }}
+                {{ if not $isPhenom }}<span class="series-card__index" aria-hidden="true">0{{ add $index 1 }}</span>{{ end }}
+              </div>
+              {{ if $isPhenom }}
+                <div class="series-card__caption">
+                  <span class="series-card__index" aria-hidden="true">0{{ add $index 1 }}</span>
+                  <div class="series-card__caption-copy">
+              {{ end }}
+              <div class="series-card__heading">
+                <h3>
+                  {{- $item.name -}}
+                  {{- with $item.key_count }}
+                    <span class="series-card__heading-separator" aria-hidden="true"> / </span><span class="series-card__key-count">{{ . }}</span>
+                  {{- end -}}
+                </h3>
+              </div>
+              {{ with $item.traits }}
+                <ul class="series-card__traits">
+                  {{ range . }}
+                    <li class="series-card__trait">{{ . }}</li>
+                  {{ end }}
+                </ul>
+              {{ end }}
+              {{ if $isPhenom }}
+                  </div>
+                </div>
+              {{ end }}
+            </article>
+          {{ end }}
+        </div>
+      </section>
+    {{ else }}
+      {{ if not $.Params.story_chapters }}
+        <section class="principles section shell" aria-labelledby="principles-title">
+        <header class="section-heading">
+          <p class="eyebrow">{{ .Params.principles_eyebrow }}</p>
+          <h2 id="principles-title">{{ .Params.principles_title }}</h2>
+        </header>
+        <ol class="principles__list">
+          {{ range $index, $item := .Params.principles }}
+            <li>
+              <span class="principles__number" aria-hidden="true">0{{ add $index 1 }}</span>
+              <div>
+                <h3>{{ $item.title }}</h3>
+                <p>{{ $item.text }}</p>
+              </div>
+            </li>
+          {{ end }}
+        </ol>
+        </section>
+
+        <section class="software section shell" aria-labelledby="software-title">
+        <div class="software__heading">
+          <p class="eyebrow">{{ .Params.software.eyebrow }}</p>
+          <h2 id="software-title">{{ .Params.software.title }}</h2>
+        </div>
+        <div class="software__body">
+          <p>{{ .Params.software.text }}</p>
+          <ul>
+            {{ range .Params.software.points }}<li>{{ . }}</li>{{ end }}
+          </ul>
+        </div>
+        </section>
+      {{ end }}
+    {{ end }}
+
+    {{ with .Params.modularity }}
+      {{ partial "phenom/product/visual-chapter.html" (dict "page" $ "chapter" .) }}
+    {{ end }}
+
+    {{ with .Params.key_layout }}
+      {{ $diagram := index hugo.Data.key_layouts .diagram }}
+      {{ if not $diagram }}
+        {{ errorf "Key layout data %q declared by %s was not found" .diagram $.File.Path }}
+      {{ else }}
+        {{ partial "phenom/product/key-layout.html" (dict "page" $ "chapter" . "diagram" $diagram) }}
+      {{ end }}
+    {{ end }}
+
+    {{ range .Params.story_chapters }}
+      {{ partial "phenom/product/story-chapter.html" (dict "page" $ "chapter" .) }}
+    {{ end }}
+  </article>
+  {{ if $isPhenom }}
+    <a
+      class="phenom-back-to-top"
+      href="#top"
+      aria-label="{{ .Params.ui.back_to_top_label | default "Back to top" }}"
+      aria-hidden="true"
+      tabindex="-1"
+      data-phenom-back-to-top
+    >
+      <span>{{ .Params.ui.back_to_top_label | default "Back to top" }}</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m6.5 15 5.5-5.5 5.5 5.5"></path>
+      </svg>
+    </a>
+  {{ end }}
+{{ end }}

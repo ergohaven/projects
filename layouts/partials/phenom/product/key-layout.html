@@ -1,0 +1,127 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $diagram := .diagram -}}
+{{- $locale := $page.Language.Lang -}}
+{{- $assetRoot := printf "%s/%s" $diagram.source.asset_root $locale -}}
+{{- if ne (len $chapter.models) (len $diagram.models) -}}
+  {{- errorf "Key layout model copy and diagram counts differ in %s" $page.File.Path -}}
+{{- end -}}
+{{- range $modelIndex, $modelCopy := $chapter.models -}}
+  {{- $model := index $diagram.models $modelIndex -}}
+  {{- if ne $modelCopy.id $model.id -}}
+    {{- errorf "Key layout model %d differs between copy and diagram in %s" $modelIndex $page.File.Path -}}
+  {{- end -}}
+  {{- range $layerData := $model.layers -}}
+    {{- $layerCopies := where $chapter.layers "id" $layerData.id -}}
+    {{- if ne (len $layerCopies) 1 -}}
+      {{- errorf "Key layout copy for %s/%s is missing or duplicated in %s" $model.id $layerData.id $page.File.Path -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<section
+  class="key-layout-chapter section"
+  aria-labelledby="key-layout-title"
+  data-key-layout
+  data-layout-source="{{ $diagram.source.commit }}"
+>
+  <div class="key-layout-chapter__inner">
+    <header class="key-layout-chapter__intro{{ if not $chapter.eyebrow }} key-layout-chapter__intro--untagged{{ end }}{{ if not (or $chapter.text $chapter.text_lines) }} key-layout-chapter__intro--centered{{ end }}">
+      {{ with $chapter.eyebrow }}<p class="eyebrow">{{ . }}</p>{{ end }}
+      <h2 id="key-layout-title"{{ with $chapter.title_lines }} aria-label="{{ $chapter.title }}"{{ end }}>
+        {{- with $chapter.title_lines -}}
+          {{- range . }}<span class="section-title__line" aria-hidden="true">{{ . }}</span>{{ end -}}
+        {{- else -}}
+          {{- $chapter.title -}}
+        {{- end -}}
+      </h2>
+      {{ if or $chapter.text $chapter.text_lines }}<p>{{ with $chapter.text_lines }}{{ range $i, $line := . }}{{ if $i }} {{ end }}<span class="key-layout-intro-line">{{ . }}</span>{{ end }}{{ else }}{{ $chapter.text }}{{ end }}</p>{{ end }}
+    </header>
+
+    <fieldset class="key-layout-models">
+      <legend class="key-layout-models__legend">{{ $chapter.models_label }}</legend>
+      <div class="key-layout-models__controls">
+        {{- range $modelIndex, $modelCopy := $chapter.models -}}
+          <input
+            class="key-layout-models__input"
+            id="key-layout-model-{{ $modelCopy.id }}"
+            name="key-layout-model"
+            type="radio"
+            value="{{ $modelCopy.id }}"
+            data-key-layout-model-control="{{ $modelCopy.id }}"
+            {{- if eq $modelIndex 0 }} checked{{ end -}}
+          >
+          <label
+            class="key-layout-models__label"
+            id="key-layout-model-label-{{ $modelCopy.id }}"
+            for="key-layout-model-{{ $modelCopy.id }}"
+          >{{ $modelCopy.tab }}</label>
+        {{- end -}}
+      </div>
+    </fieldset>
+
+    <div class="key-layout-model-stages">
+      {{- range $modelIndex, $modelCopy := $chapter.models -}}
+        {{- $model := index $diagram.models $modelIndex -}}
+        {{- $reference := index $model.references $locale -}}
+        {{- if not $reference -}}
+          {{- errorf "Key layout reference for %s/%s was not found in %s" $model.id $locale $page.File.Path -}}
+        {{- end -}}
+        <div
+          class="key-layout-model-stage"
+          data-key-layout-model-view="{{ $model.id }}"
+          data-layout-reference="{{ $reference.sha256 }}"
+          aria-labelledby="key-layout-model-label-{{ $model.id }}"
+          {{- if ne $modelIndex 0 }} hidden{{ end -}}
+        >
+          <div class="key-layout-panels">
+            {{- range $layerIndex, $layerData := $model.layers -}}
+              {{- $layerCopy := index (where $chapter.layers "id" $layerData.id) 0 -}}
+              <article
+                class="key-layout-layer"
+                id="key-layout-panel-{{ $model.id }}-{{ $layerData.id }}"
+                role="tabpanel"
+                aria-labelledby="key-layout-tab-{{ $model.id }}-{{ $layerData.id }}"
+                tabindex="0"
+                data-key-layout-layer-panel="{{ $layerData.id }}"
+                {{- if ne $layerIndex 0 }} hidden{{ end -}}
+              >
+                <div
+                  class="key-layout-diagram"
+                  role="img"
+                  aria-label="{{ $modelCopy.diagram_label }} — {{ $layerCopy.title }}"
+                >
+                  {{ partial "phenom/product/key-layout-half.html" (dict "page" $page "assetRoot" $assetRoot "model" $model "layer" $layerData "side" "left") }}
+                  {{ partial "phenom/product/key-layout-half.html" (dict "page" $page "assetRoot" $assetRoot "model" $model "layer" $layerData "side" "right") }}
+                </div>
+                <div class="key-layout-layer__copy">
+                  <h3>{{ $layerCopy.title }}</h3>
+                  <p>{{ $layerCopy.text }}</p>
+                </div>
+              </article>
+            {{- end -}}
+          </div>
+
+          <div
+            class="key-layout-tabs"
+            role="tablist"
+            aria-label="{{ $chapter.tabs_label }} — {{ $modelCopy.tab }}"
+          >
+            {{- range $layerIndex, $layerData := $model.layers -}}
+              {{- $layerCopy := index (where $chapter.layers "id" $layerData.id) 0 -}}
+              <button
+                class="key-layout-tabs__button{{ if eq $layerIndex 0 }} is-active{{ end }}"
+                id="key-layout-tab-{{ $model.id }}-{{ $layerData.id }}"
+                type="button"
+                role="tab"
+                aria-selected="{{ if eq $layerIndex 0 }}true{{ else }}false{{ end }}"
+                aria-controls="key-layout-panel-{{ $model.id }}-{{ $layerData.id }}"
+                tabindex="{{ if eq $layerIndex 0 }}0{{ else }}-1{{ end }}"
+                data-key-layout-layer-target="{{ $layerData.id }}"
+              >{{ $layerCopy.tab }}</button>
+            {{- end -}}
+          </div>
+        </div>
+      {{- end -}}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f6f4f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1e1e1e" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    var preference = window.matchMedia('(prefers-color-scheme: dark)');
+    var theme = preference.matches ? 'dark' : 'light';
+    try {
+      var saved = localStorage.getItem('ergohaven-projects-theme');
+      if (saved === 'light' || saved === 'dark') theme = saved;
+    } catch (_) {
+      // The system preference remains authoritative when storage is unavailable.
+    }
+    document.documentElement.dataset.theme = theme;
+  }());
+</script>
+
+{{ $pageTitle := .Params.meta_title | default .Title }}
+{{ $description := .Params.description | default site.Home.Params.description }}
+{{ $alternatePath := strings.TrimPrefix "/" (.Params.alternate_path | default "") }}
+{{ $alternateURL := printf "%s%s" site.Params.alternateBaseURL $alternatePath }}
+
+<title>{{ $pageTitle }}</title>
+<meta name="description" content="{{ $description }}">
+<meta name="author" content="Ergohaven">
+<link rel="canonical" href="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
+<link rel="alternate" hreflang="{{ site.Params.alternateLanguage }}" href="{{ $alternateURL }}">
+<link rel="alternate" hreflang="{{ site.Language.Lang }}" href="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
+<link rel="alternate" hreflang="x-default" href="{{ printf "https://projects.eh.industries/%s" $alternatePath }}">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ergohaven Projects">
+<meta property="og:title" content="{{ $pageTitle }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:url" content="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
+<meta property="og:locale" content="{{ replace site.Language.Locale "-" "_" }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ $pageTitle }}">
+<meta name="twitter:description" content="{{ $description }}">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap">
+{{ $styles := resources.Get "css/phenom-site.css" | minify | fingerprint "sha256" }}
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+{{ if eq .TranslationKey "phenom" }}
+  {{ $mobileStyles := resources.Get "css/phenom-mobile.css" | minify | fingerprint "sha256" }}
+  <link rel="stylesheet" href="{{ $mobileStyles.RelPermalink }}" integrity="{{ $mobileStyles.Data.Integrity }}">
+  {{ $artDirectionStyles := resources.Get "css/phenom-art-direction.css" | minify | fingerprint "sha256" }}
+  <link rel="stylesheet" href="{{ $artDirectionStyles.RelPermalink }}" integrity="{{ $artDirectionStyles.Data.Integrity }}">
+  {{ $mobileScript := resources.Get "js/phenom-mobile.js" | minify | fingerprint "sha256" }}
+  <script src="{{ $mobileScript.RelPermalink }}" integrity="{{ $mobileScript.Data.Integrity }}" defer></script>
+{{ end }}
+{{ $script := resources.Get "js/phenom-site.js" | minify | fingerprint "sha256" }}
+<script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+
+{{ $schema := dict
+  "@context" "https://schema.org"
+  "@type" (cond .IsHome "CollectionPage" "Product")
+  "name" .Title
+  "description" $description
+  "url" (printf "%s%s" site.Params.localeDomain $alternatePath)
+  "brand" (dict "@type" "Brand" "name" "Ergohaven")
+}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>

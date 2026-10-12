@@ -1,0 +1,37 @@
+{{- $page := .page -}}
+{{- $model := .model -}}
+{{- $layer := .layer -}}
+{{- $side := .side -}}
+{{- $assetPath := printf "%s/%s-%s-%s.svg" .assetRoot $model.id $layer.id $side -}}
+{{- $darkAssetPath := printf "%s/%s-%s-%s-dark.svg" .assetRoot $model.id $layer.id $side -}}
+{{- $source := resources.Get $assetPath -}}
+{{- $darkSource := resources.Get $darkAssetPath -}}
+{{- if not $source -}}
+  {{- errorf "Key layout asset %q for %s/%s/%s was not found in %s" $assetPath $model.id $layer.id $side $page.File.Path -}}
+{{- end -}}
+{{- if not $darkSource -}}
+  {{- errorf "Dark key layout asset %q for %s/%s/%s was not found in %s" $darkAssetPath $model.id $layer.id $side $page.File.Path -}}
+{{- end -}}
+{{- $asset := $source | fingerprint "sha256" -}}
+{{- $darkAsset := $darkSource | fingerprint "sha256" -}}
+<img
+  class="key-layout-diagram__half key-layout-diagram__half--{{ $side }} key-layout-diagram__half--light"
+  src="{{ $asset.RelPermalink }}"
+  width="8180"
+  height="6034"
+  alt=""
+  loading="lazy"
+  decoding="async"
+  draggable="false"
+>
+<img
+  class="key-layout-diagram__half-dark key-layout-diagram__half-dark--{{ $side }}"
+  src="{{ $darkAsset.RelPermalink }}"
+  width="8180"
+  height="6034"
+  alt=""
+  loading="lazy"
+  decoding="async"
+  draggable="false"
+  aria-hidden="true"
+>

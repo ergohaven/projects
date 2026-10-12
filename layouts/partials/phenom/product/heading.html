@@ -1,0 +1,13 @@
+<h2 id="{{ .id }}"{{ if or .chapter.title_lines .chapter.title_lead }} aria-label="{{ .chapter.title }}"{{ end }}{{ with .chapter.title_lead }} class="section-title--lead"{{ end }}>
+  {{- with .chapter.title_lead -}}
+    <span class="section-title__lead" aria-hidden="true">{{ . }}</span>
+    <span class="section-title__divider" aria-hidden="true">{{ $.chapter.title_divider | default "—" }}</span>
+    <span class="section-title__body" aria-hidden="true">
+      {{- range $.chapter.title_lines }}<span class="section-title__line">{{ . }}</span>{{ end -}}
+    </span>
+  {{- else with .chapter.title_lines -}}
+    {{- range . }}<span class="section-title__line" aria-hidden="true">{{ . }}</span>{{ end -}}
+  {{- else -}}
+    {{- .chapter.title -}}
+  {{- end -}}
+</h2>

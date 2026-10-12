@@ -1,0 +1,57 @@
+{{- $page := .page -}}
+{{- $chapter := .chapter -}}
+{{- $sectionID := $chapter.section_id -}}
+{{- $items := $chapter.media -}}
+{{- if not $sectionID -}}
+  {{- errorf "Detail sequence declared by %s has no section_id" $page.File.Path -}}
+{{- end -}}
+{{- if or (lt (len $items) 3) (gt (len $items) 4) -}}
+  {{- errorf "Detail sequence %q declared by %s needs three or four media items" $chapter.id $page.File.Path -}}
+{{- end -}}
+{{- $titleID := printf "%s-title" $sectionID -}}
+<section
+  id="{{ $sectionID }}"
+  class="detail-sequence detail-sequence--{{ len $items }} section"
+  aria-labelledby="{{ $titleID }}"
+  data-product-chapter="{{ $chapter.id }}"
+>
+  <div class="detail-sequence__inner">
+    <header class="detail-sequence__intro{{ if not $chapter.eyebrow }} detail-sequence__intro--untagged{{ end }}">
+      {{ with $chapter.eyebrow }}<p class="eyebrow">{{ . }}</p>{{ end }}
+      <h2 id="{{ $titleID }}"{{ with $chapter.title_lines }} aria-label="{{ $chapter.title }}"{{ end }}>
+        {{- with $chapter.title_lines -}}
+          {{- range . }}<span class="section-title__line" aria-hidden="true">{{ . }}</span>{{ end -}}
+        {{- else -}}
+          {{- $chapter.title -}}
+        {{- end -}}
+      </h2>
+      <p>{{ with $chapter.text_lines }}{{ range $i, $line := . }}{{ if $i }} {{ end }}<span class="chapter-text-line">{{ . }}</span>{{ end }}{{ else }}{{ $chapter.text }}{{ end }}</p>
+    </header>
+    <div class="detail-sequence__gallery" role="list" aria-label="{{ $chapter.gallery_label }}">
+      {{- range $itemIndex, $item := $items -}}
+        <figure class="detail-sequence__item" role="listitem">
+          {{ partial "phenom/product/chapter-media.html" (dict
+            "page" $page
+            "media" $item
+            "class" "detail-sequence__media"
+            "placeholder_id" ($item.placeholder_id | default (printf "%s-%s" $chapter.id $item.id))
+          ) }}
+          <figcaption>
+            <span aria-hidden="true">0{{ add $itemIndex 1 }}</span>
+            <strong{{ with $item.label_lines }} class="detail-sequence__label--split"{{ end }}>
+              <span class="detail-sequence__label-default">{{ $item.label }}</span>
+              {{- with $item.label_lines }}
+                <span class="detail-sequence__label-mobile" aria-hidden="true">
+                  {{- range $line := . -}}
+                    <span class="detail-sequence__label-line">{{ $line }}</span>
+                  {{- end -}}
+                </span>
+              {{- end }}
+            </strong>
+            {{ with $item.description }}<p class="detail-sequence__description">{{ . }}</p>{{ end }}
+          </figcaption>
+        </figure>
+      {{- end -}}
+    </div>
+  </div>
+</section>
