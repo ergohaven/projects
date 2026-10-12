@@ -959,8 +959,8 @@
     bottom: 0;
     left: 50%;
     display: grid;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -979,8 +979,8 @@
   }
 
   body.product-page--phenom .phenom-scroll-cue svg {
-    width: 22px;
-    height: 22px;
+    width: 44px;
+    height: 44px;
   }
 
   body.product-page--phenom #product-series {
@@ -2704,7 +2704,7 @@
   }
 
   body.product-page--phenom .phenom-scroll-cue {
-    bottom: 18px;
+    bottom: 14px;
     color: var(--text);
     transform: translateX(-50%);
   }
