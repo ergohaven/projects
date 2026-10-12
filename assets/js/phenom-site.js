@@ -220,7 +220,16 @@
   });
 
   backToTop?.addEventListener('click', (event) => {
+    const target = document.querySelector(backToTop.getAttribute('href'));
+    if (!target) return;
     event.preventDefault();
+    // Move the sequential keyboard starting point before this link is hidden.
+    // Keep the top target out of the normal tab order and restore its markup.
+    if (!target.hasAttribute('tabindex')) {
+      target.tabIndex = -1;
+      target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+    }
+    target.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: scrollBehavior() });
   });
 

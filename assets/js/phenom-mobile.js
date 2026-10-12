@@ -152,6 +152,7 @@
   const viewport = dialog.querySelector('.phenom-layout-zoom__viewport');
   const pair = dialog.querySelector('.phenom-layout-zoom__pair');
   let zoom = 2;
+  let fitting = false;
   let opener;
   let overflowBefore;
   const centerViewport = () => requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -169,18 +170,39 @@
           image.addEventListener('load', resolve, {once: true});
           image.addEventListener('error', resolve, {once: true});
         })))
-      .then(centerViewport);
+      .then(() => { renderZoom(); centerViewport(); });
+  };
+  const fitZoom = () => {
+    const images = [...pair.querySelectorAll('img')];
+    if (!viewport.clientWidth || !images.length || images.some(image => !image.naturalWidth)) return 1;
+    const style = getComputedStyle(pair);
+    const horizontalSpace = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.columnGap);
+    const verticalSpace = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    const ratio = Math.max(...images.map(image => image.naturalHeight / image.naturalWidth));
+    // Padding and the grid gap do not scale with the SVGs. Reserve that space
+    // before fitting the tallest half into the available height.
+    const widthForHeight = 2 * Math.max(0, viewport.clientHeight - verticalSpace) / ratio + horizontalSpace;
+    return Math.min(1, widthForHeight / viewport.clientWidth);
   };
   const renderZoom = () => {
+    const minimum = fitZoom();
+    zoom = fitting ? minimum : Math.max(minimum, zoom);
     pair.style.width = `${zoom * 100}%`;
     dialog.querySelector('output').textContent = `${Math.round(zoom * 100)}%`;
-    dialog.querySelector('[data-zoom-minus]').disabled = zoom <= 1;
+    dialog.querySelector('[data-zoom-minus]').disabled = zoom <= minimum;
     dialog.querySelector('[data-zoom-plus]').disabled = zoom >= 4;
   };
   dialog.querySelector('[data-zoom-close]').addEventListener('click', () => dialog.close());
-  dialog.querySelector('[data-zoom-minus]').addEventListener('click', () => { zoom = Math.max(1, zoom - 0.5); renderZoom(); });
-  dialog.querySelector('[data-zoom-plus]').addEventListener('click', () => { zoom = Math.min(4, zoom + 0.5); renderZoom(); });
-  dialog.querySelector('[data-zoom-fit]').addEventListener('click', () => { zoom = 1; renderZoom(); centerViewport(); });
+  dialog.querySelector('[data-zoom-minus]').addEventListener('click', () => {
+    zoom = Math.max(fitZoom(), zoom - 0.5); fitting = zoom <= fitZoom(); renderZoom();
+  });
+  dialog.querySelector('[data-zoom-plus]').addEventListener('click', () => { fitting = false; zoom = Math.min(4, zoom + 0.5); renderZoom(); });
+  dialog.querySelector('[data-zoom-fit]').addEventListener('click', () => { fitting = true; renderZoom(); centerViewport(); });
+  new ResizeObserver(() => {
+    if (!dialog.open) return;
+    renderZoom();
+    if (fitting) centerViewport();
+  }).observe(viewport);
   dialog.addEventListener('close', () => { document.body.style.overflow = overflowBefore; opener?.focus({preventScroll: true}); });
   mobile.addEventListener('change', () => { if (!mobile.matches && dialog.open) dialog.close(); });
   document.querySelectorAll('.product-story--phenom .key-layout-layer').forEach(panel => {
@@ -199,7 +221,7 @@
         copy.removeAttribute('aria-hidden'); return copy;
       }));
       pair.setAttribute('aria-label', diagram.getAttribute('aria-label'));
-      zoom = 2; renderZoom();
+      fitting = false; zoom = 2; renderZoom();
       overflowBefore = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       dialog.showModal();
