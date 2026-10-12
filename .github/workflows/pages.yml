@@ -25,6 +25,10 @@ jobs:
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Install validation dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ripgrep
       - name: Verify production builds
         run: bash scripts/check.sh
       - name: Build both locales for Pages
