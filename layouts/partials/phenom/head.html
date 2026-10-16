@@ -1,5 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{{ $canvasController := resources.Get "js/phenom-desktop-canvas.js" | minify | fingerprint "sha256" }}
+<script src="{{ $canvasController.RelPermalink }}" integrity="{{ $canvasController.Data.Integrity }}"></script>
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#f6f4f2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1e1e1e" media="(prefers-color-scheme: dark)">
@@ -44,15 +46,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap">
 {{ $styles := resources.Get "css/phenom-site.css" | minify | fingerprint "sha256" }}
-<link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+<link data-phenom-native-style rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+{{ $canvasStyle := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-site.css") | minify | fingerprint "sha256" }}
+<link data-phenom-canvas-style rel="stylesheet" media="not all" href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
 {{ if eq .TranslationKey "phenom" }}
   {{ $mobileStyles := resources.Get "css/phenom-mobile.css" | minify | fingerprint "sha256" }}
-  <link rel="stylesheet" href="{{ $mobileStyles.RelPermalink }}" integrity="{{ $mobileStyles.Data.Integrity }}">
+  <link data-phenom-native-style rel="stylesheet" href="{{ $mobileStyles.RelPermalink }}" integrity="{{ $mobileStyles.Data.Integrity }}">
+{{ $canvasStyle := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-mobile.css") | minify | fingerprint "sha256" }}
+<link data-phenom-canvas-style rel="stylesheet" media="not all" href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
   {{ $artDirectionStyles := resources.Get "css/phenom-art-direction.css" | minify | fingerprint "sha256" }}
-  <link rel="stylesheet" href="{{ $artDirectionStyles.RelPermalink }}" integrity="{{ $artDirectionStyles.Data.Integrity }}">
+  <link data-phenom-native-style rel="stylesheet" href="{{ $artDirectionStyles.RelPermalink }}" integrity="{{ $artDirectionStyles.Data.Integrity }}">
+{{ $canvasStyle := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-art-direction.css") | minify | fingerprint "sha256" }}
+<link data-phenom-canvas-style rel="stylesheet" media="not all" href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
   {{ $mobileScript := resources.Get "js/phenom-mobile.js" | minify | fingerprint "sha256" }}
   <script src="{{ $mobileScript.RelPermalink }}" integrity="{{ $mobileScript.Data.Integrity }}" defer></script>
 {{ end }}
+<script>if(window.__phenomDesktopCanvas){document.querySelectorAll("[data-phenom-native-style]").forEach(function(l){l.media="not all"});document.querySelectorAll("[data-phenom-canvas-style]").forEach(function(l){l.media="all"});}</script>
 {{ $script := resources.Get "js/phenom-site.js" | minify | fingerprint "sha256" }}
 <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
 

@@ -1,0 +1,12 @@
+{{- /* A logical 1440x900 desktop viewport. Native CSS stays byte-for-byte intact. */ -}}
+{{- $css := .Content -}}
+{{- range findRE `\((?:min|max)-height:\s*[0-9.]+px\)` $css -}}
+  {{- $value := float (replaceRE `[^0-9.]` "" .) -}}
+  {{- $min := strings.Contains . "min-height" -}}
+  {{- $match := or (and $min (ge 900 $value)) (and (not $min) (le 900 $value)) -}}
+  {{- $css = replace $css . (cond $match "(min-width:0px)" "(max-width:0px)") -}}
+{{- end -}}
+{{- $css = replaceRE `\(orientation:\s*landscape\)` `(min-width:0px)` $css -}}
+{{- $css = replaceRE `\(orientation:\s*portrait\)` `(max-width:0px)` $css -}}
+{{- $css = replaceRE `(-?(?:[0-9]*\.)?[0-9]+)([sdl]?vh)\b` `calc(${1} * 9px)` $css -}}
+{{- return (resources.FromString (printf "css/desktop-canvas-%s" (path.Base .Name)) $css) -}}
