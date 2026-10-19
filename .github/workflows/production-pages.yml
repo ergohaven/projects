@@ -1,0 +1,85 @@
+name: Publish production landing
+
+on:
+  workflow_call:
+    inputs:
+      locale:
+        description: Production locale (en or ru)
+        required: true
+        type: string
+      source_ref:
+        description: Source commit, tag or branch in ergohaven/projects
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Validate locale
+        env:
+          LOCALE: ${{ inputs.locale }}
+        run: |
+          case "$LOCALE" in
+            en|ru) ;;
+            *) printf 'Unsupported locale\n' >&2; exit 1 ;;
+          esac
+      - name: Checkout shared source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: ergohaven/projects
+          ref: ${{ inputs.source_ref }}
+          persist-credentials: false
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Install validation dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ripgrep
+      - name: Verify both production locales
+        run: |
+          python3 scripts/test_stage_production.py -v
+          bash scripts/check.sh
+      - name: Stage approved landing only
+        env:
+          LOCALE: ${{ inputs.locale }}
+        run: |
+          for language in en ru; do
+            python3 scripts/stage_production.py \
+              --source "public/$language" \
+              --destination "production/$language" \
+              --page phenom --language "$language"
+          done
+          python3 scripts/check_phenom_isolation.py --public production --canonical public
+          printf '### Published source\n\n`ergohaven/projects@%s`\n\nLocale: `%s`\n\nPage: `/phenom/`\n' \
+            "$(git rev-parse HEAD)" "$LOCALE" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload production artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: production/${{ inputs.locale }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

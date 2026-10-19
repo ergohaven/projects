@@ -1,5 +1,6 @@
 /public/
 /public-preview/
+/production/
 /resources/_gen/
 /.hugo_build.lock
 /.tools/
