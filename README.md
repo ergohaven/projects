@@ -35,9 +35,41 @@ The development server renders English at `/` and Russian at `/ru/`.
 - `public/en/` → `https://projects.eh.industries/`
 - `public/ru/` → `https://projects.eh.works/`
 
-## Production deployment
+## Production deployment: Cloudflare Pages
 
-Source remains in this repository. Two small deployment repositories call the shared, SHA-pinned [`production-pages.yml`](.github/workflows/production-pages.yml) workflow:
+Use [`cloudflare-pages.yml`](.github/workflows/cloudflare-pages.yml) in `ergohaven/projects` for durable **Direct Upload via GitHub Actions + Wrangler**. No dashboard ZIP updates and no native Cloudflare Git integration are needed. One explicit promotion builds and publishes both languages from the same approved full SHA. Push/PR runs that touch the pipeline only build and validate, without Cloudflare credentials; source pushes never automatically publish production.
+
+### One-time setup
+
+1. In this source repository's **Settings → Secrets and variables → Actions**, add repository secrets `CLOUDFLARE_ACCOUNT_ID` (the correct account's 32-character hexadecimal ID) and `CLOUDFLARE_API_TOKEN` (Account / Cloudflare Pages / Edit, scoped to that account). Enter secrets only through GitHub's UI, never in chat or source. No policy changes to allow third-party actions are required.
+2. Merge the workflow, helper and tests to `main`. In Actions, select **Publish Phenom to Cloudflare Pages**, **Run workflow**, branch `main`, and supply the approved full lowercase 40-character `source_ref`. It must be a commit in `main`'s ancestry. For example, after the authorized operator's normal identity checks: `gh workflow run cloudflare-pages.yml --repo ergohaven/projects --ref main -f source_ref=<approved-full-sha>`.
+3. The publisher preflights both `ergohaven-projects-ru` and `ergohaven-projects-en` before deploying either. It creates missing Direct Upload projects with production branch `main` and GET-verifies each creation; existing compatible projects keep their actual production branch. Git-integrated or function-enabled projects are rejected, not converted or overwritten. Project names are fixed deliberately to avoid accidental retargeting.
+4. After a successful publication, add `projects.eh.works` to the RU project's **Custom domains** and `projects.eh.industries` to the EN project's **Custom domains**. Use the **actual assigned `pages.dev` hostname displayed by Cloudflare**, not a guessed name. At REG.RU, replace only each `projects` record with the corresponding CNAME; remove conflicting A/AAAA at that exact name. Do not change root nameservers, root website or mail records. Check custom-domain status, HTTPS and `/phenom/` in both languages separately.
+
+The owning `check.sh` builds both locales; the existing production stager and isolation validator publish **Phenom only**, shared assets, a 404 and the filtered sitemap. The domain root redirects to `/phenom/`; K:04/Macropad remain preview-only. No frontend, copy or design changes are involved.
+
+A same-run `phenom-production` artifact retains both locale directories, machine-use per-locale archives and a manifest with the source SHA and every published file's SHA-256. Archives are CI evidence, **not a manual deployment procedure**. The credentialed job runs only on trusted `main` workflow dispatch, installs exact Wrangler 4.151.3 before receiving credentials, uses workflow-revision helpers rather than arbitrary source/artifact code, and checks the downloaded manifest before any API write. Publication requires Wrangler success plus GET readback of the production deployment's project, branch, SHA and successful deploy stage, then a matching public deployment-URL `/phenom/` HTML hash. The successful job summary records returned URLs and deployment IDs; build-only success is not publication or custom-domain readiness.
+
+Re-run this same workflow with a previous approved main-ancestor SHA to roll back both locales. Publication is sequential, not an atomic cross-project transaction: if the second locale fails, the first may already be live. Inspect the failed run and re-run the intended SHA for both; do not assume automatic rollback. External API/deployment checks require real credentials and are not exercised by offline fixture tests.
+
+Local pipeline verification (no credentials):
+
+```sh
+python3 scripts/test_cloudflare_pages.py -v
+python3 scripts/test_stage_production.py -v
+./scripts/check.sh
+for locale in ru en; do
+  python3 scripts/stage_production.py --source "public/$locale" --destination "production/$locale" --page phenom --language "$locale"
+done
+python3 scripts/check_phenom_isolation.py --public production --canonical public
+python3 scripts/cloudflare_pages.py manifest --root production --source-sha "$(git rev-parse HEAD)"
+```
+
+The staging destination must be new. Do not manually run the credentialed `publish` command as a dry run: it makes real writes.
+
+### Legacy GitHub Pages (retained for rollback)
+
+The existing preview and [`production-pages.yml`](.github/workflows/production-pages.yml) workflows and deployment repositories remain unchanged. The older GitHub Pages path below is retained for rollback, **not the Cloudflare setup procedure**. Source remains in this repository. Two small deployment repositories call the shared, SHA-pinned workflow:
 
 - `ergohaven/projects-ru` → `https://projects.eh.works/phenom/`
 - `ergohaven/projects-en` → `https://projects.eh.industries/phenom/`

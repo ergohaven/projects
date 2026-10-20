@@ -1,0 +1,125 @@
+name: Publish Phenom to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Approved full lowercase source SHA (must be an ancestor of main)
+        required: true
+        type: string
+  push:
+    branches: [main]
+    paths: ['.github/workflows/cloudflare-pages.yml', 'scripts/**']
+  pull_request:
+    paths: ['.github/workflows/cloudflare-pages.yml', 'scripts/**']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-phenom-${{ github.event_name == 'workflow_dispatch' && 'production' || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      source_sha: ${{ steps.source.outputs.sha }}
+    steps:
+      - name: Checkout workflow-owned helpers
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: trusted
+          persist-credentials: false
+      - name: Validate promotion input before checkout
+        env:
+          SOURCE_REF: ${{ inputs.source_ref }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = workflow_dispatch ]; then
+            test "$GITHUB_REF" = refs/heads/main
+            python3 trusted/scripts/cloudflare_pages.py validate --source-sha "$SOURCE_REF"
+          fi
+      - name: Checkout approved source (no credentials retained)
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source_ref || github.sha }}
+          path: source
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve source and require main ancestry for promotion
+        id: source
+        env:
+          SOURCE_REF: ${{ inputs.source_ref }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          sha=$(git -C source rev-parse HEAD)
+          if [ "$EVENT" = workflow_dispatch ]; then
+            test "$sha" = "$SOURCE_REF"
+            git -C source merge-base --is-ancestor "$sha" refs/remotes/origin/main
+          fi
+          printf 'sha=%s\n' "$sha" >> "$GITHUB_OUTPUT"
+      - name: Install validation dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ripgrep
+      - name: Offline helper tests and owning build/check
+        run: |
+          python3 trusted/scripts/test_cloudflare_pages.py -v
+          python3 trusted/scripts/test_stage_production.py -v
+          cd source
+          bash scripts/check.sh
+      - name: Stage both Phenom locales and record provenance
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          for locale in ru en; do
+            python3 trusted/scripts/stage_production.py --source "source/public/$locale" --destination "production/$locale" --page phenom --language "$locale"
+          done
+          python3 trusted/scripts/check_phenom_isolation.py --public production --canonical source/public
+          python3 trusted/scripts/cloudflare_pages.py manifest --root production --source-sha "$SOURCE_SHA"
+          for locale in ru en; do
+            tar -czf "production/$locale.tar.gz" -C "production/$locale" .
+          done
+          printf '### Build-only verification\n\nSource: `%s`\n\nBoth Phenom locales built and staged. This job does not publish.\n' "$SOURCE_SHA" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload same-run production bundle
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: phenom-production
+          path: production/
+          if-no-files-found: error
+          retention-days: 14
+
+  publish:
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout workflow-owned publisher, never artifact-supplied code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: trusted
+          persist-credentials: false
+      - name: Use Node 24
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Install exact Wrangler without Cloudflare credentials
+        run: npm install --prefix "$RUNNER_TEMP/cloudflare-cli" --no-audit --no-fund --ignore-scripts wrangler@4.151.3
+      - name: Download only this run's bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: phenom-production
+          path: production
+      - name: Preflight both Direct Upload projects, publish and verify
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          python3 trusted/scripts/cloudflare_pages.py publish --root "$GITHUB_WORKSPACE/production" --source-sha "$SOURCE_SHA" --wrangler "$RUNNER_TEMP/cloudflare-cli/node_modules/.bin/wrangler"
