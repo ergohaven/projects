@@ -82,6 +82,90 @@ class ProjectTests(unittest.TestCase):
 
 
 class PublishTests(unittest.TestCase):
+    def public_probe_fixture(self):
+        module = cf
+        assert module is not None
+        projects = {loc: project(name) for loc, name in module.PROJECTS.items()}
+        expected = {"files": {loc: {"phenom/index.html": hashlib.sha256(loc.encode()).hexdigest()} for loc in projects}}
+        def api(method, path, payload=None):
+            name = next(n for n in module.PROJECTS.values() if n in path)
+            if "/deployments/" not in path:
+                return dict(project(name), canonical_deployment={"id": "deployment-id"})
+            return {"id": "deployment-id", "project_name": name, "project_id": name + "-id",
+                    "environment": "production", "latest_stage": {"name": "deploy", "status": "success"},
+                    "deployment_trigger": {"metadata": {"commit_hash": SHA, "branch": "main"}},
+                    "url": "https://fixture.pages.dev"}
+        return module, projects, expected, api
+
+    def test_public_auth_failure_is_not_retried(self):
+        from email.message import Message
+        from urllib.error import HTTPError
+        module, projects, expected, api = self.public_probe_fixture()
+        for status in (400, 401, 403):
+            commands = []
+            def fetch(url):
+                raise HTTPError(url, status, "denied", Message(), None)
+            with self.subTest(status=status), patch("cloudflare_pages.time.sleep") as sleep:
+                with self.assertRaises(HTTPError) as raised:
+                    module.publish(Path("bundle"), SHA, expected, projects, api,
+                                   lambda args: commands.append(args), fetch, attempts=2)
+                raised.exception.close()
+                sleep.assert_not_called()
+                self.assertEqual(len(commands), 1)
+
+    def test_public_retry_budget_exhaustion_never_publishes_next_locale(self):
+        from urllib.error import URLError
+        module, projects, expected, api = self.public_probe_fixture()
+        commands = []
+        reads = []
+        def fetch(url):
+            reads.append(url)
+            raise URLError("handshake not ready")
+        with patch("cloudflare_pages.time.sleep") as sleep:
+            with self.assertRaisesRegex(ValueError, "verification failed for ru.*handshake not ready"):
+                module.publish(Path("bundle"), SHA, expected, projects, api,
+                               lambda args: commands.append(args), fetch, attempts=2)
+            sleep.assert_called_once_with(5)
+        self.assertEqual(len(commands), 1)
+        self.assertEqual(len(reads), 2)
+
+    def test_retries_transient_public_tls_and_404_without_redeploying(self):
+        import ssl
+        from email.message import Message
+        from urllib.error import HTTPError, URLError
+        module = cf
+        assert module is not None
+        for transient in (URLError(ssl.SSLError("handshake not ready")),
+                          HTTPError("https://fixture.pages.dev", 404, "not ready", Message(), None)):
+            with self.subTest(error=type(transient).__name__):
+                projects = {loc: project(name) for loc, name in module.PROJECTS.items()}
+                expected = {"files": {loc: {"phenom/index.html": hashlib.sha256(loc.encode()).hexdigest()} for loc in projects}}
+                commands = []
+                reads = []
+                def api(method, path, payload=None):
+                    name = next(n for n in module.PROJECTS.values() if n in path)
+                    if "/deployments/" not in path:
+                        return dict(project(name), canonical_deployment={"id": "deployment-id"})
+                    return {"id": "deployment-id", "project_name": name, "project_id": name + "-id",
+                            "environment": "production", "latest_stage": {"name": "deploy", "status": "success"},
+                            "deployment_trigger": {"metadata": {"commit_hash": SHA, "branch": "main"}},
+                            "url": "https://fixture.pages.dev"}
+                def fetch(url):
+                    reads.append(url)
+                    if len(reads) == 1:
+                        raise transient
+                    return ("ru" if len(commands) == 1 else "en").encode()
+                with patch("cloudflare_pages.time.sleep") as sleep:
+                    try:
+                        result = module.publish(Path("bundle"), SHA, expected, projects, api,
+                                                lambda args: commands.append(args), fetch, attempts=2)
+                    except URLError as error:
+                        self.fail("temporary first-read failure was not retried: " + str(error))
+                self.assertEqual(set(result), {"ru", "en"})
+                self.assertEqual(len(commands), 2)
+                self.assertEqual(len(reads), 3)
+                sleep.assert_called_once_with(5)
+
     def test_publish_reads_back_exact_deployment_and_checks_public_hash(self):
         self.assertTrue(hasattr(cf, "publish"), "verified publication is missing")
         calls = []

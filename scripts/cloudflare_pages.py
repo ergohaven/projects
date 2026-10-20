@@ -5,9 +5,10 @@ import json
 import hashlib
 from pathlib import Path
 import time
+import ssl
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 import argparse
 import os
 import subprocess
@@ -68,6 +69,7 @@ def publish(root, sha, expected, projects, api, run, fetch, attempts=30):
     for locale, project in projects.items():
         name = PROJECTS[locale]
         branch = project["production_branch"]
+        last_public_error = None
         run(["pages", "deploy", str((root / locale).resolve()), "--project-name=" + name,
              "--branch=" + branch, "--commit-hash=" + source_sha(sha), "--commit-dirty=false"])
         for attempt in range(attempts):
@@ -86,13 +88,25 @@ def publish(root, sha, expected, projects, api, run, fetch, attempts=30):
                         or parsed.username or parsed.password or parsed.port or parsed.path not in ("", "/")
                         or parsed.query or parsed.fragment):
                     raise ValueError("unexpected deployment URL")
-                if hashlib.sha256(fetch(url.rstrip("/") + "/phenom/")).hexdigest() == expected["files"][locale]["phenom/index.html"]:
-                    results[locale] = {"deployment_id": deployment_id, "url": url, "source_sha": sha}
-                    break
+                try:
+                    content = fetch(url.rstrip("/") + "/phenom/")
+                except HTTPError as error:
+                    if error.code not in (404, 408, 425, 429) and not 500 <= error.code <= 599:
+                        raise
+                    last_public_error = str(error)
+                    error.close()
+                except (URLError, TimeoutError, ConnectionError, ssl.SSLError) as error:
+                    last_public_error = str(error)
+                else:
+                    last_public_error = None
+                    if hashlib.sha256(content).hexdigest() == expected["files"][locale]["phenom/index.html"]:
+                        results[locale] = {"deployment_id": deployment_id, "url": url, "source_sha": sha}
+                        break
             if attempt + 1 < attempts:
                 time.sleep(5)
         else:
-            raise ValueError("deployment readback/public HTML verification failed for " + locale)
+            detail = ": " + last_public_error if last_public_error else ""
+            raise ValueError("deployment readback/public HTML verification failed for " + locale + detail)
     return results
 
 
