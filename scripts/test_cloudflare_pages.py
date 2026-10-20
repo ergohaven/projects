@@ -196,6 +196,31 @@ class PublishTests(unittest.TestCase):
 
 
 class AdapterTests(unittest.TestCase):
+    def test_public_probe_identifies_publisher_without_api_credentials(self):
+        import sys
+        from unittest.mock import MagicMock
+        module = cf
+        assert module is not None
+        response = MagicMock()
+        response.__enter__.return_value.read.return_value = b"public fixture"
+        def publish(root, sha, expected, projects, api, run, fetch):
+            self.assertEqual(fetch("https://fixture.pages.dev/phenom/"), b"public fixture")
+            return {}
+        with tempfile.TemporaryDirectory() as tmp:
+            argv = ["cloudflare_pages.py", "publish", "--root", tmp, "--source-sha", SHA]
+            with (patch.object(sys, "argv", argv),
+                  patch("cloudflare_pages.verify_bundle", return_value={}),
+                  patch("cloudflare_pages.CloudflareAPI"),
+                  patch("cloudflare_pages.preflight", return_value={}),
+                  patch("cloudflare_pages.publish", side_effect=publish),
+                  patch("cloudflare_pages.urlopen", return_value=response) as opener):
+                module.main()
+            request = opener.call_args.args[0]
+            self.assertEqual(request.get_header("User-agent"),
+                             "Ergohaven-Phenom-Publisher/1.0 (+https://github.com/ergohaven/projects)")
+            self.assertIsNone(request.get_header("Authorization"))
+            self.assertNotIn("context", opener.call_args.kwargs)
+
     def test_api_checks_envelope_and_never_treats_auth_failure_as_missing(self):
         self.assertTrue(hasattr(cf, "CloudflareAPI"), "HTTP adapter is missing")
         import io

@@ -53,7 +53,9 @@ def main():
     api = CloudflareAPI(os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""), os.environ.get("CLOUDFLARE_API_TOKEN", ""))
     projects = preflight(api)
     def fetch(url):
-        with urlopen(Request(url, headers={"Cache-Control": "no-cache"}), timeout=60) as response:
+        headers = {"Cache-Control": "no-cache",
+                   "User-Agent": "Ergohaven-Phenom-Publisher/1.0 (+https://github.com/ergohaven/projects)"}
+        with urlopen(Request(url, headers=headers), timeout=60) as response:
             return response.read()
     result = publish(args.root, args.source_sha, expected, projects, api,
                      lambda command: subprocess.run([args.wrangler] + command, check=True, cwd=args.root.parent), fetch)
