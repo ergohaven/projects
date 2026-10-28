@@ -1,7 +1,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{ $canvasController := resources.Get "js/phenom-desktop-canvas.js" | minify | fingerprint "sha256" }}
-<script src="{{ $canvasController.RelPermalink }}" integrity="{{ $canvasController.Data.Integrity }}"></script>
+<script>
+(function () {
+  window.__phenomDesktopCanvas = window !== window.top && window.name === 'phenom-desktop-canvas';
+  if (!window.__phenomDesktopCanvas && navigator.maxTouchPoints > 0 && screen.width < 1000 && Math.min(screen.width, screen.height) < 768 && innerWidth >= 960 && innerWidth > screen.width + 16) document.documentElement.style.visibility = 'hidden';
+}());
+</script>
+{{ $bootstrap := resources.Get "js/phenom-bootstrap89.js" | minify }}
+<script>{{ $bootstrap.Content | safeJS }}</script>
+{{ $delivery := resources.Get "js/phenom-delivery64.js" | minify }}
+<noscript><style>[data-phenom-delivery-pending]{display:none!important}</style></noscript>
+<script>{{ $delivery.Content | safeJS }}</script>
+<script>window.__phenomBootstrap89.captureDelivery();</script>
+<script src="{{ $canvasController.RelPermalink }}" integrity="{{ $canvasController.Data.Integrity }}" defer onerror="window.__phenomBootstrap89.failed=true;window.__phenomBootstrap89.failOpen()"></script>
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#f6f4f2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1e1e1e" media="(prefers-color-scheme: dark)">
@@ -10,22 +22,25 @@
   (function () {
     var preference = window.matchMedia('(prefers-color-scheme: dark)');
     var theme = preference.matches ? 'dark' : 'light';
-    try {
-      var saved = localStorage.getItem('ergohaven-projects-theme');
-      if (saved === 'light' || saved === 'dark') theme = saved;
-    } catch (_) {
-      // The system preference remains authoritative when storage is unavailable.
-    }
     document.documentElement.dataset.theme = theme;
   }());
 </script>
 
 {{ $pageTitle := .Params.meta_title | default .Title }}
 {{ $description := .Params.description | default site.Home.Params.description }}
+{{ $shareSource := resources.Get .Params.hero_image }}
+{{ $shareImage := $shareSource.Fill "1200x630 Center jpg q90" }}
+{{ $shareURL := printf "%s%s" (strings.TrimSuffix "/" site.Params.localeDomain) $shareImage.RelPermalink }}
+{{ $favicon := resources.Get "images/brand/favicon.svg" | fingerprint "sha256" }}
+{{ $faviconDark := resources.Get "images/brand/favicon-dark.svg" | fingerprint "sha256" }}
+{{ $touchIcon := resources.Get "images/brand/apple-touch-icon.png" | fingerprint "sha256" }}
+<link rel="icon" type="image/svg+xml" sizes="any" href="{{ $favicon.RelPermalink }}">
+<link rel="icon" type="image/svg+xml" sizes="any" media="(prefers-color-scheme: dark)" href="{{ $faviconDark.RelPermalink }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ $touchIcon.RelPermalink }}">
 {{ $alternatePath := strings.TrimPrefix "/" (.Params.alternate_path | default "") }}
 {{ $alternateURL := printf "%s%s" site.Params.alternateBaseURL $alternatePath }}
 
-<title>{{ $pageTitle }}</title>
+<title>{{ .Params.browser_title | default $pageTitle }}</title>
 <meta name="description" content="{{ $description }}">
 <meta name="author" content="Ergohaven">
 <link rel="canonical" href="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
@@ -39,31 +54,87 @@
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:url" content="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
 <meta property="og:locale" content="{{ replace site.Language.Locale "-" "_" }}">
-<meta name="twitter:card" content="summary">
+<meta property="og:locale:alternate" content="{{ cond (eq site.Language.Lang "ru") "en_US" "ru_RU" }}">
+<meta property="og:image" content="{{ $shareURL }}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ .Params.visual_alt }}">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ $pageTitle }}">
 <meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $shareURL }}">
+<meta name="twitter:image:alt" content="{{ .Params.visual_alt }}">
 
+{{ if eq .TranslationKey "phenom" }}
+{{ $pointWave := resources.Get "images/products/phenom/point-wave.svg" | fingerprint "sha256" }}
+{{ $matrix := resources.Get "images/products/phenom/point-art/specs-matrix.svg" | fingerprint "sha256" }}
+<style>body.product-page--phenom{--phenom-wave-image:url("{{ $pointWave.RelPermalink }}");--phenom-specs-matrix-image:url("{{ $matrix.RelPermalink }}")}</style>
+{{ $localFonts := partial "phenom/local-fonts.html" (dict "source" "fonts/phenom/zen-kaku-gothic-new-local.css" "target" "css/phenom-local-fonts.css") | minify | fingerprint "sha256" }}
+{{ $handheldFonts := partial "phenom/local-fonts.html" (dict "source" "fonts/phenom/zen-kaku-gothic-new-handheld.css" "target" "css/phenom-handheld-fonts.css") | minify | fingerprint "sha256" }}
+<link data-phenom-font-handheld disabled blocking="render" media="not all" rel="stylesheet" data-href="{{ $handheldFonts.RelPermalink }}" integrity="{{ $handheldFonts.Data.Integrity }}">
+<link data-phenom-font-local disabled blocking="render" media="not all" rel="stylesheet" data-href="{{ $localFonts.RelPermalink }}" integrity="{{ $localFonts.Data.Integrity }}">
+
+<noscript>
+  <link rel="stylesheet" href="{{ $handheldFonts.RelPermalink }}" integrity="{{ $handheldFonts.Data.Integrity }}">
+</noscript>
+{{ else }}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap">
+{{ end }}
 {{ $styles := resources.Get "css/phenom-site.css" | minify | fingerprint "sha256" }}
-<link data-phenom-native-style rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+<link data-phenom-native-style disabled media="not all" blocking="render" rel="stylesheet" data-href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+<noscript><link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}"></noscript>
 {{ $canvasStyle := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-site.css") | minify | fingerprint "sha256" }}
-<link data-phenom-canvas-style rel="stylesheet" media="not all" href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
+<link data-phenom-canvas-style disabled blocking="render" rel="stylesheet" media="not all" data-href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
 {{ if eq .TranslationKey "phenom" }}
   {{ $mobileStyles := resources.Get "css/phenom-mobile.css" | minify | fingerprint "sha256" }}
-  <link data-phenom-native-style rel="stylesheet" href="{{ $mobileStyles.RelPermalink }}" integrity="{{ $mobileStyles.Data.Integrity }}">
+  <link data-phenom-native-style disabled media="not all" blocking="render" rel="stylesheet" data-href="{{ $mobileStyles.RelPermalink }}" integrity="{{ $mobileStyles.Data.Integrity }}">
+<noscript><link rel="stylesheet" href="{{ $mobileStyles.RelPermalink }}" integrity="{{ $mobileStyles.Data.Integrity }}"></noscript>
 {{ $canvasStyle := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-mobile.css") | minify | fingerprint "sha256" }}
-<link data-phenom-canvas-style rel="stylesheet" media="not all" href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
+<link data-phenom-canvas-style disabled blocking="render" rel="stylesheet" media="not all" data-href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
   {{ $artDirectionStyles := resources.Get "css/phenom-art-direction.css" | minify | fingerprint "sha256" }}
-  <link data-phenom-native-style rel="stylesheet" href="{{ $artDirectionStyles.RelPermalink }}" integrity="{{ $artDirectionStyles.Data.Integrity }}">
+  <link data-phenom-native-style disabled media="not all" blocking="render" rel="stylesheet" data-href="{{ $artDirectionStyles.RelPermalink }}" integrity="{{ $artDirectionStyles.Data.Integrity }}">
+<noscript><link rel="stylesheet" href="{{ $artDirectionStyles.RelPermalink }}" integrity="{{ $artDirectionStyles.Data.Integrity }}"></noscript>
 {{ $canvasStyle := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-art-direction.css") | minify | fingerprint "sha256" }}
-<link data-phenom-canvas-style rel="stylesheet" media="not all" href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
+<link data-phenom-canvas-style disabled blocking="render" rel="stylesheet" media="not all" data-href="{{ $canvasStyle.RelPermalink }}" integrity="{{ $canvasStyle.Data.Integrity }}">
+  {{ $tagStyles := resources.Get "css/phenom-tags.css" | minify | fingerprint "sha256" }}
+  <link data-phenom-native-style disabled media="not all" blocking="render" rel="stylesheet" data-href="{{ $tagStyles.RelPermalink }}" integrity="{{ $tagStyles.Data.Integrity }}">
+<noscript><link rel="stylesheet" href="{{ $tagStyles.RelPermalink }}" integrity="{{ $tagStyles.Data.Integrity }}"></noscript>
+  {{ $tagCanvasStyles := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-tags.css") | minify | fingerprint "sha256" }}
+  <link data-phenom-canvas-style disabled blocking="render" rel="stylesheet" media="not all" data-href="{{ $tagCanvasStyles.RelPermalink }}" integrity="{{ $tagCanvasStyles.Data.Integrity }}">
+  {{ $motionStyles := resources.Get "css/phenom-motion.css" | minify | fingerprint "sha256" }}
+  <link data-phenom-native-style disabled media="not all" blocking="render" rel="stylesheet" data-href="{{ $motionStyles.RelPermalink }}" integrity="{{ $motionStyles.Data.Integrity }}">
+<noscript><link rel="stylesheet" href="{{ $motionStyles.RelPermalink }}" integrity="{{ $motionStyles.Data.Integrity }}"></noscript>
+  {{ $motionCanvasStyles := partial "phenom/desktop-canvas-css.html" (resources.Get "css/phenom-motion.css") | minify | fingerprint "sha256" }}
+  <link data-phenom-canvas-style disabled blocking="render" rel="stylesheet" media="not all" data-href="{{ $motionCanvasStyles.RelPermalink }}" integrity="{{ $motionCanvasStyles.Data.Integrity }}">
+{{ $finishStyles := slice (resources.Get "css/phenom-entropy-frame.css") (resources.Get "css/phenom-cta.css") (resources.Get "css/phenom-boundaries.css") | resources.Concat "css/phenom-finish.css" }}
+{{ $finishNative := $finishStyles | minify | fingerprint "sha256" }}
+<link data-phenom-native-style disabled media="not all" blocking="render" rel="stylesheet" data-href="{{ $finishNative.RelPermalink }}" integrity="{{ $finishNative.Data.Integrity }}">
+<noscript><link rel="stylesheet" href="{{ $finishNative.RelPermalink }}" integrity="{{ $finishNative.Data.Integrity }}"></noscript>
+{{ $finishCanvas := partial "phenom/desktop-canvas-css.html" $finishStyles | minify | fingerprint "sha256" }}
+<link data-phenom-canvas-style disabled blocking="render" rel="stylesheet" media="not all" data-href="{{ $finishCanvas.RelPermalink }}" integrity="{{ $finishCanvas.Data.Integrity }}">
+  {{ $tagScript := resources.Get "js/phenom-tags.js" | minify | fingerprint "sha256" }}
+  <script type="application/x-phenom-runtime" data-phenom-runtime data-src="{{ $tagScript.RelPermalink }}" integrity="{{ $tagScript.Data.Integrity }}"></script>
   {{ $mobileScript := resources.Get "js/phenom-mobile.js" | minify | fingerprint "sha256" }}
-  <script src="{{ $mobileScript.RelPermalink }}" integrity="{{ $mobileScript.Data.Integrity }}" defer></script>
+  <script type="application/x-phenom-runtime" data-phenom-runtime data-src="{{ $mobileScript.RelPermalink }}" integrity="{{ $mobileScript.Data.Integrity }}"></script>
+  {{ $waveScript := resources.Get "js/phenom-wave-runtime.js" | minify | fingerprint "sha256" }}
+  <script type="application/x-phenom-runtime" data-phenom-runtime data-src="{{ $waveScript.RelPermalink }}" integrity="{{ $waveScript.Data.Integrity }}"></script>
+  {{ $motionPath := cond (eq site.Language.Lang "ru") "js/phenom-motion-ru.js" "js/phenom-motion-en.js" }}
+  {{ $motionScript := resources.Get $motionPath | minify | fingerprint "sha256" }}
+  <script type="application/x-phenom-runtime" data-phenom-runtime data-src="{{ $motionScript.RelPermalink }}" integrity="{{ $motionScript.Data.Integrity }}"></script>
+  {{ $snapScript := resources.Get "js/phenom-desktop-snap.js" | minify | fingerprint "sha256" }}
+  <script type="application/x-phenom-runtime" data-phenom-runtime data-src="{{ $snapScript.RelPermalink }}" integrity="{{ $snapScript.Data.Integrity }}"></script>
 {{ end }}
-<script>if(window.__phenomDesktopCanvas){document.querySelectorAll("[data-phenom-native-style]").forEach(function(l){l.media="not all"});document.querySelectorAll("[data-phenom-canvas-style]").forEach(function(l){l.media="all"});}</script>
+
 {{ $script := resources.Get "js/phenom-site.js" | minify | fingerprint "sha256" }}
-<script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+<script type="application/x-phenom-runtime" data-phenom-runtime data-src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+
+{{ range slice "js/phenom-entropy-frame.js" "js/phenom-cta.js" }}
+{{ $runtime := resources.Get . | minify | fingerprint "sha256" }}
+<script type="application/x-phenom-runtime" data-phenom-runtime data-src="{{ $runtime.RelPermalink }}" integrity="{{ $runtime.Data.Integrity }}"></script>
+{{ end }}
+<script>window.__phenomBootstrap89.start();</script>
 
 {{ $schema := dict
   "@context" "https://schema.org"
@@ -72,5 +143,6 @@
   "description" $description
   "url" (printf "%s%s" site.Params.localeDomain $alternatePath)
   "brand" (dict "@type" "Brand" "name" "Ergohaven")
+  "image" $shareURL
 }}
 <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>

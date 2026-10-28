@@ -1,0 +1,1056 @@
+{
+  "02-meet-standard.jpg": {
+    "sizes": "(max-width: 980px) 112vw, 34vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "02-meet-standard-768-q95.webp",
+        "bytes": 26266,
+        "path": "images/products/phenom/delivery47/02-meet-standard-768-q95.webp",
+        "sha256": "196ea2f4705cfa46347ebd149bd2fa4ef926046ae5f857efba4daeb4f229062d"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "02-meet-standard-960-q95.webp",
+        "bytes": 37628,
+        "path": "images/products/phenom/delivery47/02-meet-standard-960-q95.webp",
+        "sha256": "1fbaa328e8a43752fdf42778bcc915d2f6e5ee2fc0e9239de728697b30f345b8"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "02-meet-standard-1200-q95.webp",
+        "bytes": 53228,
+        "path": "images/products/phenom/delivery47/02-meet-standard-1200-q95.webp",
+        "sha256": "e94dd88313d823f498ea2ec71f3c02818c848e0c7d25f77dc30c3485d0637264"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "02-meet-standard-1536-q95.webp",
+        "bytes": 83098,
+        "path": "images/products/phenom/delivery47/02-meet-standard-1536-q95.webp",
+        "sha256": "2a382b5ec1b2c234f67ec3b79ab89090a0c70d5d76e54cdd32a446029486b630"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "02-meet-standard-1920-q95.webp",
+        "bytes": 128690,
+        "path": "images/products/phenom/delivery47/02-meet-standard-1920-q95.webp",
+        "sha256": "331cbeedc4e0fb9d388eaa454768de995295cbd48e58e20016906d7e0f07435e"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "02-meet-standard-2304-q95.webp",
+        "bytes": 190282,
+        "path": "images/products/phenom/delivery47/02-meet-standard-2304-q95.webp",
+        "sha256": "b58ec62cac19759ba5ef950e1a549cd225f7f3b7bb9fefc89b5cae73dcca71df"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "02-meet-standard-3072-q95.webp",
+        "bytes": 342750,
+        "path": "images/products/phenom/delivery47/02-meet-standard-3072-q95.webp",
+        "sha256": "1547f3327b86c74cc03e188b1cd9c70d7c594e42bb87c9d3f94b5896677307ac"
+      }
+    ],
+    "masterSHA256": "b3de27947fa07fad481deceb82046f812f6da896d867124eb25e12b26a49db6d"
+  },
+  "02-meet-mini.jpg": {
+    "sizes": "(max-width: 980px) 112vw, 34vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "02-meet-mini-768-q95.webp",
+        "bytes": 24076,
+        "path": "images/products/phenom/delivery47/02-meet-mini-768-q95.webp",
+        "sha256": "96d0d5cb8c81cb56c8f771e5ec4ce77ec944ee2cc25bab9fd1c5ee3edb06370b"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "02-meet-mini-960-q95.webp",
+        "bytes": 33204,
+        "path": "images/products/phenom/delivery47/02-meet-mini-960-q95.webp",
+        "sha256": "2ea19cc4343bec2dd131bebbdf6b0b8f4fd05e32e0df06ca969363ce6f528c06"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "02-meet-mini-1200-q95.webp",
+        "bytes": 48450,
+        "path": "images/products/phenom/delivery47/02-meet-mini-1200-q95.webp",
+        "sha256": "e3c56aebbf85249d46f5cbf8829744d759cefdb7553bbd1b3a11740ded5715d0"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "02-meet-mini-1536-q95.webp",
+        "bytes": 74894,
+        "path": "images/products/phenom/delivery47/02-meet-mini-1536-q95.webp",
+        "sha256": "4f6f2c7dbeafc8509e08439b3e7192fd025d0965ba612f47441871ec7cb12a91"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "02-meet-mini-1920-q95.webp",
+        "bytes": 118896,
+        "path": "images/products/phenom/delivery47/02-meet-mini-1920-q95.webp",
+        "sha256": "b5668dde68780b390025a09a244aeacc3ceb72b5ea830305bc0966a9f113df85"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "02-meet-mini-2304-q95.webp",
+        "bytes": 174290,
+        "path": "images/products/phenom/delivery47/02-meet-mini-2304-q95.webp",
+        "sha256": "6ffc9a657ca3d03ad39ced294aeeb22a9fb40a5562e60c60e0ccb464fb1d3250"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "02-meet-mini-3072-q95.webp",
+        "bytes": 314256,
+        "path": "images/products/phenom/delivery47/02-meet-mini-3072-q95.webp",
+        "sha256": "915dfce7723af162b440a7a48d5a7057bd422b680ad52fcfd1b8fee83594569f"
+      }
+    ],
+    "masterSHA256": "34ea64719d213377b0758225d8025e196a37a07d6e530654a71a3dc6b082da08"
+  },
+  "02-meet-micro.jpg": {
+    "sizes": "(max-width: 980px) 112vw, 34vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "02-meet-micro-768-q95.webp",
+        "bytes": 24208,
+        "path": "images/products/phenom/delivery47/02-meet-micro-768-q95.webp",
+        "sha256": "8baea2587f89d7a9dfcb2296fa86908aa7ce4b227cb0892967bb36f15028d3c6"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "02-meet-micro-960-q95.webp",
+        "bytes": 33848,
+        "path": "images/products/phenom/delivery47/02-meet-micro-960-q95.webp",
+        "sha256": "a0d99f55db8b5feb3f2d79d043ae666a671774ce350d1d6d3ded10ddad32c1d4"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "02-meet-micro-1200-q95.webp",
+        "bytes": 49008,
+        "path": "images/products/phenom/delivery47/02-meet-micro-1200-q95.webp",
+        "sha256": "0b3783c77acc503a46d5ebe916505ac9014a5b468e050402c3910e7ebca6c2ad"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "02-meet-micro-1536-q95.webp",
+        "bytes": 79708,
+        "path": "images/products/phenom/delivery47/02-meet-micro-1536-q95.webp",
+        "sha256": "30e80c0c0b9fa4a7b344b8118daebb0dbfead3222e648b3c7d4ce644feb2ee6b"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "02-meet-micro-1920-q95.webp",
+        "bytes": 127290,
+        "path": "images/products/phenom/delivery47/02-meet-micro-1920-q95.webp",
+        "sha256": "d4758f6c9e18c15e3a6f2ce02ce951a3750edfdabe510fe9b1d7d8583123e0e5"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "02-meet-micro-2304-q95.webp",
+        "bytes": 189850,
+        "path": "images/products/phenom/delivery47/02-meet-micro-2304-q95.webp",
+        "sha256": "7e93e6333f082b0c2d4cc75927532f131fbaa12bc43e989f59923253249995ff"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "02-meet-micro-3072-q95.webp",
+        "bytes": 345174,
+        "path": "images/products/phenom/delivery47/02-meet-micro-3072-q95.webp",
+        "sha256": "adedbbd4bfb62f372dd6a19634799330503c0a58a0526840d8f47aa277faafe1"
+      }
+    ],
+    "masterSHA256": "0cabc24e6aa83e7a72a739b330e6759ac1132659779b7afc0a35b90078862d36"
+  },
+  "02-series-standard-dark.jpg": {
+    "sizes": "(max-width: 980px) 112vw, 34vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "02-series-standard-dark-768-q95.webp",
+        "bytes": 23928,
+        "path": "images/products/phenom/delivery47/02-series-standard-dark-768-q95.webp",
+        "sha256": "5cc7848a285519a238c608badfb5dd8f356d041620a30d7f90d60345b63926b9"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "02-series-standard-dark-960-q95.webp",
+        "bytes": 32508,
+        "path": "images/products/phenom/delivery47/02-series-standard-dark-960-q95.webp",
+        "sha256": "3eb4d77517c089f672687c75d687d4531290d8e5638f68e9b235bc5825b51d8d"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "02-series-standard-dark-1200-q95.webp",
+        "bytes": 47854,
+        "path": "images/products/phenom/delivery47/02-series-standard-dark-1200-q95.webp",
+        "sha256": "71805854c03664d48aba88a2c97a44d8824a499a7fa6ff8a96fe56c3a77a8890"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "02-series-standard-dark-1536-q95.webp",
+        "bytes": 77464,
+        "path": "images/products/phenom/delivery47/02-series-standard-dark-1536-q95.webp",
+        "sha256": "24426b81998e60551004b52ca1d25a9c6207194a6b30b86d18fb12f3ba310de8"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "02-series-standard-dark-1920-q95.webp",
+        "bytes": 120726,
+        "path": "images/products/phenom/delivery47/02-series-standard-dark-1920-q95.webp",
+        "sha256": "4b91870ea79d39139b539fc6ee64bfcd47469710b9fa0090ddd2eeed5de42edd"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "02-series-standard-dark-2304-q95.webp",
+        "bytes": 180424,
+        "path": "images/products/phenom/delivery47/02-series-standard-dark-2304-q95.webp",
+        "sha256": "c48a80b3bb24fb6957931b66bb79be0c92d46fc213eb16ac030bcc1354a5d970"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "02-series-standard-dark-3072-q95.webp",
+        "bytes": 328438,
+        "path": "images/products/phenom/delivery47/02-series-standard-dark-3072-q95.webp",
+        "sha256": "dcaff994f47f3a47747036cd0f386a36e868e93422bb8eb0336253c1bc0bbc34"
+      }
+    ],
+    "masterSHA256": "1e21764b6357599460a2b07ca50981f8f0f142f97016801ba1180f7b4363c6f1"
+  },
+  "02-series-mini-dark.jpg": {
+    "sizes": "(max-width: 980px) 112vw, 34vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "02-series-mini-dark-768-q95.webp",
+        "bytes": 22852,
+        "path": "images/products/phenom/delivery47/02-series-mini-dark-768-q95.webp",
+        "sha256": "67c0d1efb20a0aab31f7d9b269f065daa0db25547fce2e4fc85c5a0a481bd7ad"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "02-series-mini-dark-960-q95.webp",
+        "bytes": 31846,
+        "path": "images/products/phenom/delivery47/02-series-mini-dark-960-q95.webp",
+        "sha256": "169dc4e6ef9054ce25c49baa208f6bcba054eb4ac1701deedf4929e978891d51"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "02-series-mini-dark-1200-q95.webp",
+        "bytes": 45792,
+        "path": "images/products/phenom/delivery47/02-series-mini-dark-1200-q95.webp",
+        "sha256": "6ca05624cc9b9d35ad68da54743f1b629047ae9c1b43448941119378f70807d8"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "02-series-mini-dark-1536-q95.webp",
+        "bytes": 72456,
+        "path": "images/products/phenom/delivery47/02-series-mini-dark-1536-q95.webp",
+        "sha256": "3a902f03afcc11937e602f5b13e558e7fe1e51ef55edfdc9bd19c9ee515dbbfe"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "02-series-mini-dark-1920-q95.webp",
+        "bytes": 115060,
+        "path": "images/products/phenom/delivery47/02-series-mini-dark-1920-q95.webp",
+        "sha256": "7273b50c201a03bd8625843a74297a05f6d52987ed0be1d8bb02f8e7700550bd"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "02-series-mini-dark-2304-q95.webp",
+        "bytes": 171352,
+        "path": "images/products/phenom/delivery47/02-series-mini-dark-2304-q95.webp",
+        "sha256": "a47a88fef71a92875e4823ee5bb15d647478633b89183f9d2a6b091527d5bce7"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "02-series-mini-dark-3072-q95.webp",
+        "bytes": 308050,
+        "path": "images/products/phenom/delivery47/02-series-mini-dark-3072-q95.webp",
+        "sha256": "c14801e2077c0d780a31001307ff5e3cacc014ebb402b443f1b7ee0209903bc3"
+      }
+    ],
+    "masterSHA256": "6165ecf0ef17b4f6696de9baf178238eb132cba4be7e4eb654affe4cd6745f13"
+  },
+  "02-series-micro-dark.jpg": {
+    "sizes": "(max-width: 980px) 112vw, 34vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "02-series-micro-dark-768-q95.webp",
+        "bytes": 21544,
+        "path": "images/products/phenom/delivery47/02-series-micro-dark-768-q95.webp",
+        "sha256": "40aef7ac2765da7a0c6041b7ca2ec320f7a30b1a01ca6e1acf6e9ec94b88fda7"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "02-series-micro-dark-960-q95.webp",
+        "bytes": 29494,
+        "path": "images/products/phenom/delivery47/02-series-micro-dark-960-q95.webp",
+        "sha256": "d55538601e6e6255715e37c6b24c1bb7bf1b56f9939b743d1a38a15e9496740a"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "02-series-micro-dark-1200-q95.webp",
+        "bytes": 43038,
+        "path": "images/products/phenom/delivery47/02-series-micro-dark-1200-q95.webp",
+        "sha256": "3f6f852a9ac62906d4a558b2a609c87b578a29ab4d39a4aef5147057264e6424"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "02-series-micro-dark-1536-q95.webp",
+        "bytes": 67358,
+        "path": "images/products/phenom/delivery47/02-series-micro-dark-1536-q95.webp",
+        "sha256": "d64cf694265251392261517ac8fcc0d56746de28429326f089de21acbce655e7"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "02-series-micro-dark-1920-q95.webp",
+        "bytes": 105488,
+        "path": "images/products/phenom/delivery47/02-series-micro-dark-1920-q95.webp",
+        "sha256": "ff1671723d917add5c4a83443a0f78aeb94f94800f182282cf99e3d9310fb2a2"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "02-series-micro-dark-2304-q95.webp",
+        "bytes": 155144,
+        "path": "images/products/phenom/delivery47/02-series-micro-dark-2304-q95.webp",
+        "sha256": "f7ae993b55c86faf61f7cc9334bf8c3a9d06a143ea0d459d3a38fab4680d7b62"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "02-series-micro-dark-3072-q95.webp",
+        "bytes": 278530,
+        "path": "images/products/phenom/delivery47/02-series-micro-dark-3072-q95.webp",
+        "sha256": "824da88b85dec70139ce7ab1c3ed01c9d3a010bb98c08b7804f4b179fe1d07c1"
+      }
+    ],
+    "masterSHA256": "e467ab8d6d98c3d37be1731fbf013731d7e8ff0cbfb1fc9e2631e661e25994ab"
+  },
+  "04-curves-keywell.jpg": {
+    "sizes": "(max-width: 980px) 70vw, 46vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "04-curves-keywell-768-q95.webp",
+        "bytes": 22912,
+        "path": "images/products/phenom/delivery47/04-curves-keywell-768-q95.webp",
+        "sha256": "018ba8149efd1743e0f3f446ff41b6aa3ef3d545c825ee9817344b0e6c7edcf9"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "04-curves-keywell-960-q95.webp",
+        "bytes": 32432,
+        "path": "images/products/phenom/delivery47/04-curves-keywell-960-q95.webp",
+        "sha256": "05e48bb321eb081c80b127b41af207fc461148c28e3b273f19fd1115e6baf918"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "04-curves-keywell-1200-q95.webp",
+        "bytes": 49030,
+        "path": "images/products/phenom/delivery47/04-curves-keywell-1200-q95.webp",
+        "sha256": "2af9b85a9f6ca39665d7c0cc40c083fe0614f6973afedddadce65ee3e4fb334f"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "04-curves-keywell-1536-q95.webp",
+        "bytes": 88250,
+        "path": "images/products/phenom/delivery47/04-curves-keywell-1536-q95.webp",
+        "sha256": "0d8f044d7f3a7100b5f076f6e8b0f85a5c70ef84c402d99682d502db0304e041"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "04-curves-keywell-1920-q95.webp",
+        "bytes": 172060,
+        "path": "images/products/phenom/delivery47/04-curves-keywell-1920-q95.webp",
+        "sha256": "5e525462dfcbcee3de63a43912e5c60b30dc27ed459c46c944468ae8ad852222"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "04-curves-keywell-2304-q95.webp",
+        "bytes": 316304,
+        "path": "images/products/phenom/delivery47/04-curves-keywell-2304-q95.webp",
+        "sha256": "685510cca8dda5d79091953ef68470c69b23e3c367f4a8d91cb700578976cfd8"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "04-curves-keywell-3072-q95.webp",
+        "bytes": 790496,
+        "path": "images/products/phenom/delivery47/04-curves-keywell-3072-q95.webp",
+        "sha256": "ebd77b83d503b6795f6adece47e50c37ee1751fa93487973ce7989c4614c30d7"
+      }
+    ],
+    "masterSHA256": "434f3fd2bca4d0af7626ea55e1a9726d3b86ed10fa1f9187a6aa53457fd0f8b5"
+  },
+  "04-curves-outer-columns.jpg": {
+    "sizes": "(max-width: 680px) 81vw, (max-width: 980px) 38vw, 53vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "04-curves-outer-columns-revision74-768-q95.webp",
+        "bytes": 18530,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-768-q95.webp",
+        "sha256": "a1c9f32772feaa0b8e17041da411822c2e51906fced790e484cd921e0983eeee"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "04-curves-outer-columns-revision74-960-q95.webp",
+        "bytes": 26582,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-960-q95.webp",
+        "sha256": "d644203a81cccc5230356bc4a541dcd60f58d8dda218564b311ced33b015889c"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "04-curves-outer-columns-revision74-1200-q95.webp",
+        "bytes": 36942,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-1200-q95.webp",
+        "sha256": "edb4ff8ba228a9561e80b8ef957b1853fa1fb91d7cc38f094572a30d29bc44e2"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "04-curves-outer-columns-revision74-1536-q95.webp",
+        "bytes": 55098,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-1536-q95.webp",
+        "sha256": "1b6fad9341f82385b25e16d9e5b94bef57aec1d4b5fed11bb64154bd455377e6"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "04-curves-outer-columns-revision74-1920-q95.webp",
+        "bytes": 81774,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-1920-q95.webp",
+        "sha256": "68a4acbfe03713f8ba7b3490d7535d7f641ba9da32f86c77917c3d42943ad9c5"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "04-curves-outer-columns-revision74-2304-q95.webp",
+        "bytes": 115406,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-2304-q95.webp",
+        "sha256": "7e05625c0ac2f7de423a3f0a4ce282e36299927ee3f93207f94eff0099360cd8"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "04-curves-outer-columns-revision74-3072-q95.webp",
+        "bytes": 231246,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-3072-q95.webp",
+        "sha256": "0fb48903794af4f67cc0a4d941dc535a15c8d98ba50be1087cb6a8466ded239a"
+      }
+    ],
+    "masterSHA256": "33f67dfd1df8ea982a12fc90c83256ffdc9dffeb64ee78065aab6c1f2fa537dc"
+  },
+  "04-curves-thumb-arc.jpg": {
+    "sizes": "(max-width: 980px) 70vw, 46vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "04-curves-thumb-arc-768-q95.webp",
+        "bytes": 36800,
+        "path": "images/products/phenom/delivery47/04-curves-thumb-arc-768-q95.webp",
+        "sha256": "714cb2be1635df9bc6d57f76fb3842500cd65273b8472a9161e2d4d50d0c46bc"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "04-curves-thumb-arc-960-q95.webp",
+        "bytes": 50916,
+        "path": "images/products/phenom/delivery47/04-curves-thumb-arc-960-q95.webp",
+        "sha256": "7a9579dc0c018c3487b66c6216826c5a3fd65e5c3ac7e2f4a11d26ccaf6f35b9"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "04-curves-thumb-arc-1200-q95.webp",
+        "bytes": 76422,
+        "path": "images/products/phenom/delivery47/04-curves-thumb-arc-1200-q95.webp",
+        "sha256": "ef1393bf957649c38b11dde12b5d6e75abcedd580b9f422f2663870268dc2fc8"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "04-curves-thumb-arc-1536-q95.webp",
+        "bytes": 135174,
+        "path": "images/products/phenom/delivery47/04-curves-thumb-arc-1536-q95.webp",
+        "sha256": "ea9d5e6bb41c8a85d9cdbdc3203dc157634a4911597a1e78f965dcdaee12f890"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "04-curves-thumb-arc-1920-q95.webp",
+        "bytes": 250226,
+        "path": "images/products/phenom/delivery47/04-curves-thumb-arc-1920-q95.webp",
+        "sha256": "d8e6d574cd561462e9b27ba306fe897fa0cfff36343e33835ce1d7b83da21872"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "04-curves-thumb-arc-2304-q95.webp",
+        "bytes": 438298,
+        "path": "images/products/phenom/delivery47/04-curves-thumb-arc-2304-q95.webp",
+        "sha256": "669515a72c959a64c563e8832549c54bef83df6859b96f50f922ae1781e8d0e2"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "04-curves-thumb-arc-3072-q95.webp",
+        "bytes": 1054608,
+        "path": "images/products/phenom/delivery47/04-curves-thumb-arc-3072-q95.webp",
+        "sha256": "5c9fec200152dae7a2ac434136f3316803e889038ba6b16501452e1049e7a3d9"
+      }
+    ],
+    "masterSHA256": "4b814905bd040c8abd354c99327b7dd7c32a35f2d48a039d4326b1758fa6880b"
+  },
+  "04-curves-side-profile.jpg": {
+    "sizes": "(max-width: 680px) 70vw, (max-width: 980px) 33vw, 46vw",
+    "variants": [
+      {
+        "width": 768,
+        "height": 512,
+        "file": "04-curves-side-profile-revision74-768-q95.webp",
+        "bytes": 21218,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-768-q95.webp",
+        "sha256": "48fc8d41e603934de7965334e0384ee5b846fce60a218ff3e9db971dc3982681"
+      },
+      {
+        "width": 960,
+        "height": 640,
+        "file": "04-curves-side-profile-revision74-960-q95.webp",
+        "bytes": 29582,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-960-q95.webp",
+        "sha256": "701c0e9a53af398d69a5a8059ebfaed967f38247efa7545cfc9e1110a1762e27"
+      },
+      {
+        "width": 1200,
+        "height": 800,
+        "file": "04-curves-side-profile-revision74-1200-q95.webp",
+        "bytes": 43990,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-1200-q95.webp",
+        "sha256": "8d3614418ceaf7db12b6c2e0de733eb11660c3f5576aa747fea7b4b52ed20c3a"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "04-curves-side-profile-revision74-1536-q95.webp",
+        "bytes": 62612,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-1536-q95.webp",
+        "sha256": "401e89a6fd3f53841226c1dc1d7e0fb07ef45381600e630112058e44813ff5ec"
+      },
+      {
+        "width": 1920,
+        "height": 1280,
+        "file": "04-curves-side-profile-revision74-1920-q95.webp",
+        "bytes": 93758,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-1920-q95.webp",
+        "sha256": "df77cf32d61a9a620143e407ebf0624028ef23dbe57e8ef2a7c5d79a025437ce"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "04-curves-side-profile-revision74-2304-q95.webp",
+        "bytes": 134754,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-2304-q95.webp",
+        "sha256": "fb1ccc7cf58d2198c0fa06bddec5ab9294e8933cebd82835099a07c7d2d47834"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "04-curves-side-profile-revision74-3072-q95.webp",
+        "bytes": 255554,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-3072-q95.webp",
+        "sha256": "e0a0e83cc99495e644c2a9d58a774e79cb4df2e30e3cf4ef97533d0b243d0c34"
+      }
+    ],
+    "masterSHA256": "fddc516cce85450acfe9d6ce6c9900be4c64b7dd6a3ab7cd3528f23b3880e0c9"
+  },
+  "05-finger-geometry-desktop.jpg": {
+    "sizes": "(max-width: 980px) 155vw, max(100vw, 170vh)",
+    "variants": [
+      {
+        "width": 960,
+        "height": 640,
+        "file": "05-finger-geometry-desktop-960-q95.webp",
+        "bytes": 79258,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-960-q95.webp",
+        "sha256": "0a8fae103da49b4234460ddc21f9d660f4428abfc383edbdce06cd36f3831b1c"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "05-finger-geometry-desktop-1536-q95.webp",
+        "bytes": 211612,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-1536-q95.webp",
+        "sha256": "92514e46c1f846e271dd8c8faf2c657cd772300a3f528ab3b77b91f7f891368c"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "05-finger-geometry-desktop-2304-q95.webp",
+        "bytes": 598258,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-2304-q95.webp",
+        "sha256": "be3139e985b7ba487abd4894507b11b6e5c7c661a4b3c96910970d53da2233a7"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "05-finger-geometry-desktop-3072-q95.webp",
+        "bytes": 1068706,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-3072-q95.webp",
+        "sha256": "5bf8a1baab8bd7900c0a75ae309fc1196f7144a3f70d583f533ffe8f262f989e"
+      },
+      {
+        "width": 3840,
+        "height": 2560,
+        "file": "05-finger-geometry-desktop-3840-q95.webp",
+        "bytes": 1537038,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-3840-q95.webp",
+        "sha256": "4f400ad5a6a54f0e3ab9df2f2638f46935c591970e947ceadde0450fe50298e6"
+      },
+      {
+        "width": 4608,
+        "height": 3072,
+        "file": "05-finger-geometry-desktop-4608-q95.webp",
+        "bytes": 1996084,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-4608-q95.webp",
+        "sha256": "5a3a32bef5e554428bd9ed277f983a36fa18f7ce22d851171da8a612db34858e"
+      },
+      {
+        "width": 6000,
+        "height": 4000,
+        "file": "05-finger-geometry-desktop-6000-q95.webp",
+        "bytes": 2901010,
+        "path": "images/products/phenom/delivery47/05-finger-geometry-desktop-6000-q95.webp",
+        "sha256": "98f8a40691b4ff8bd53be5ae3171d127e75ef884e4c2e96c44be5eef1fe44288"
+      }
+    ],
+    "masterSHA256": "1705a2f60303b8080a179a7d7c2a5efc47ef555456f9732a31d0a4fd0a797890"
+  },
+  "01-hero-detail.jpg": {
+    "sizes": "(max-width: 980px) 125vw, max(100vw, 150vh)",
+    "variants": [
+      {
+        "width": 960,
+        "height": 640,
+        "file": "01-hero-detail-960-q95-92.webp",
+        "bytes": 31822,
+        "path": "images/products/phenom/delivery56/01-hero-detail-960-q95-92.webp",
+        "sha256": "1957e86d0ec0e5703f54790dad6a28ee0cd0fbf4e476b421f323b3b913bed9b2"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "01-hero-detail-1536-q95-92.webp",
+        "bytes": 63794,
+        "path": "images/products/phenom/delivery56/01-hero-detail-1536-q95-92.webp",
+        "sha256": "a99866bc5c8631c4f20b3c87657bf25f07bad76da2bc9843f1850c4bd23b13ed"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "01-hero-detail-2304-q95-92.webp",
+        "bytes": 131564,
+        "path": "images/products/phenom/delivery56/01-hero-detail-2304-q95-92.webp",
+        "sha256": "e91a4f171fa742dbca4fe5ea179f8e0b41537532831a3089976476816d67c325"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "01-hero-detail-3072-q95-92.webp",
+        "bytes": 237592,
+        "path": "images/products/phenom/delivery56/01-hero-detail-3072-q95-92.webp",
+        "sha256": "44673ac5d6c4322724cfb0915dace9a15b282a93f86df23b6affad22f5fab432"
+      },
+      {
+        "width": 3840,
+        "height": 2560,
+        "file": "01-hero-detail-3840-q95-92.webp",
+        "bytes": 391056,
+        "path": "images/products/phenom/delivery56/01-hero-detail-3840-q95-92.webp",
+        "sha256": "1015ab00b865a371a0ac0ada634df1b4657f57b70b138342e2c7b2bc1eff3440"
+      },
+      {
+        "width": 4608,
+        "height": 3072,
+        "file": "01-hero-detail-4608-q95-92.webp",
+        "bytes": 572086,
+        "path": "images/products/phenom/delivery56/01-hero-detail-4608-q95-92.webp",
+        "sha256": "07e10d0c212955706800d0c6d3d93ff7bbf52dfd89863031fd88bc682e8dfd44"
+      },
+      {
+        "width": 6000,
+        "height": 4000,
+        "file": "01-hero-detail-6000-q95-92.webp",
+        "bytes": 958296,
+        "path": "images/products/phenom/delivery56/01-hero-detail-6000-q95-92.webp",
+        "sha256": "51071e6ee1aab37099f72b50333e9bc8e2e0510067b29a03a47a3b959b5d735d"
+      }
+    ],
+    "masterSHA256": "b174444488340ce91275a280667c366a4e6b4465128baa4a6373b93f39bced7b"
+  },
+  "01-hero.jpg": {
+    "sizes": "(max-width: 980px) 128vw, min(128vw, 192vh)",
+    "variants": [
+      {
+        "width": 960,
+        "height": 640,
+        "file": "01-hero-revision74-960-q95.webp",
+        "bytes": 41816,
+        "path": "images/products/phenom/delivery47/01-hero-revision74-960-q95.webp",
+        "sha256": "555f7214d5a05973afa50943023e9aeaeea8d4badf6955378021e7673197304b"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "01-hero-revision74-1536-q95.webp",
+        "bytes": 88208,
+        "path": "images/products/phenom/delivery47/01-hero-revision74-1536-q95.webp",
+        "sha256": "41419ca2be30ac380803a5258e68315f2927ac6f14fc7921615ffbe495518e3b"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "01-hero-revision74-2304-q95.webp",
+        "bytes": 181186,
+        "path": "images/products/phenom/delivery47/01-hero-revision74-2304-q95.webp",
+        "sha256": "1103de55ebef582384f761d33f99f4330eb97b2ef983e2a8fe27fa0715733609"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "01-hero-revision74-3072-q95.webp",
+        "bytes": 338328,
+        "path": "images/products/phenom/delivery47/01-hero-revision74-3072-q95.webp",
+        "sha256": "ff546dd8e28b45ea737597358657dd71adadca32eaf2bfb2f9d9fc8f36bb47a8"
+      },
+      {
+        "width": 3840,
+        "height": 2560,
+        "file": "01-hero-revision74-3840-q95.webp",
+        "bytes": 566452,
+        "path": "images/products/phenom/delivery47/01-hero-revision74-3840-q95.webp",
+        "sha256": "5e2be2f9679972eac941e69b3411e1979911bf8988ba1d434767cd4e4288fa8a"
+      },
+      {
+        "width": 4608,
+        "height": 3072,
+        "file": "01-hero-revision74-4608-q95.webp",
+        "bytes": 860350,
+        "path": "images/products/phenom/delivery47/01-hero-revision74-4608-q95.webp",
+        "sha256": "b035cd1a7e75068c747c8b4e3bb01b745f6b089694979c8a36b4c4aec85712ab"
+      },
+      {
+        "width": 6000,
+        "height": 4000,
+        "file": "01-hero-revision74-6000-q95.webp",
+        "bytes": 1510308,
+        "path": "images/products/phenom/delivery47/01-hero-revision74-6000-q95.webp",
+        "sha256": "b22fcf1b0fc6e4eefbba4b719fede7a1890f259fc413a6d3b99b281db45a993d"
+      }
+    ],
+    "masterSHA256": "0900ad8658fdb4ef7ce5c01af47b5894c012bd830a8ef1e083cf66e145655635"
+  },
+  "03-modularity-trackballs.jpg": {
+    "sizes": "(max-width: 980px) 187.5vw, max(115vw, 195.5vh)",
+    "variants": [
+      {
+        "width": 960,
+        "height": 640,
+        "file": "03-modularity-trackballs-modularity82-960-q95.webp",
+        "bytes": 21918,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-960-q95.webp",
+        "sha256": "801bdc2f2ae5ad75fa351fb96bcb1eee467388a53df87f98f2d3a1a7220ae534"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "03-modularity-trackballs-modularity82-1536-q95.webp",
+        "bytes": 47116,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-1536-q95.webp",
+        "sha256": "badace78f5f9856a1906b6d2571a07a6a596114067c0106a081728a9bd8ae333"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "03-modularity-trackballs-modularity82-2304-q95.webp",
+        "bytes": 99100,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-2304-q95.webp",
+        "sha256": "b9fd4e77670ada57bf43dac8622e5573e93ab5658f5038ccf22edf892f28ccdf"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "03-modularity-trackballs-modularity82-3072-q95.webp",
+        "bytes": 169158,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-3072-q95.webp",
+        "sha256": "ebc67dfb1ae74bfc4838ee23481ff6394e9cdc1ca1dca55ad64554f882b9c88d"
+      },
+      {
+        "width": 3840,
+        "height": 2560,
+        "file": "03-modularity-trackballs-modularity82-3840-q95.webp",
+        "bytes": 262326,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-3840-q95.webp",
+        "sha256": "d6f10886d0dea5a5d9773157aba9c9c88f156d8a53b02cb0493f08208c8584e5"
+      },
+      {
+        "width": 4608,
+        "height": 3072,
+        "file": "03-modularity-trackballs-modularity82-4608-q95.webp",
+        "bytes": 365360,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-4608-q95.webp",
+        "sha256": "083dfaed703dfe082a5ed1b4de5ceb60ffbeaf66b6b2609a21f28d6110c368e5"
+      },
+      {
+        "width": 6000,
+        "height": 4000,
+        "file": "03-modularity-trackballs-modularity82-6000-q95.webp",
+        "bytes": 588238,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-6000-q95.webp",
+        "sha256": "9c6bea1a795b3cb169de478828c21c066eae1019b320a6091958d1604f77f75b"
+      }
+    ],
+    "masterSHA256": "fc6c3d0466df6757c2cdc34450771b26d70f5c5b5d9ae6180b55ee24b61a69f6"
+  },
+  "06-additive-manufacturing.jpg": {
+    "sizes": "(max-width: 980px) 155vw, max(100vw, 170vh)",
+    "variants": [
+      {
+        "width": 960,
+        "height": 640,
+        "file": "06-additive-manufacturing-960-q95.webp",
+        "bytes": 76334,
+        "path": "images/products/phenom/delivery49/06-additive-manufacturing-960-q95.webp",
+        "sha256": "e7119b118087ffcf4d83bc8ed3c4cc1e0fabe98c652afb3edd8ed1cdb8a71bc9"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "06-additive-manufacturing-1536-q95.webp",
+        "bytes": 184654,
+        "path": "images/products/phenom/delivery49/06-additive-manufacturing-1536-q95.webp",
+        "sha256": "9412eba9cfe5463ee0ce4675240ea85c8e003f6d9831c910243dfb8a0a885258"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "06-additive-manufacturing-2304-q95.webp",
+        "bytes": 536672,
+        "path": "images/products/phenom/delivery49/06-additive-manufacturing-2304-q95.webp",
+        "sha256": "054af4b10d9ec2768241f10c53f233eb939697be2f3a6d02c7b15338c79fb3a3"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "06-additive-manufacturing-3072-q95.webp",
+        "bytes": 1155540,
+        "path": "images/products/phenom/delivery49/06-additive-manufacturing-3072-q95.webp",
+        "sha256": "e82bdd149e16d49f694c94ad9e9d9328911c936a6aeea81bdb64267bed67de0b"
+      },
+      {
+        "width": 3840,
+        "height": 2560,
+        "file": "06-additive-manufacturing-3840-q95.webp",
+        "bytes": 1818028,
+        "path": "images/products/phenom/delivery49/06-additive-manufacturing-3840-q95.webp",
+        "sha256": "5db36c72c32544b83dd8cbd510e471842e15b72bca3e588923c94967bb1cea31"
+      },
+      {
+        "width": 4608,
+        "height": 3072,
+        "file": "06-additive-manufacturing-4608-q95.webp",
+        "bytes": 2632986,
+        "path": "images/products/phenom/delivery49/06-additive-manufacturing-4608-q95.webp",
+        "sha256": "2530cd9341754a8919b6c8254d7a5b861a149928054ed24ddba910490e2a0bc0"
+      },
+      {
+        "width": 6000,
+        "height": 4000,
+        "file": "06-additive-manufacturing-6000-q95.webp",
+        "bytes": 4445760,
+        "path": "images/products/phenom/delivery49/06-additive-manufacturing-6000-q95.webp",
+        "sha256": "0201e094acdd9b53d3b5dfbc4fe76a40a556e57e0d5b3d7f793f5435718bf89c"
+      }
+    ],
+    "masterSHA256": "a5dd6dbd97c28fc0355f5385a37a1a1d74494974e7a70ed778e22c477047bb66"
+  },
+  "07-keycaps-switches.jpg": {
+    "sizes": "(max-width: 980px) 155vw, max(110vw, 187vh)",
+    "variants": [
+      {
+        "width": 960,
+        "height": 640,
+        "file": "07-keycaps-switches-replacement73-960-q95.webp",
+        "bytes": 63768,
+        "path": "images/products/phenom/delivery47/07-keycaps-switches-replacement73-960-q95.webp",
+        "sha256": "2a53f74c898acedcf4b7676641b6d64d350dd211091e94bb62acd09f6296eee7"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "07-keycaps-switches-replacement73-1536-q95.webp",
+        "bytes": 147446,
+        "path": "images/products/phenom/delivery47/07-keycaps-switches-replacement73-1536-q95.webp",
+        "sha256": "3f97c93ea527355524f910880ec2a864f27bb3fa1662bd8c9c4f6be25436a62a"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "07-keycaps-switches-replacement73-2304-q95.webp",
+        "bytes": 330102,
+        "path": "images/products/phenom/delivery47/07-keycaps-switches-replacement73-2304-q95.webp",
+        "sha256": "40cb0219be2b1b2a2a6f8e059effbe696dc98fedb81c191d220152b4e689706c"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "07-keycaps-switches-replacement73-3072-q95.webp",
+        "bytes": 659392,
+        "path": "images/products/phenom/delivery47/07-keycaps-switches-replacement73-3072-q95.webp",
+        "sha256": "aa3520a7f02bc54ea9f542abf538b71249d84da7d5ca787a1651303c52120acf"
+      },
+      {
+        "width": 3840,
+        "height": 2560,
+        "file": "07-keycaps-switches-replacement73-3840-q95.webp",
+        "bytes": 1221846,
+        "path": "images/products/phenom/delivery47/07-keycaps-switches-replacement73-3840-q95.webp",
+        "sha256": "568578748cf1e56de23e5f6bc3134709a245fcca72f605a0a98a2c33ccddcf4a"
+      },
+      {
+        "width": 4608,
+        "height": 3072,
+        "file": "07-keycaps-switches-replacement73-4608-q95.webp",
+        "bytes": 1922856,
+        "path": "images/products/phenom/delivery47/07-keycaps-switches-replacement73-4608-q95.webp",
+        "sha256": "2e83c89ef11069cdc9825974aa39ac45369451fdd2ebf4af5d6b122864a03c55"
+      },
+      {
+        "width": 6000,
+        "height": 4000,
+        "file": "07-keycaps-switches-replacement73-6000-q95.webp",
+        "bytes": 3455132,
+        "path": "images/products/phenom/delivery47/07-keycaps-switches-replacement73-6000-q95.webp",
+        "sha256": "b3233ab823c7a7babb8109ea973863cd4ad3f805d37c5210ea07c137d47d7f3f"
+      }
+    ],
+    "masterSHA256": "a3620c8ef17f2fb94c9abfedf000c8323f683c9b0246d43bdd6a17f41f59ba9b"
+  },
+  "08-wired-connection.jpg": {
+    "sizes": "(max-width: 980px) 155vw, max(134vw, 228vh)",
+    "variants": [
+      {
+        "width": 960,
+        "height": 640,
+        "file": "08-wired-connection-960-q95.webp",
+        "bytes": 52678,
+        "path": "images/products/phenom/delivery49/08-wired-connection-960-q95.webp",
+        "sha256": "45d2e52999008d52caecb97c01993d5c8afc39fdbb1e4abeb3f9dbf445a9e171"
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "file": "08-wired-connection-1536-q95.webp",
+        "bytes": 122504,
+        "path": "images/products/phenom/delivery49/08-wired-connection-1536-q95.webp",
+        "sha256": "c6b5a86a4fab009d4bb544c9c4ba1d9991445f86d4e6702599afdf9c41cc81d4"
+      },
+      {
+        "width": 2304,
+        "height": 1536,
+        "file": "08-wired-connection-2304-q95.webp",
+        "bytes": 291654,
+        "path": "images/products/phenom/delivery49/08-wired-connection-2304-q95.webp",
+        "sha256": "be6591f130bfbf618c0f1e2e634115ddb1cb5902d5160c3eab5dcffb13a539eb"
+      },
+      {
+        "width": 3072,
+        "height": 2048,
+        "file": "08-wired-connection-3072-q95.webp",
+        "bytes": 604728,
+        "path": "images/products/phenom/delivery49/08-wired-connection-3072-q95.webp",
+        "sha256": "fa6501394f97bc83a4e91711c16266acd348b391ee3338139068ac5a4b0189ea"
+      },
+      {
+        "width": 3840,
+        "height": 2560,
+        "file": "08-wired-connection-3840-q95.webp",
+        "bytes": 1039142,
+        "path": "images/products/phenom/delivery49/08-wired-connection-3840-q95.webp",
+        "sha256": "4054d6a4053c2c08b2478cc6228628e9fade7f1589aef995f1466a452b84e41e"
+      },
+      {
+        "width": 4608,
+        "height": 3072,
+        "file": "08-wired-connection-4608-q95.webp",
+        "bytes": 1557428,
+        "path": "images/products/phenom/delivery49/08-wired-connection-4608-q95.webp",
+        "sha256": "56e18ca1f01349c9300704824ae33db7337f5ad4ef59b0fe728f5262f5fb8f6a"
+      },
+      {
+        "width": 6000,
+        "height": 4000,
+        "file": "08-wired-connection-6000-q95.webp",
+        "bytes": 2753046,
+        "path": "images/products/phenom/delivery49/08-wired-connection-6000-q95.webp",
+        "sha256": "b00474a0911093aa005714ec5bf9d14b7b910cc5b055429228114c6f122c5a84"
+      }
+    ],
+    "masterSHA256": "258295fda6e2bf4635b5d0d95dce01d42f6d67d8aa83ec99fb349694aac2535d"
+  }
+}

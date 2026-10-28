@@ -16,7 +16,8 @@
 {{- $darkAsset := $darkSource | fingerprint "sha256" -}}
 <img
   class="key-layout-diagram__half key-layout-diagram__half--{{ $side }} key-layout-diagram__half--light"
-  src="{{ $asset.RelPermalink }}"
+  data-phenom-delivery-pending
+  data-layout-src="{{ $asset.RelPermalink }}"
   width="8180"
   height="6034"
   alt=""
@@ -26,7 +27,8 @@
 >
 <img
   class="key-layout-diagram__half-dark key-layout-diagram__half-dark--{{ $side }}"
-  src="{{ $darkAsset.RelPermalink }}"
+  data-phenom-delivery-pending
+  data-layout-src="{{ $darkAsset.RelPermalink }}"
   width="8180"
   height="6034"
   alt=""
@@ -35,3 +37,9 @@
   draggable="false"
   aria-hidden="true"
 >
+<noscript class="key-layout-diagram__half key-layout-diagram__half--{{ $side }} key-layout-diagram__half--light">
+  <img class="key-layout-diagram__half" src="{{ $asset.RelPermalink }}" width="8180" height="6034" alt="" loading="lazy" decoding="async" draggable="false">
+</noscript>
+<noscript class="key-layout-diagram__half-dark key-layout-diagram__half-dark--{{ $side }}" aria-hidden="true">
+  <img class="key-layout-diagram__half" src="{{ $darkAsset.RelPermalink }}" width="8180" height="6034" alt="" loading="lazy" decoding="async" draggable="false">
+</noscript>

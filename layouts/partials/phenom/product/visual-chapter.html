@@ -20,6 +20,7 @@
     "class" "visual-chapter__media"
     "placeholder_id" ($chapter.media.placeholder_id | default ($storyID | default $sectionID))
   ) }}
+  {{ if eq $page.TranslationKey "phenom" }}{{ partial "phenom/product/animated-tag.html" (dict "id" $sectionID) }}{{ end }}
   <div class="visual-chapter__copy">
     {{ with $chapter.eyebrow }}<p class="eyebrow">{{ . }}</p>{{ end }}
     {{ partial "phenom/product/heading.html" (dict "id" $titleID "chapter" $chapter) }}
@@ -58,7 +59,7 @@
         {{- errorf "CTA chapter %q declared by %s has no action label" $sectionID $page.File.Path -}}
       {{- end -}}
       {{- if .href -}}
-        <a class="visual-chapter__action" href="{{ .href }}">{{ .label }}</a>
+        <a class="visual-chapter__action{{ if eq $page.TranslationKey "phenom" }} phenom-action phenom-action--red{{ end }}" href="{{ .href }}">{{ .label }}</a>
       {{- else -}}
         <span class="visual-chapter__action" data-cta-action-pending>{{ .label }}</span>
       {{- end -}}

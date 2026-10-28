@@ -1,32 +1,75 @@
 (() => {
   'use strict';
 
+  // A full-height desktop canvas has no useful inner viewport. Project its
+  // resource bounds into the same-origin outer reading window instead.
+  const readingWatchers = new Set();
+  let readingFrame = 0;
+  const checkReadingWindows = () => {
+    readingFrame = 0;
+    const frame = window.frameElement;
+    if (!frame?.isConnected || !frame.style.transform) return;
+    const bounds = frame.getBoundingClientRect();
+    const scale = bounds.width / innerWidth;
+    if (!(scale > 0)) return;
+    const viewport = parent.visualViewport;
+    const top = viewport?.offsetTop || 0;
+    const height = viewport?.height || parent.innerHeight;
+    readingWatchers.forEach(watcher => {
+      const rect = watcher.element.getBoundingClientRect();
+      const start = bounds.top + rect.top * scale;
+      const end = bounds.top + rect.bottom * scale;
+      const margin = height * watcher.margin;
+      const overlap = Math.max(0, Math.min(end, top + height) - Math.max(start, top));
+      const visible = end > top - margin && start < top + height + margin
+        && (!watcher.threshold || overlap / Math.max(1, rect.height * scale) >= watcher.threshold);
+      if (visible !== watcher.visible) {
+        watcher.visible = visible;
+        watcher.change(visible);
+      }
+      if (visible && watcher.once) readingWatchers.delete(watcher);
+    });
+  };
+  const scheduleReadingWindows = () => {
+    if (!readingFrame) readingFrame = parent.requestAnimationFrame(checkReadingWindows);
+  };
+  const observeReadingWindow = (element, margin, threshold, change, once = false) => {
+    if (window.__phenomDesktopCanvas && window.frameElement) {
+      if (!readingWatchers.size) {
+        // Shared scheduling is idle between outer scroll/resize/layout changes.
+        parent.addEventListener('scroll', scheduleReadingWindows, { passive: true });
+        parent.addEventListener('resize', scheduleReadingWindows, { passive: true });
+        parent.visualViewport?.addEventListener('resize', scheduleReadingWindows, { passive: true });
+        parent.visualViewport?.addEventListener('scroll', scheduleReadingWindows, { passive: true });
+        new ResizeObserver(scheduleReadingWindows).observe(document.body);
+        new MutationObserver(scheduleReadingWindows).observe(window.frameElement, { attributes: true, attributeFilter: ['style'] });
+      }
+      readingWatchers.add({ element, margin, threshold, change, once, visible: false });
+      scheduleReadingWindows();
+    } else if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const visible = entry.isIntersecting && entry.intersectionRatio >= threshold;
+          change(visible);
+          if (visible && once) observer.disconnect();
+        });
+      }, { rootMargin: `${Math.round(innerHeight * margin)}px 0px`, threshold: threshold ? [0, threshold, 0.5] : 0 });
+      observer.observe(element);
+    } else {
+      // Preserve the native no-IO fail-open behavior.
+      change(true);
+    }
+  };
+
+(() => {
+  'use strict';
+
   const root = document.documentElement;
-  const themeToggle = document.querySelector('[data-theme-toggle]');
   const preference = window.matchMedia('(prefers-color-scheme: dark)');
   const themeVideoGroups = Array.from(document.querySelectorAll('[data-theme-video-group]'));
   const themeVideoPauseTimers = new WeakMap();
   const themeVideoLoadPromises = new WeakMap();
   const themeVideoStates = new WeakMap();
-
-  const storedTheme = () => {
-    try {
-      const value = localStorage.getItem('ergohaven-projects-theme');
-      return value === 'light' || value === 'dark' ? value : null;
-    } catch (_) {
-      return null;
-    }
-  };
-
-  const updateThemeButton = () => {
-    if (!themeToggle) return;
-    const isDark = root.dataset.theme === 'dark';
-    themeToggle.setAttribute('aria-pressed', String(isDark));
-    themeToggle.setAttribute(
-      'aria-label',
-      isDark ? themeToggle.dataset.labelLight : themeToggle.dataset.labelDark
-    );
-  };
 
   const stateFor = (group) => {
     if (!themeVideoStates.has(group)) {
@@ -87,6 +130,8 @@
     const previousTimer = themeVideoPauseTimers.get(group);
     if (previousTimer) window.clearTimeout(previousTimer);
 
+    // Keep the selected poster inert until the demo approaches the reading window.
+    if (state.nearViewport && active.dataset.poster && !active.hasAttribute('poster')) active.poster = active.dataset.poster;
     active.setAttribute('aria-hidden', 'false');
     videos.filter((video) => video !== active).forEach((video) => {
       video.setAttribute('aria-hidden', 'true');
@@ -148,56 +193,29 @@
     });
   };
 
-  if ('IntersectionObserver' in window) {
-    const loadObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const state = stateFor(entry.target);
-        state.nearViewport = entry.isIntersecting;
-        if (!entry.isIntersecting) state.visible = false;
-        syncThemeVideoGroup(entry.target, state.theme);
-      });
-    }, { rootMargin: '75% 0px' });
-
-    const playbackObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const state = stateFor(entry.target);
-        state.visible = entry.isIntersecting && entry.intersectionRatio >= 0.12;
-        syncThemeVideoGroup(entry.target, state.theme);
-      });
-    }, { threshold: [0, 0.12, 0.5] });
-
-    themeVideoGroups.forEach((group) => {
-      loadObserver.observe(group);
-      playbackObserver.observe(group);
-    });
-  } else {
-    themeVideoGroups.forEach((group) => {
+  themeVideoGroups.forEach((group) => {
+    observeReadingWindow(group, 0.75, 0, (near) => {
       const state = stateFor(group);
-      state.nearViewport = true;
-      state.visible = true;
+      state.nearViewport = near;
+      if (!near) state.visible = false;
+      syncThemeVideoGroup(group, state.theme);
     });
-  }
+    observeReadingWindow(group, 0, 0.12, (visible) => {
+      const state = stateFor(group);
+      state.visible = visible;
+      syncThemeVideoGroup(group, state.theme);
+    });
+  });
 
-  const setTheme = (theme, persist = false) => {
+  const setTheme = (theme) => {
     const changed = root.dataset.theme !== theme;
     root.dataset.theme = theme;
     syncThemeVideos(theme, changed);
-    updateThemeButton();
-    if (!persist) return;
-    try {
-      localStorage.setItem('ergohaven-projects-theme', theme);
-    } catch (_) {
-      // Theme switching still works when storage is unavailable.
-    }
   };
 
-  updateThemeButton();
-  syncThemeVideos(root.dataset.theme);
-  themeToggle?.addEventListener('click', () => {
-    setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
-  });
+  setTheme(preference.matches ? 'dark' : 'light');
   preference.addEventListener?.('change', (event) => {
-    if (!storedTheme()) setTheme(event.matches ? 'dark' : 'light');
+    setTheme(event.matches ? 'dark' : 'light');
   });
   document.addEventListener('visibilitychange', refreshThemeVideos);
 })();
@@ -209,8 +227,18 @@
   const backToTop = document.querySelector('[data-phenom-back-to-top]');
   if (!scrollCue && !backToTop) return;
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const reducedMotion = ({matches:false, addEventListener(){}, removeEventListener(){}});
   let frame = 0;
+
+  const cueGraphic = scrollCue?.querySelector('svg');
+  if (cueGraphic && 'IntersectionObserver' in window) {
+    // Intersection clipping includes the outer viewport of the desktop iframe.
+    // No extra scroll handler or idle animation frame is needed for the cue.
+    const cueObserver = new IntersectionObserver(([entry]) => {
+      cueGraphic.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+    });
+    cueObserver.observe(scrollCue);
+  }
 
   const scrollBehavior = () => reducedMotion.matches ? 'auto' : 'smooth';
 
@@ -235,6 +263,7 @@
     window.scrollTo({ top: 0, behavior: scrollBehavior() });
   });
 
+  let backToTopVisible;
   const updateBackToTop = () => {
     frame = 0;
     if (!backToTop) return;
@@ -244,6 +273,8 @@
     );
     const revealAfter = scrollableHeight / 3;
     const visible = window.scrollY > revealAfter;
+    if (visible === backToTopVisible) return;
+    backToTopVisible = visible;
     backToTop.classList.toggle('is-visible', visible);
     backToTop.setAttribute('aria-hidden', String(!visible));
     backToTop.tabIndex = visible ? 0 : -1;
@@ -261,7 +292,7 @@
 (() => {
   'use strict';
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const reducedMotion = ({matches:false, addEventListener(){}, removeEventListener(){}});
   const transitionStates = new WeakMap();
 
   const settleLayoutTransition = (container, state, visible) => {
@@ -275,7 +306,7 @@
     transitionStates.delete(container);
   };
 
-  const switchLayoutView = (container, items, target) => {
+  const commitLayoutView = (container, items, target) => {
     const interrupted = transitionStates.get(container);
     const current = interrupted?.target || items.find((item) => !item.hidden);
 
@@ -319,11 +350,73 @@
     });
   };
 
+  // Load only the selected diagram on every Phenom route; keep its theme pair
+  // ready and preserve the painted view while a requested replacement decodes.
+  const selectiveLayoutLoading = () => document.body.classList.contains('product-page--phenom');
+  const decodedLayoutImages = new WeakSet();
+  const layoutImageLoads = new WeakMap();
+  const pendingLayoutViews = new WeakMap();
+  const layoutImages = (root) => [...root.querySelectorAll('.key-layout-diagram img')].filter(image => {
+    for (let node = image.parentElement; node && node !== root; node = node.parentElement) {
+      if (node.hidden) return false;
+    }
+    return true;
+  });
   const prewarmLayoutImages = (root) => {
-    root.querySelectorAll('.key-layout-diagram img').forEach((image) => {
+    if (!selectiveLayoutLoading()) {
+      root.querySelectorAll('.key-layout-diagram img').forEach(image => {
+        image.loading = 'eager';
+        image.decode?.().catch(() => {});
+      });
+      return Promise.resolve();
+    }
+    return Promise.all(layoutImages(root).map(image => {
+      if (decodedLayoutImages.has(image)) return Promise.resolve();
+      if (layoutImageLoads.has(image)) return layoutImageLoads.get(image);
       image.loading = 'eager';
-      image.decode?.().catch(() => {});
-    });
+      if (image.dataset.layoutSrc) image.src = image.dataset.layoutSrc;
+      const load = typeof image.decode === 'function' ? image.decode() : new Promise((resolve, reject) => {
+        const cleanup = () => {
+          image.removeEventListener('load', loaded);
+          image.removeEventListener('error', failed);
+        };
+        const loaded = () => {
+          cleanup();
+          if (image.naturalWidth > 0) resolve();
+          else reject(new Error('Layout image has no pixels'));
+        };
+        const failed = () => { cleanup(); reject(new Error('Layout image failed to load')); };
+        image.addEventListener('load', loaded, { once: true });
+        image.addEventListener('error', failed, { once: true });
+        if (image.complete) loaded();
+      });
+      const settled = load.then(() => { decodedLayoutImages.add(image); }, () => {}).finally(() => { layoutImageLoads.delete(image); });
+      layoutImageLoads.set(image, settled);
+      return settled;
+    }));
+  };
+  const switchLayoutView = (container, items, target) => {
+    const previous = pendingLayoutViews.get(container);
+    if (previous) { clearTimeout(previous.timer); pendingLayoutViews.delete(container); }
+    container.removeAttribute('aria-busy');
+    if (!selectiveLayoutLoading() || layoutImages(target).every(image => decodedLayoutImages.has(image))) {
+      commitLayoutView(container, items, target);
+      return;
+    }
+    const request = { timer: 0 };
+    pendingLayoutViews.set(container, request);
+    container.setAttribute('aria-busy', 'true');
+    const show = () => {
+      if (pendingLayoutViews.get(container) !== request) return;
+      clearTimeout(request.timer);
+      pendingLayoutViews.delete(container);
+      container.removeAttribute('aria-busy');
+      commitLayoutView(container, items, target);
+    };
+    // Keep the painted view while its replacement loads. A late promise must
+    // never override a newer model/tab choice; failures cannot leave busy stuck.
+    request.timer = setTimeout(show, 4000);
+    prewarmLayoutImages(target).then(show, show);
   };
 
   document.querySelectorAll('[data-key-layout]').forEach((root) => {
@@ -358,21 +451,20 @@
       if (stageContainer && targetStage) switchLayoutView(stageContainer, modelStages, targetStage);
     };
 
-    if (
-      document.body.classList.contains('product-page--phenom')
-      && 'IntersectionObserver' in window
-    ) {
-      const observer = new IntersectionObserver((entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        prewarmLayoutImages(root);
-        observer.disconnect();
-      }, { rootMargin: '100% 0px' });
-      observer.observe(root);
-    } else if (document.body.classList.contains('product-page--phenom')) {
-      prewarmLayoutImages(root);
+    if (selectiveLayoutLoading()) {
+      observeReadingWindow(root, 1, 0, (near) => {
+        if (near) prewarmLayoutImages(root);
+      }, true);
     }
 
     modelControls.forEach((control) => {
+      const warmModel = () => {
+        if (!selectiveLayoutLoading()) return;
+        const stage = modelStages.find(item => item.dataset.keyLayoutModelView === control.dataset.keyLayoutModelControl);
+        if (stage) prewarmLayoutImages(stage);
+      };
+      control.addEventListener('focus', warmModel);
+      root.querySelector(`label[for="${control.id}"]`)?.addEventListener('pointerenter', warmModel);
       control.addEventListener('change', () => {
         if (control.checked) activateModel(control);
       });
@@ -382,6 +474,13 @@
       const tabs = Array.from(stage.querySelectorAll('[data-key-layout-layer-target]'));
 
       tabs.forEach((tab, index) => {
+        const warmLayer = () => {
+          if (!selectiveLayoutLoading()) return;
+          const panel = stage.querySelector(`[data-key-layout-layer-panel="${tab.dataset.keyLayoutLayerTarget}"]`);
+          if (panel) prewarmLayoutImages(panel);
+        };
+        tab.addEventListener('pointerenter', warmLayer);
+        tab.addEventListener('focus', warmLayer);
         tab.addEventListener('click', () => activateLayer(stage, tab));
         tab.addEventListener('keydown', (event) => {
           let nextIndex = null;
@@ -419,4 +518,5 @@
     document.fonts.ready.then(alignFingerCopy);
     alignFingerCopy();
   }
+})();
 })();

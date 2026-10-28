@@ -1,0 +1,89 @@
+/* One caption system, aligned to the site's actual outer reading axes. */
+body.product-page--phenom .phenom-tag {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding-left: .67em;
+  color: var(--phenom-tag-color, #f7f4f3);
+  opacity: 1;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  /* Follow the page's viewport/height-aware root scale, like body copy. */
+  font-size: 1rem;
+  font-weight: 400;
+  font-variant-ligatures: none;
+  line-height: 1.16;
+  letter-spacing: -.020em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: none;
+  box-shadow: none;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  -webkit-text-stroke: 0;
+}
+/* motion22: solid accent marker; only the existing text remains subdued. */
+body.product-page--phenom .phenom-tag::before {
+  content: "";
+  position: absolute;
+  top: .04em;
+  left: var(--tag-marker-left, 0px);
+  width: .32em;
+  height: .32em;
+  background: #D15150;
+  pointer-events: none;
+}
+body.product-page--phenom .phenom-tag__visual { opacity: .68; }
+body.product-page--phenom [data-phenom-tag="hero"] .phenom-tag__visual {
+  display: inline;
+}
+body.product-page--phenom .phenom-tag__unit { display: inline-block; white-space: nowrap; }
+body.product-page--phenom .phenom-tag__separator { white-space: pre; }
+body.product-page--phenom .phenom-tag__line { display: inline; }
+body.product-page--phenom .phenom-tag[data-side="left"] { text-align: left; }
+body.product-page--phenom .phenom-tag[data-side="right"] { text-align: right; }
+body.product-page--phenom .visual-chapter > .phenom-tag {
+  visibility: hidden;
+  position: absolute;
+  z-index: 4;
+  top: calc(var(--tag-media-top, 0px) + var(--tag-grid-gutter, 5vw));
+}
+body.product-page--phenom .visual-chapter > .phenom-tag[data-placed] { visibility: visible; }
+body.product-page--phenom .visual-chapter > .phenom-tag[data-side="left"] { left: var(--tag-grid-left, 5vw); }
+body.product-page--phenom .visual-chapter > .phenom-tag[data-side="right"] { right: var(--tag-grid-right, 5vw); }
+@media (max-width: 980px) {
+  body.product-page--phenom .phenom-tag {
+    font-size: 12px;
+    max-width: calc(100% - var(--phenom-grid-gutter, 5vw) * 2);
+    white-space: normal;
+  }
+  /* Mobile captions keep only the original chapter phrase. */
+  body.product-page--phenom .phenom-tag__unit ~ .phenom-tag__unit,
+  body.product-page--phenom .phenom-tag__visual > wbr { display: none; }
+  body.product-page--phenom .site-header__actions { min-width: 0; }
+  body.product-page--phenom .site-header .phenom-tag { max-width: 100%; }
+  body.product-page--phenom [data-phenom-tag="hero"] .phenom-tag__visual { display: inline; }
+}
+/* Three compact command rows keep the original phrase at its approved photo
+   corner instead of stretching it across the subject on narrow phones. */
+@media (max-width: 600px) {
+  body.product-page--phenom .phenom-tag .phenom-tag__visual {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  body.product-page--phenom .phenom-tag[data-side="right"] .phenom-tag__visual,
+  body.product-page--phenom #phenom-additive-manufacturing .phenom-tag__visual {
+    align-items: flex-end;
+  }
+  body.product-page--phenom .phenom-tag__visual > wbr { display: none; }
+  body.product-page--phenom #phenom-finger-geometry .phenom-tag__visual {
+    display: inline-grid;
+    grid-template-columns: max-content max-content;
+    justify-items: end;
+  }
+  body.product-page--phenom #phenom-finger-geometry .phenom-tag__unit:first-child {
+    grid-column: 1 / -1;
+  }
+}
+

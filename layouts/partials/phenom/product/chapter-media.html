@@ -38,7 +38,7 @@
     {{- errorf "Dark chapter video %q declared by %s has no poster" $media.video_dark $page.File.Path -}}
   {{- end -}}
   <div class="chapter-media chapter-media--video{{ if $darkSource }} chapter-media--theme-video{{ end }}{{ with $class }} {{ . }}{{ end }}"{{ if $darkSource }} data-theme-video-group{{ end }}>
-    <video
+    <video width="2198" height="1552"
       class="chapter-media__video{{ if $darkSource }} chapter-media__video--light{{ end }}"
       {{- if $darkSource }} data-theme-video="light"{{ end }}
       {{- if not $darkSource }} autoplay{{ end }}
@@ -47,12 +47,12 @@
       playsinline
       preload="{{ if $darkSource }}none{{ else }}metadata{{ end }}"
       aria-label="{{ $media.video_alt }}"
-      {{- with $poster }} poster="{{ .RelPermalink }}"{{ end -}}
+      {{- with $poster }} {{ if $darkSource }}data-poster{{ else }}poster{{ end }}="{{ .RelPermalink }}"{{ end -}}
     >
       <source {{ if $darkSource }}data-src{{ else }}src{{ end }}="{{ $source.RelPermalink }}" type="{{ $source.MediaType.Type }}">
     </video>
     {{- with $darkSource }}
-      <video
+      <video width="2198" height="1552"
         class="chapter-media__video chapter-media__video--dark"
         data-theme-video="dark"
         muted
@@ -60,10 +60,40 @@
         playsinline
         preload="none"
         aria-label="{{ $media.video_alt }}"
-        {{- with $darkPoster }} poster="{{ .RelPermalink }}"{{ end -}}
+        {{- with $darkPoster }} data-poster="{{ .RelPermalink }}"{{ end -}}
       >
         <source data-src="{{ .RelPermalink }}" type="{{ .MediaType.Type }}">
       </video>
+    {{- end }}
+    {{- if and $darkSource $poster }}
+      {{/* The runtime prefetches the selected poster near the reading window.
+           Keep an independent visible-only fallback if its script fails. */}}
+      <script>
+        (() => {
+          const group = document.currentScript.parentElement;
+          const prepare = () => {
+            const theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const video = group.querySelector('[data-theme-video="' + theme + '"]');
+            if (video && video.dataset.poster && !video.hasAttribute('poster')) video.poster = video.dataset.poster;
+          };
+          {{ if eq $page.TranslationKey "phenom" }}
+          // A discarded outer shell never owns media delivery.
+          if (!window.__phenomDesktopCanvas && navigator.maxTouchPoints > 0 && screen.width < 1000 && Math.min(screen.width, screen.height) < 768 && innerWidth >= 960 && innerWidth > screen.width + 16) return;
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(entries => {
+              if (entries.some(entry => entry.isIntersecting)) { prepare(); observer.disconnect(); }
+            });
+            observer.observe(group);
+          } else prepare();
+          {{ else }}prepare();{{ end }}
+        })();
+      </script>
+      <noscript class="chapter-media__poster-fallback">
+        <picture class="chapter-media__video">
+          <source media="(prefers-color-scheme: dark)" srcset="{{ $darkPoster.RelPermalink }}">
+          <img class="chapter-media__video" src="{{ $poster.RelPermalink }}" alt="{{ $media.video_alt }}" width="{{ $poster.Width }}" height="{{ $poster.Height }}" loading="lazy" decoding="async">
+        </picture>
+      </noscript>
     {{- end }}
   </div>
 {{- else with $media.image -}}
@@ -77,23 +107,49 @@
   {{- if not $source -}}
     {{- errorf "Chapter image %q declared by %s was not found" . $page.File.Path -}}
   {{- end -}}
-  {{- $webp720 := $source.Resize "720x webp q88" -}}
-  {{- $webp1280 := $source.Resize "1280x webp q90" -}}
-  {{- $webp1920 := $source.Resize "1920x webp q91" -}}
-  {{- $webp2560 := $source.Resize "2560x webp q92" -}}
-  {{- $jpeg720 := $source.Resize "720x jpg q88" -}}
-  {{- $jpeg1280 := $source.Resize "1280x jpg q89" -}}
-  {{- $jpeg1920 := $source.Resize "1920x jpg q90" -}}
-  {{- $jpeg2560 := $source.Resize "2560x jpg q91" -}}
+  {{- if and $page.Params.photo_delivery (index hugo.Data.phenom_photo_delivery (path.Base $media.image)) -}}
+    {{- $pictureClass := "chapter-media chapter-media--image" -}}
+    {{- with $media.image_focus -}}{{- $pictureClass = printf "%s chapter-media--focus-%s" $pictureClass (. | urlize) -}}{{- end -}}
+    {{- with $class -}}{{- $pictureClass = printf "%s %s" $pictureClass . -}}{{- end -}}
+    {{- partial "phenom/product/delivery-picture.html" (dict "source" $source "picture_class" $pictureClass "image_class" "chapter-media__image" "alt" $media.image_alt) -}}
+  {{- else if or $media.image_original $page.Params.photo_originals -}}
+    {{/* Review baseline: deliver the supplied master without image processing. */}}
+    <picture class="chapter-media chapter-media--image{{ with $media.image_focus }} chapter-media--focus-{{ . | urlize }}{{ end }}{{ with $class }} {{ . }}{{ end }}">
+      <img class="chapter-media__image" src="{{ $source.RelPermalink }}" width="{{ $source.Width }}" height="{{ $source.Height }}" alt="{{ $media.image_alt }}" loading="lazy" decoding="async">
+    </picture>
+  {{- else -}}
+  {{- $webp720 := $source.Resize "720x webp q82" -}}
+  {{- $webp1280 := $source.Resize "1280x webp q83" -}}
+  {{- $webp1920 := $source.Resize "1920x webp q84" -}}
+  {{- $webp2560 := $source.Resize "2560x webp q85" -}}
+  {{- $jpeg720 := $source.Resize "720x jpg q84" -}}
+  {{- $jpeg1280 := $source.Resize "1280x jpg q84" -}}
+  {{- $jpeg1920 := $source.Resize "1920x jpg q85" -}}
+  {{- $jpeg2560 := $source.Resize "2560x jpg q85" -}}
   {{- $hiresWebp := "" -}}
   {{- $hiresJpeg := "" -}}
   {{- if $media.image_hires -}}
-    {{- $large := $source.Resize "3840x webp q95" -}}
-    {{- $full := $source.Resize "6000x webp q95" -}}
-    {{- $hiresWebp = printf ", %s 3840w, %s 6000w" $large.RelPermalink $full.RelPermalink -}}
-    {{- $hiresJpeg = printf ", %s %dw" $source.RelPermalink $source.Width -}}
+    {{- $large := $source.Resize "3840x webp q85" -}}
+    {{- $largeJpeg := $source.Resize "3840x jpg q86" -}}
+    {{- $hiresWebp = printf ", %s 3840w" $large.RelPermalink -}}
+    {{- $hiresJpeg = printf ", %s 3840w" $largeJpeg.RelPermalink -}}
   {{- end -}}
   <picture class="chapter-media chapter-media--image{{ with $media.image_focus }} chapter-media--focus-{{ . | urlize }}{{ end }}{{ with $class }} {{ . }}{{ end }}">
+    {{- with $media.image_desktop -}}
+      {{- $desktop := resources.Get . -}}
+      {{- if not $desktop -}}{{- errorf "Desktop image %q declared by %s was not found" . $page.File.Path -}}{{- end -}}
+      {{- $desktopWebp := slice -}}
+      {{- $desktopJpeg := slice -}}
+      {{- range slice 1920 2560 3840 -}}
+        {{- $w := . -}}
+        {{- $webp := $desktop.Resize (printf "%dx webp q95" $w) -}}
+        {{- $jpeg := $desktop.Resize (printf "%dx jpg q95" $w) -}}
+        {{- $desktopWebp = $desktopWebp | append (printf "%s %dw" $webp.RelPermalink $w) -}}
+        {{- $desktopJpeg = $desktopJpeg | append (printf "%s %dw" $jpeg.RelPermalink $w) -}}
+      {{- end -}}
+      <source media="(min-width: 981px) and (hover: hover) and (pointer: fine)" type="image/webp" srcset="{{ delimit $desktopWebp ", " }}" sizes="100vw">
+      <source media="(min-width: 981px) and (hover: hover) and (pointer: fine)" type="image/jpeg" srcset="{{ delimit $desktopJpeg ", " }}" sizes="100vw">
+    {{- end }}
     <source
       type="image/webp"
       srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w, {{ $webp2560.RelPermalink }} 2560w{{ $hiresWebp }}"
@@ -111,6 +167,7 @@
       decoding="async"
     >
   </picture>
+  {{- end -}}
 {{- else -}}
   {{- if or (not $media.placeholder_label) (not $media.placeholder_alt) -}}
     {{- errorf "Placeholder media %q declared by %s requires label and alt text" $placeholderID $page.File.Path -}}

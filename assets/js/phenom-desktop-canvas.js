@@ -38,9 +38,11 @@
     return;
   }
 
-  let shell;
+  let shell, failed = false;
   const start = () => {
+    if (failed || window.__phenomBootstrap89?.opened) return;
     if (shell || !isDesktopPhone()) { if (!shell) root.style.visibility = ''; return; }
+    root.style.visibility = 'hidden';
     shell = document.createElement('div');
     const frame = document.createElement('iframe');
     frame.name = canvasName;
@@ -52,6 +54,22 @@
     frame.allow = 'autoplay; fullscreen';
     shell.style.cssText = 'position:relative;width:100%;overflow:hidden';
     shell.append(frame);
+    const original = {nodes:[...document.body.childNodes], className:document.body.className,
+      bodyStyle:document.body.getAttribute('style'), snap:root.style.scrollSnapType, overflow:root.style.overflowX};
+    let watchdog, settled = false;
+    const failOpen = () => {
+      if (failed || settled) return;
+      failed = true;
+      clearTimeout(watchdog);
+      document.body.replaceChildren(...original.nodes);
+      document.body.className = original.className;
+      if (original.bodyStyle === null) document.body.removeAttribute('style');
+      else document.body.setAttribute('style', original.bodyStyle);
+      root.style.scrollSnapType = original.snap; root.style.overflowX = original.overflow;
+      window.__phenomBootstrap89.failOpen();
+    };
+    frame.addEventListener('error', failOpen, {once:true});
+    watchdog = setTimeout(failOpen, 10000);
     document.body.replaceChildren(shell);
     document.body.className = 'phenom-desktop-shell';
     document.body.style.cssText = 'margin:0;padding:0;min-height:0;width:100%;overflow-x:hidden';
@@ -60,6 +78,7 @@
     const scale = () => document.documentElement.clientWidth / 1440;
     const update = () => {
       queued = 0;
+      if (failed) return;
       const doc = frame.contentDocument;
       if (!doc?.body || !doc.querySelector('.product-story--phenom')) return;
       const height = Math.ceil(doc.body.getBoundingClientRect().height);
@@ -80,20 +99,26 @@
         button.classList.toggle('is-visible', visible);
         button.setAttribute('aria-hidden', String(!visible)); button.tabIndex = visible ? 0 : -1;
       }
-      root.style.visibility = '';
+      if (settled) root.style.visibility = '';
     };
     const schedule = () => { if (!queued) queued = requestAnimationFrame(update); };
     window.__phenomCanvasUpdate = schedule;
     window.__phenomCanvasScroll = (top, hash) => {
-      scrollTo({top:top * scale(), behavior:matchMedia('(prefers-reduced-motion:reduce)').matches ? 'instant' : 'smooth'});
+      scrollTo({top:top * scale(), behavior:({matches:false, addEventListener(){}, removeEventListener(){}}).matches ? 'instant' : 'smooth'});
       if (hash) { const dest = new URL(location.href); dest.hash = hash; history.replaceState(null, '', dest); }
     };
     frame.addEventListener('load', () => {
       const doc = frame.contentDocument;
-      if (!doc?.querySelector('.product-story--phenom')) { root.style.visibility = ''; return; }
+      if (!doc?.querySelector('.product-story--phenom') || frame.contentWindow.__phenomBootstrap89?.failed ||
+          [...doc.querySelectorAll('[data-phenom-canvas-style]')].some(link => !link.sheet)) { failOpen(); return; }
       const dest = new URL(frame.contentWindow.location.href); dest.searchParams.delete('desktop-canvas');
       history.replaceState(null, '', dest); document.title = doc.title;
       Promise.resolve(doc.fonts.ready).then(() => {
+        if (failed) return;
+        clearTimeout(watchdog);
+        settled = true;
+        original.nodes.length = 0;
+        window.__phenomDelivery64?.releaseShell();
         update();
         if (dest.hash) {
           const target = doc.getElementById(decodeURIComponent(dest.hash.slice(1)));

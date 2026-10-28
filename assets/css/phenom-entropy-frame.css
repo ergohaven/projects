@@ -1,0 +1,5 @@
+body.product-page--phenom #phenom-entropy .chapter-media__video{border:0!important;outline:none!important;box-shadow:none!important;background:transparent!important}
+/* Paint the original frame on a non-replaced sibling, not Firefox's video layer. */
+body.product-page--phenom #phenom-entropy .chapter-media--theme-video{position:relative}
+body.product-page--phenom #phenom-entropy [data-entropy-frame]{position:absolute;box-sizing:border-box;pointer-events:none;z-index:2;background:transparent;border:1px solid rgb(96 79 86 / 28%);box-shadow:0 .25rem 1rem rgb(72 58 64 / 8%),0 1.5rem 4rem rgb(72 58 64 / 16%)}
+html[data-theme="dark"] body.product-page--phenom #phenom-entropy [data-entropy-frame]{border-color:rgb(247 244 243 / 16%);box-shadow:0 .25rem 1rem rgb(0 0 0 / 20%),0 1.75rem 4.5rem rgb(0 0 0 / 34%)}

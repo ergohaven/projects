@@ -1,13 +1,16 @@
 ---
 title: Phenom Series
 meta_title: Phenom Series — sculpted wired keyboards by Ergohaven
+browser_title: Phenom by Ergohaven
 description: A series of wired ergonomic keyboards with sculpted, additively manufactured cases, modular controls, and visual configuration in Entropy.
 translationKey: phenom
 type: phenom
 alternate_path: phenom/
 hero_variant: immersive
-hero_image: images/products/phenom/01-hero.jpg
-header_label: phenom series
+photo_originals: true
+photo_delivery: true
+hero_image: images/products/phenom/01-hero-detail.jpg
+header_label: back to website
 eyebrow: Phenom Series
 hero_title: "Engineered to perfection"
 hero_text:
@@ -20,7 +23,7 @@ facts:
   - Sculpted
 visual_index: "02 / PHENOM"
 visual_label: Product image reserved — sculpted Phenom form
-visual_alt: Black Phenom split ergonomic keyboard with white keycaps, rotary encoder, and trackball
+visual_alt: Phenom keyboard on a black background with encoder and trackball modules
 series:
   title: "Meet the Phenom series"
   title_lines: ["Meet the", "Phenom series"]
@@ -31,20 +34,23 @@ series:
   items:
     - name: Standard
       image: images/products/phenom/02-meet-standard.jpg
+      image_dark: images/products/phenom/02-series-standard-dark.jpg
       image_alt: Phenom Standard split ergonomic keyboard with white keycaps in a black sculpted case
       key_count: "58 keys"
       traits:
         - "Expanded layout"
         - "Dedicated number row"
     - name: Mini
-      image: images/products/phenom/02-meet-micro.jpg
+      image: images/products/phenom/02-meet-mini.jpg
+      image_dark: images/products/phenom/02-series-mini-dark.jpg
       image_alt: Phenom Mini split ergonomic keyboard with white keycaps in a black sculpted case
       key_count: "46 keys"
       traits:
         - "Compact layout"
         - "No dedicated number row"
     - name: Micro
-      image: images/products/phenom/02-meet-mini.jpg
+      image: images/products/phenom/02-meet-micro.jpg
+      image_dark: images/products/phenom/02-series-micro-dark.jpg
       image_alt: Phenom Micro compact split ergonomic keyboard with white keycaps in a black sculpted case
       key_count: "40 keys"
       traits:
@@ -69,7 +75,7 @@ modularity:
     image_alt: Trackball, encoder, and touchpad control modules arranged on a dark surface
 key_layout:
   diagram: phenom
-  title: Explore the default layouts
+  title: Choose your layout
   models_label: "Phenom model"
   models:
     - id: standard
@@ -117,7 +123,8 @@ story_chapters:
       - "reduce unnecessary movement, and let your hands"
       - "settle into a more natural position."
     media:
-      image: images/products/phenom/05-finger-geometry.jpg
+      image: images/products/phenom/05-finger-geometry-desktop.jpg
+      image_original: true
       image_alt: Hand resting naturally across the sculpted Phenom keywell beside the encoder module
   - id: curves
     section_id: phenom-curves
@@ -187,7 +194,7 @@ story_chapters:
     text_extra_lines:
       - "Available for Linux, Windows, and macOS."
     action:
-      label: "Learn more →"
+      label: "Learn more"
       href: https://entropy.tools/
     media:
       video: videos/products/phenom/entropy-demo-en-light.mp4
@@ -286,8 +293,8 @@ story_chapters:
       label: Choose your Phenom
       href: "https://eh.industries/shop?tfc_storepartuid%5B767895441%5D=Keyboards&tfc_charact:7187570%5B767895441%5D=Phenom&tfc_div=:::"
     media:
-      image: images/products/phenom/11-your-phenom-dark.jpg
-      image_alt: Phenom keyboard on a black background with encoder and trackball modules
+      image: images/products/phenom/01-hero.jpg
+      image_alt: Black Phenom split ergonomic keyboard with white keycaps, rotary encoder, and trackball
 ui:
   footer_stage: "Page preview"
   home_label: "Ergohaven Projects home"

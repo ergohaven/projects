@@ -1,13 +1,16 @@
 ---
 title: Phenom Series
 meta_title: "Phenom — проводные эргономичные клавиатуры Ergohaven"
+browser_title: Phenom by Ergohaven
 description: "Серия проводных эргономичных клавиатур со скульптурной геометрией, корпусами, изготовленными аддитивным методом, модульным управлением и настройкой в Entropy."
 translationKey: phenom
 type: phenom
 alternate_path: phenom/
 hero_variant: immersive
-hero_image: images/products/phenom/01-hero.jpg
-header_label: phenom series
+photo_originals: true
+photo_delivery: true
+hero_image: images/products/phenom/01-hero-detail.jpg
+header_label: вернуться на сайт
 eyebrow: Phenom Series
 hero_title: "СОВЕРШЕНСТВО В ДЕТАЛЯХ"
 hero_text:
@@ -20,7 +23,7 @@ facts:
   - Скульптурная
 visual_index: "02 / PHENOM"
 visual_label: Место для изображения — скульптурная форма Phenom
-visual_alt: Чёрная эргономичная сплит-клавиатура Phenom с белыми кейкапами, энкодером и трекболом
+visual_alt: Клавиатура Phenom на чёрном фоне с модулями энкодера и трекбола
 series:
   title: "Знакомьтесь с\u00A0серией Phenom"
   title_lines: ["Знакомьтесь", "с серией Phenom"]
@@ -31,20 +34,23 @@ series:
   items:
     - name: Standard
       image: images/products/phenom/02-meet-standard.jpg
+      image_dark: images/products/phenom/02-series-standard-dark.jpg
       image_alt: Эргономичная сплит-клавиатура Phenom Standard с белыми кейкапами в чёрном скульптурном корпусе
       key_count: "58 клавиш"
       traits:
         - "Расширенная раскладка"
         - "Отдельный цифровой ряд"
     - name: Mini
-      image: images/products/phenom/02-meet-micro.jpg
+      image: images/products/phenom/02-meet-mini.jpg
+      image_dark: images/products/phenom/02-series-mini-dark.jpg
       image_alt: Эргономичная сплит-клавиатура Phenom Mini с белыми кейкапами в чёрном скульптурном корпусе
       key_count: "46 клавиш"
       traits:
         - "Компактная раскладка"
         - "Без отдельного цифрового ряда"
     - name: Micro
-      image: images/products/phenom/02-meet-mini.jpg
+      image: images/products/phenom/02-meet-micro.jpg
+      image_dark: images/products/phenom/02-series-micro-dark.jpg
       image_alt: Компактная эргономичная сплит-клавиатура Phenom Micro с белыми кейкапами в чёрном скульптурном корпусе
       key_count: "40 клавиш"
       traits:
@@ -113,7 +119,8 @@ story_chapters:
       - "формируют анатомический изгиб, сокращая движения"
       - "и помогая рукам занять естественное положение."
     media:
-      image: images/products/phenom/05-finger-geometry.jpg
+      image: images/products/phenom/05-finger-geometry-desktop.jpg
+      image_original: true
       image_alt: Рука естественно лежит на скульптурной клавишной чаше Phenom рядом с модулем энкодера
   - id: curves
     section_id: phenom-curves
@@ -186,7 +193,7 @@ story_chapters:
     text_extra_lines:
       - "Доступно для Linux, Windows и macOS."
     action:
-      label: "Подробнее →"
+      label: "Подробнее"
       href: https://entropy.tools/ru/
     media:
       video: videos/products/phenom/entropy-demo-ru-light.mp4
@@ -291,8 +298,8 @@ story_chapters:
       label: Выбрать Phenom
       href: "https://eh.works/shop?tfc_storepartuid%5B767494027%5D=%D0%9A%D0%BB%D0%B0%D0%B2%D0%B8%D0%B0%D1%82%D1%83%D1%80%D1%8B&tfc_charact:7285462%5B767494027%5D=Phenom&tfc_div=:::"
     media:
-      image: images/products/phenom/11-your-phenom-dark.jpg
-      image_alt: Клавиатура Phenom на чёрном фоне с модулями энкодера и трекбола
+      image: images/products/phenom/01-hero.jpg
+      image_alt: Чёрная эргономичная сплит-клавиатура Phenom с белыми кейкапами, энкодером и трекболом
 ui:
   footer_stage: "Предварительная версия страницы"
   home_label: "Главная страница проектов Ergohaven"

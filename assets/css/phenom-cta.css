@@ -1,0 +1,24 @@
+#phenom-cta .cta-terminal{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+#phenom-cta .cta-terminal__label.phenom-tag{position:absolute;margin:0;visibility:visible;color:#403b3f;white-space:nowrap;opacity:0;transition:opacity .2s ease}
+#phenom-cta .cta-terminal__text{display:inline-block;min-width:0;white-space:pre}
+#phenom-cta .cta-terminal__drawing{position:absolute;inset:0;width:100%;height:100%;max-width:none;overflow:visible;shape-rendering:geometricPrecision}
+#phenom-cta .cta-terminal__line{fill:none;stroke:#746c72;stroke-opacity:.58;stroke-width:1.7;stroke-linejoin:miter;stroke-linecap:butt;vector-effect:non-scaling-stroke;shape-rendering:geometricPrecision;opacity:0;transition:opacity .24s ease}
+#phenom-cta .cta-terminal__node{fill:#746c72;fill-opacity:.9;stroke:none;opacity:0;transition:opacity .24s ease}
+#phenom-cta .cta-terminal:is([data-stage=acquire],[data-stage=decode],[data-stage=hold]) .cta-terminal__label{opacity:1}
+#phenom-cta .cta-terminal:is([data-stage=acquire],[data-stage=decode],[data-stage=hold]) .cta-terminal__line,#phenom-cta .cta-terminal:is([data-stage=acquire],[data-stage=decode],[data-stage=hold]) .cta-terminal__node{opacity:1}
+#phenom-cta .cta-terminal__text.is-glitch{animation:cta120-glitch .26s steps(1,end) both}
+@keyframes cta120-glitch{0%{transform:translate(0);clip-path:inset(0)}18%{transform:translate(.08em,-.03em);clip-path:inset(20% 0 40%)}37%{transform:translate(-.07em,.02em);clip-path:inset(45% 0 0)}58%{transform:translate(.04em,0);clip-path:inset(0 0 30%)}76%,100%{transform:translate(0);clip-path:inset(0)}}
+#phenom-cta .cta-terminal[data-stage=blank]:not([data-line]) *{transition:none!important;animation:none!important}
+@media(max-width:980px){#phenom-cta .cta-terminal{display:none}}
+
+#phenom-cta .cta-terminal__label.phenom-tag{padding-left:0}
+#phenom-cta .cta-terminal__label.phenom-tag::before{content:none;display:none}
+
+#phenom-cta .cta-terminal__raster{position:absolute;max-width:none;pointer-events:none;opacity:0;transition:opacity .24s ease;image-rendering:auto}
+#phenom-cta .cta-terminal[data-raster=ready] .cta-terminal__drawing{visibility:hidden}
+#phenom-cta .cta-terminal[data-raster=ready]:is([data-stage=acquire],[data-stage=decode],[data-stage=hold]) .cta-terminal__raster{opacity:1}
+
+#phenom-cta .cta-terminal[data-line] .cta-terminal__line,#phenom-cta .cta-terminal[data-line] .cta-terminal__node{opacity:1}
+#phenom-cta .cta-terminal[data-line][data-raster=ready] .cta-terminal__raster{opacity:1}
+#phenom-cta .cta-terminal[data-line=enter] .cta-terminal__line,#phenom-cta .cta-terminal[data-line=enter] .cta-terminal__node,#phenom-cta .cta-terminal[data-line=enter] .cta-terminal__raster{animation:cta123-line .18s ease both}
+@keyframes cta123-line{from{opacity:0}to{opacity:1}}

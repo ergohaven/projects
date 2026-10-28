@@ -1300,6 +1300,17 @@ html[lang^="ru"] .product-story--phenom .series-showcase__intro h2 {
   object-fit: cover;
 }
 
+.chapter-media__poster-fallback {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* With JavaScript enabled, noscript contains text, not a parsed img element. */
+.chapter-media--theme-video:has(.chapter-media__poster-fallback img) > video {
+  display: none;
+}
+
 .chapter-media__video {
   display: block;
   width: 100%;
@@ -3170,18 +3181,7 @@ html[data-theme="dark"] .key-layout-layer__copy > p:last-child {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
 
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-  }
-}
 
 
 .interactive-layout { width: 100%; padding: clamp(1rem, 3vw, 3rem) 0; }
@@ -4917,14 +4917,7 @@ body.product-page--phenom .key-layout-tabs__button.is-active:focus-visible {
   box-shadow: inset 0 0 0 1px var(--accent-deep);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body.product-page--phenom :is(
-    .key-layout-models__label,
-    .key-layout-tabs__button
-  ) {
-    transition: none;
-  }
-}
+
 
 /* Phenom copy grid trial. Keep every approved vertical position intact while
    giving the six image-led copy groups one desktop reading measure. Left-led
@@ -5208,19 +5201,7 @@ body.product-page--phenom .phenom-back-to-top svg {
 
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body.product-page--phenom .phenom-scroll-cue svg {
-    animation: none;
-  }
 
-  body.product-page--phenom :is(
-    .phenom-back-to-top,
-    #phenom-cta .visual-chapter__action,
-    #phenom-cta .visual-chapter__action::before
-  ) {
-    transition: none;
-  }
-}
 
 /* Final Phenom type and table safeguards. These rules intentionally sit
    after the chapter-specific legacy overrides so every requested +15% role
@@ -5349,11 +5330,7 @@ body.product-page--phenom #phenom-entropy .visual-chapter__action:active {
   transform: translateY(0) scale(0.99);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body.product-page--phenom #phenom-entropy .visual-chapter__action {
-    transition: none;
-  }
-}
+
 
 body.product-page--phenom .phenom-scroll-cue__label {
   display: none;

@@ -1,0 +1,6 @@
+{{- $tag := index hugo.Data.phenom_tags .id -}}
+{{- with $tag -}}
+<span class="phenom-tag" data-phenom-tag="{{ $.id }}" data-side="{{ .side }}" role="img" lang="en" aria-label="{{ delimit .lines " / " }}">
+  <span class="phenom-tag__visual" aria-hidden="true">{{ range $index, $line := .lines }}{{ if $index }}<wbr>{{ end }}<span class="phenom-tag__unit">{{ if $index }}<span class="phenom-tag__separator"> / </span>{{ end }}<span class="phenom-tag__line" data-tag-line="{{ $line }}">{{ $line }}</span></span>{{ end }}</span>
+</span>
+{{- end -}}

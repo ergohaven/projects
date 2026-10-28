@@ -320,9 +320,7 @@
   body.product-page--phenom .product-story .visual-chapter__media { aspect-ratio: 3 / 2; max-height: 600px; }
   body.product-page--phenom .product-story .specs-chapter__row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 24px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  body.product-page--phenom .series-gallery { scroll-behavior: auto; }
-}
+
 
 /* Keep the reviewed typography relationships and 125svh story-chapter rhythm
    after Phenom's content-sized mobile hero. */
@@ -2924,5 +2922,90 @@
   body.product-page--phenom #phenom-finger-geometry .chapter-text-line:first-child {
     display: block;
     margin-bottom: 6px;
+  }
+}
+
+/* motion15: native-mobile fields follow the swapped photographic backgrounds.
+   This is a palette-only change; framing, type, spacing and desktop stay intact. */
+@media (max-width: 980px) {
+  html[data-theme] body.product-page--phenom .product-hero--immersive {
+    --bg: #111012;
+    --text: #f7f4f3;
+    --text-soft: rgb(247 244 243 / 80%);
+    background: #111012;
+    color: var(--text);
+  }
+  html[data-theme] body.product-page--phenom .product-hero--immersive .product-stage {
+    background: #111012;
+  }
+  html[data-theme] body.product-page--phenom .product-hero--immersive h1 {
+    color: #f7f4f3;
+  }
+  html[data-theme] body.product-page--phenom .product-hero--immersive .product-hero__intro {
+    color: rgb(247 244 243 / 80%);
+  }
+  html[data-theme] body.product-page--phenom .site-header,
+  html[data-theme] body.product-page--phenom .site-header .brand,
+  html[data-theme] body.product-page--phenom .site-header .brand i,
+  html[data-theme] body.product-page--phenom .site-header .phenom-tag {
+    color: #f7f4f3;
+  }
+  html[data-theme] body.product-page--phenom .site-header :focus-visible {
+    outline-color: #f7f4f3;
+  }
+  /* Caption JS samples the return-link ink globally. Other photographs must
+     retain their approved mobile caption ink after the header becomes white. */
+  html[data-theme] body.product-page--phenom .visual-chapter > .phenom-tag {
+    color: #242225;
+  }
+  html[data-theme] body.product-page--phenom #phenom-cta {
+    --bg: #f6f4f2;
+    --text: #242225;
+    --text-soft: #716b6e;
+    background: #f6f4f2;
+    color: #242225;
+  }
+  html[data-theme] body.product-page--phenom #phenom-cta .visual-chapter__copy,
+  html[data-theme] body.product-page--phenom #phenom-cta :is(h2, .eyebrow) {
+    color: #242225;
+  }
+  html[data-theme] body.product-page--phenom #phenom-cta .visual-chapter__copy > p:not(.eyebrow) {
+    color: #716b6e;
+  }
+  html[data-theme] body.product-page--phenom #phenom-cta .visual-chapter__action {
+    border-color: rgb(36 34 37 / 64%);
+    color: #242225;
+  }
+  html[data-theme] body.product-page--phenom #phenom-cta .visual-chapter__action:focus-visible {
+    outline-color: #242225;
+  }
+}
+
+/* motion17: native-phone caption placement follows the photograph's corners. */
+@media (max-width: 980px) {
+  body.product-page--phenom [data-phenom-tag="hero"] .phenom-tag__visual {
+    display: inline;
+  }
+  body.product-page--phenom :is(
+    #modularity, #phenom-additive-manufacturing, #phenom-wired
+  ) > .phenom-tag {
+    color: #f7f4f3;
+  }
+  body.product-page--phenom :is(
+    #phenom-finger-geometry, #phenom-additive-manufacturing,
+    #phenom-keycaps-switches, #phenom-wired
+  ) > .phenom-tag {
+    top: calc(var(--tag-media-top, 0px) + var(--tag-media-height, 0px) - var(--tag-grid-gutter, 5vw));
+    translate: 0 -100%;
+  }
+  body.product-page--phenom #phenom-additive-manufacturing > .phenom-tag {
+    left: auto;
+    right: var(--tag-grid-right, 5vw);
+    text-align: right;
+  }
+  /* A slightly wider frame exposes both outer keyboard edges without adding
+     letterboxing, changing the source photo or disturbing its existing fade. */
+  body.product-page--phenom #phenom-cta .visual-chapter__media {
+    aspect-ratio: 6 / 5;
   }
 }
