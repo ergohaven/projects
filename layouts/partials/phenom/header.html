@@ -10,10 +10,11 @@
 
 <header class="site-header">
   <div class="site-header__inner shell">
-    <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="{{ $ui.home_label }}">
-      <span>ergohaven</span><i aria-hidden="true">/</i><span>{{ $brandLabel }}</span>
+    <a class="brand brand--return" href="{{ site.Params.companyURL }}" aria-label="{{ $brandLabel }}">
+      <span>{{ $brandLabel }}</span>
     </a>
     <div class="site-header__actions">
+      {{ if $isPhenom }}{{ partial "phenom/product/animated-tag.html" (dict "id" "hero") }}{{ end }}
       {{ if and (not .IsHome) (not $immersiveHeader) }}
         <a class="header-back" href="{{ site.Home.RelPermalink }}">{{ $ui.products_label }}</a>
       {{ end }}
@@ -25,22 +26,6 @@
           lang="{{ site.Params.alternateLanguage }}"
         >{{ upper site.Params.alternateLanguage }}</a>
       {{ end }}
-      <button
-        class="theme-toggle"
-        type="button"
-        aria-label="{{ $ui.theme_to_dark }}"
-        data-label-light="{{ $ui.theme_to_light }}"
-        data-label-dark="{{ $ui.theme_to_dark }}"
-        data-theme-toggle
-      >
-        <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="3.5"></circle>
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
-        </svg>
-        <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20.2 15.3A8.5 8.5 0 0 1 8.7 3.8 8.5 8.5 0 1 0 20.2 15.3Z"></path>
-        </svg>
-      </button>
     </div>
   </div>
 </header>

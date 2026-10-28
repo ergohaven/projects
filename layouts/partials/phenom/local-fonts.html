@@ -1,0 +1,13 @@
+{{- /* Exact upstream faces; publish/cache fonts by their actual content hashes. */ -}}
+{{- $source := resources.Get .source -}}
+{{- $css := $source.Content -}}
+{{- range findRE `url\(\./[^)]+\.woff2\)` $css -}}
+  {{- $name := replaceRE `^url\(\./|\)$` "" . -}}
+  {{- $font := resources.Get (printf "fonts/phenom/%s" $name) -}}
+  {{- if not $font -}}{{- errorf "Phenom local font %q was not found" $name -}}{{- end -}}
+  {{- $font = $font | fingerprint "sha256" -}}
+  {{- $css = replace $css . (printf "url(%s)" $font.RelPermalink) -}}
+{{- end -}}
+{{- $license := resources.Get "fonts/phenom/OFL.txt" -}}
+{{- $css = printf "/* Zen Kaku Gothic New, SIL OFL 1.1: %s */\n%s" $license.RelPermalink $css -}}
+{{- return (resources.FromString .target $css) -}}

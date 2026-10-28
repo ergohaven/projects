@@ -541,7 +541,7 @@
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
-    padding: 0 calc(var(--p-gutter) + 12px) !important;
+    padding: 0 var(--p-gutter) !important;
     color: var(--p-muted) !important;
     font-size: var(--p-copy) !important;
     line-height: var(--p-leading) !important;
@@ -615,7 +615,7 @@
   body.product-page--phenom .product-story--phenom :is(
     #modularity, #phenom-finger-geometry
   ) .visual-chapter__copy > p:not(.eyebrow) {
-    padding-inline: calc(var(--p-gutter) + 4px) !important;
+    padding-inline: var(--p-gutter) !important;
     text-wrap: wrap !important;
   }
 
@@ -625,9 +625,21 @@
   }
 }
 
+/* revision80: restore the earlier tighter/right-weighted module grouping.
+   Move only photographic pixels; retain the chapter frame, copy and ink. */
+body.product-page--phenom .product-story--phenom #modularity .chapter-media__image {
+  transform: translateX(3%) scale(1.15) !important; /* overrides native photo reset */
+  transform-origin: 50% 90%;
+}
+
 /* Square mobile photo framing: center the keyboard subjects in each crop. */
 @media (max-width: 980px) {
-  body.product-page--phenom .product-story--phenom #modularity .chapter-media__image { object-position: 88% 50%; }
+  body.product-page--phenom .product-story--phenom #modularity .chapter-media__image {
+    /* modularity94: closer native crop, centered on the complete module group. */
+    transform: scale(1.25) !important;
+    transform-origin: 50% 50%;
+    object-position: 86.3% calc(50% + 1.25vw);
+  }
   body.product-page--phenom .product-story--phenom #phenom-finger-geometry .chapter-media__image { object-position: 20% 52%; }
   body.product-page--phenom .product-story--phenom #phenom-additive-manufacturing .chapter-media__image { object-position: 50% 50%; }
   body.product-page--phenom .product-story--phenom #phenom-keycaps-switches .chapter-media__image { object-position: 38% 50%; }
@@ -793,4 +805,169 @@
   body.product-page--phenom #phenom-cta .visual-chapter__copy {
     margin-top: 0;
   }
+}
+
+/* cta71: a closer view, anchored above the unchanged headline. Keep the cable
+   loop within the crop and let the existing media owner clip empty margins. */
+body.product-page--phenom .product-story--phenom #phenom-cta
+.visual-chapter__media .chapter-media__image {
+  object-fit: contain;
+  object-position: center;
+  transform: scale(1.28);
+  transform-origin: 50% 35%;
+  background-color: #f1f1f1;
+  /* Match the replacement photograph's own neutral edge lighting. */
+  background-image:
+    linear-gradient(#f1f1f1 0%, #f1f1f1 10%, #f3f3f3 25%, #f2f2f2 50%, #ededed 75%, #e9e9e9 100%),
+    linear-gradient(#ededed 0%, #ededed 10%, #eeeeee 25%, #eeeeee 50%, #f3f3f3 75%, #f2f2f2 100%),
+    linear-gradient(#f1f1f1, #eeeeee);
+  background-size: 50% 100%, 50% 100%, 100% 100%;
+  background-position: left center, right center, center;
+  background-repeat: no-repeat;
+}
+@media (max-width: 980px) and (orientation: portrait) {
+  body.product-page--phenom .product-story--phenom #phenom-cta
+  .visual-chapter__media .chapter-media__image {
+    background-size: 50% 66.666667vw, 50% 66.666667vw, 100% 100%;
+  }
+}
+
+/* hero66: center the keyboard-body anchor at 48% of the supplied photograph.
+   Keep the existing cover scale, text and section geometry unchanged. */
+@media (min-width: 981px) {
+  body.product-page--phenom .product-hero--immersive .product-stage__image {
+    object-position: 50% calc(48% + 2svh);
+    background-color: #0a0a0a;
+  }
+}
+
+/* The return link is a quiet secondary action, not a brand headline. */
+body.product-page--phenom .site-header .brand--return {
+  align-items: center;
+  gap: .45em;
+  font-weight: 400 !important;
+  opacity: .68;
+  transition: opacity 150ms ease;
+}
+body.product-page--phenom .site-header .brand--return:hover,
+body.product-page--phenom .site-header .brand--return:focus-visible {
+  opacity: 1;
+}
+
+/* Let the closing photograph meet the specifications without a divider. */
+body.product-page--phenom #phenom-cta {
+  border-top: 0;
+}
+
+/* hero54: fill the light portrait opening without moving its authored content.
+   Its previous 94svh height exposed six percent of the next chapter. */
+@media (max-width: 980px) and (orientation: portrait) {
+  html[data-theme="light"] body.product-page--phenom .product-hero--immersive {
+    min-height: 100svh;
+    min-height: 100dvh;
+    padding-bottom: calc(52px + 6svh);
+    padding-bottom: calc(52px + max(6svh, 100dvh - 94svh));
+  }
+  html[data-theme="light"] body.product-page--phenom .phenom-scroll-cue {
+    bottom: 6svh;
+    bottom: max(6svh, 100dvh - 94svh);
+  }
+}
+
+/* motion21: photo-chapter prose shares one reading gutter. */
+/* motion18: wired prose shares the mobile reading gutter, without the legacy
+   additional 12px inset. The photograph and its caption keep their own axes. */
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story--phenom #phenom-wired
+  .visual-chapter__copy > p:not(.eyebrow) {
+    padding-inline: var(--p-gutter) !important;
+  }
+  /* Preserve Entropy's readable line length, but anchor it to its heading's
+     page gutter instead of centering a separate narrow column on tablets. */
+  body.product-page--phenom .product-story--phenom #phenom-entropy
+  .visual-chapter__copy > p:not(.eyebrow) {
+    margin-left: var(--p-gutter) !important;
+    margin-right: auto !important;
+  }
+}
+
+/* fixes64: the untagged curves intro has two children, not the legacy three
+   tracks. Extend its desktop pairing to the 981–1199px breakpoint gap without
+   changing type, authored line breaks or the approved wide-screen layout. */
+@media (min-width: 981px) and (max-width: 1199px) {
+  body.product-page--phenom #phenom-curves .detail-sequence__intro--untagged {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    grid-template-areas: "title text";
+  }
+  body.product-page--phenom #phenom-curves .detail-sequence__intro--untagged > h2 {
+    grid-area: title;
+  }
+  body.product-page--phenom #phenom-curves .detail-sequence__intro--untagged > p {
+    grid-area: text;
+  }
+}
+
+/* fixes64: Entropy is a paper surface in light mode. Only its idle ink changes;
+   the shared motion component's more-specific hover/focus rules keep their
+   light text and accent slide. The photo-backed closing action is untouched. */
+html[data-theme="light"] body.product-page--phenom #phenom-entropy .phenom-action {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--text) 64%, transparent);
+}
+
+
+/* pockets77: the replacement master has cooler/darker edge illumination.
+   Match only the exposed desktop contain margins; keep photo pixels, frame,
+   foreground and the independently approved native-phone surface unchanged. */
+@media (min-width: 981px) {
+  body.product-page--phenom .product-story--phenom #phenom-cta
+  .visual-chapter__media .chapter-media__image {
+    background-image:
+      linear-gradient(#ebebeb 0%, #ebebeb 5%, #ececec 10%, #ececec 15%, #ededed 20%, #ededed 25%, #ededed 30%, #ededed 35%, #eeeeee 40%, #ededed 45%, #ededed 50%, #ececec 55%, #eaeaea 60%, #e9e9e9 65%, #e8e8e8 70%, #e7e7e7 75%, #e7e7e7 80%, #e6e6e6 85%, #e5e5e5 90%, #e4e4e4 95%, #e4e4e4 100%),
+      linear-gradient(#e6e6e6 0%, #e7e7e7 5%, #e8e8e8 10%, #e8e8e8 15%, #e9e9e9 20%, #e9e9e9 25%, #e9e9e9 30%, #e9e9e9 35%, #e9e9e9 40%, #e9e9e9 45%, #e9e9e9 50%, #eaeaea 55%, #ececec 60%, #ececec 65%, #ededed 70%, #ededed 75%, #ededed 80%, #ededed 85%, #ededed 90%, #ececec 95%, #ececec 100%),
+      linear-gradient(#f1f1f1, #eeeeee);
+  }
+}
+
+/* revision74: move the closing heading, prose and action as one group.
+   Halve the desktop bottom inset; on native phones halve the negative
+   photo overlap so the group sits lower without moving the photograph. */
+@media (min-width: 981px) {
+  body.product-page--phenom .product-story--phenom #phenom-cta .visual-chapter__copy {
+    padding-bottom: clamp(2rem, 3vh, 3rem);
+  }
+}
+@media (max-width: 980px) {
+  body.product-page--phenom .product-story--phenom #phenom-cta .visual-chapter__copy {
+    margin-top: clamp(-28px, -6vw, -18px);
+  }
+}
+
+/* mobile-cta85: close the two excess gaps, without moving/cropping the photo.
+   Native portrait only; the approved desktop, canvas and landscape stay intact. */
+@media (max-width: 980px) and (orientation: portrait) {
+  body.product-page--phenom .product-story--phenom #phenom-specs {
+    padding-bottom: 24px !important;
+  }
+  body.product-page--phenom .product-story--phenom #phenom-cta .visual-chapter__copy {
+    margin-top: clamp(-76px, -15vw, -48px);
+  }
+}
+
+/* seam87: remove only contain's pale leading band at the dark/photo join.
+   The 1.28 zoom / 35% origin produces max(0, .542H - .426666667W)
+   of empty image background; portrait H=min(5W/6,600px). The CTA's existing
+   overflow clips that empty strip while image and copy move together. */
+@media (max-width: 980px) and (orientation: portrait) {
+  body.product-page--phenom .product-story--phenom #phenom-cta .visual-chapter__media {
+    margin-top: calc(-1 * max(0px, calc(min(45.166667%, 325.2px) - 42.666667%)));
+  }
+}
+
+/* curves72: frame only the replacement outer-column photograph. The other
+   three card crops and all gallery/caption geometry remain approved. */
+body.product-page--phenom #phenom-curves .detail-sequence__item:nth-child(2) .chapter-media__image {
+  object-position: 62% 50%;
+  transform: scale(1.15);
+  transform-origin: 50% 50%;
 }

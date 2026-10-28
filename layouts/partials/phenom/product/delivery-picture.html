@@ -1,0 +1,36 @@
+{{- /* Publish the exact reviewed encodings; do not re-encode them in Hugo.
+     URL attributes remain inert until their owning reading viewport admits them. */ -}}
+{{- $args := . -}}
+{{- $source := .source -}}
+{{- $name := path.Base $source.Name -}}
+{{- $entry := index hugo.Data.phenom_photo_delivery $name -}}
+{{- if not $entry -}}{{- errorf "No approved photo delivery for %q" $name -}}{{- end -}}
+{{- $groups := slice -}}
+{{- with .dark -}}
+  {{- $groups = $groups | append (dict "name" (path.Base .) "media" "(prefers-color-scheme: dark)") -}}
+{{- end -}}
+{{- $groups = $groups | append (dict "name" $name "media" "") -}}
+{{- range slice true false -}}
+{{- $inert := . -}}
+{{- if not $inert }}<noscript>{{ end -}}
+<picture class="{{ $args.picture_class }}"{{ if $inert }} data-phenom-delivery-pending{{ end }}>
+  {{- range $groups -}}
+    {{- $group := . -}}
+    {{- $config := index hugo.Data.phenom_photo_delivery .name -}}
+    {{- if not $config -}}{{- errorf "Missing approved photo group %q" .name -}}{{- end -}}
+    {{- $set := slice -}}
+    {{- range $config.variants -}}
+      {{- $file := resources.Get .path -}}
+      {{- if not $file -}}{{- errorf "Missing reviewed photo variant %q" .path -}}{{- end -}}
+      {{- $set = $set | append (printf "%s %dw" $file.RelPermalink (.width | int)) -}}
+    {{- end -}}
+    <source{{ with $group.media }} media="{{ . }}"{{ end }} type="image/webp" {{ printf "%ssrcset=\"%s\"" (cond $inert "data-delivery-" "") (delimit $set ", ") | safeHTMLAttr }} sizes="{{ $config.sizes }}">
+    {{- with $group.media -}}
+      {{- $fallback := resources.Get (printf "images/products/phenom/%s" $group.name) -}}
+      <source media="{{ . }}" type="image/jpeg" {{ printf "%ssrcset=\"%s\"" (cond $inert "data-delivery-" "") $fallback.RelPermalink | safeHTMLAttr }}>
+    {{- end -}}
+  {{- end }}
+  <img class="{{ $args.image_class }}" {{ printf "%ssrc=\"%s\"" (cond $inert "data-delivery-" "") $source.RelPermalink | safeHTMLAttr }}{{ if $inert }} data-delivery-fallback="{{ $source.RelPermalink }}"{{ end }} width="{{ $source.Width }}" height="{{ $source.Height }}" alt="{{ $args.alt }}" loading="{{ $args.loading | default "lazy" }}"{{ with $args.priority }} fetchpriority="{{ . }}"{{ end }} decoding="async">
+</picture>
+{{- if $inert }}<script>(function(p){if(window.__phenomDelivery64){window.__phenomDelivery64.mount(p);return;}p.querySelectorAll('[data-delivery-srcset]').forEach(function(s){s.setAttribute('srcset',s.getAttribute('data-delivery-srcset'));});var i=p.querySelector('img');i.src=i.getAttribute('data-delivery-src');}(document.currentScript.previousElementSibling));</script>{{ else }}</noscript>{{ end -}}
+{{- end -}}

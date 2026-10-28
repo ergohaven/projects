@@ -1,0 +1,17 @@
+{
+  "name": "ergohaven-landings",
+  "private": true,
+  "scripts": {
+    "build:phenom": "bash scripts/build_phenom_release.sh",
+    "check:phenom": "python3 scripts/check_phenom_release.py",
+    "qa:phenom:cta": "node scripts/qa_phenom_cta.cjs",
+    "qa:phenom:interactions": "node scripts/qa_phenom_interactions.cjs",
+    "qa:phenom:whole": "node scripts/qa_phenom_whole.cjs",
+    "qa:phenom:heading": "node scripts/qa_phenom_heading.cjs",
+    "qa:phenom:mobile": "node scripts/qa_phenom_mobile.cjs",
+    "qa:phenom:fallback": "node scripts/qa_phenom_fallback.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

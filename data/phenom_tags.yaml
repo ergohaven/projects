@@ -1,0 +1,18 @@
+hero:
+  side: right
+  lines: [TOOLS OF THE FUTURE]
+modularity:
+  side: left
+  lines: [MODULAR ARCHITECTURE, CONTROL MODULES, HOT SWAP]
+phenom-finger-geometry:
+  side: right
+  lines: [ANATOMICAL GEOMETRY, KEYWELL, COLUMN OFFSETS]
+phenom-additive-manufacturing:
+  side: left
+  lines: [COMPLEXITY BY DESIGN, ADDITIVE BUILD, LAYER BY LAYER]
+phenom-keycaps-switches:
+  side: right
+  lines: [FEEL THE ACTUATION, TACTILE SWITCHES, SILENT RESPONSE]
+phenom-wired:
+  side: left
+  lines: [DIRECT CONNECTION, USB-C, WIRED INPUT]

@@ -37,7 +37,15 @@ python3 scripts/check_html.py
 
 for language in en ru; do
   for page in index.html k04/index.html phenom/index.html macropad/index.html; do
-    rg -q 'data-theme-toggle' "public/$language/$page"
+    if [[ "$page" == phenom/index.html ]]; then
+      rg -q 'data-phenom-tag=hero' "public/$language/$page"
+      if rg -q 'data-theme-toggle' "public/$language/$page"; then
+        echo "Phenom uses automatic theme selection, not a theme toggle" >&2
+        exit 1
+      fi
+    else
+      rg -q 'data-theme-toggle' "public/$language/$page"
+    fi
     if [[ "$page" == phenom/index.html ]]; then
       if rg -q 'class=language-link' "public/$language/$page"; then
         echo "Phenom language switch must remain removed" >&2
@@ -47,7 +55,7 @@ for language in en ru; do
       rg -q 'class=language-link' "public/$language/$page"
     fi
     if [[ "$page" == phenom/index.html ]]; then
-      rg -q '<span>phenom series</span>' "public/$language/$page"
+      rg -q 'class="brand brand--return"' "public/$language/$page"
     fi
     if [[ "$page" != index.html ]]; then
       if [[ "$page" == phenom/index.html ]]; then
@@ -74,8 +82,9 @@ for language in en ru; do
   rg -q 'class="series-showcase section"' "public/$language/phenom/index.html"
   rg -q 'class=series-gallery' "public/$language/phenom/index.html"
   test "$(rg -o 'class=series-card__visual' "public/$language/phenom/index.html" | wc -l)" -eq 3
-  test "$(rg -o 'class=series-card__picture' "public/$language/phenom/index.html" | wc -l)" -eq 3
-  test "$(rg -o 'class=series-card__image' "public/$language/phenom/index.html" | wc -l)" -eq 3
+  # Active delivery markup plus the three noscript photo fallbacks.
+  test "$(rg -o 'class=series-card__picture' "public/$language/phenom/index.html" | wc -l)" -eq 6
+  test "$(rg -o 'class=series-card__image' "public/$language/phenom/index.html" | wc -l)" -eq 6
   rg -q 'visual-chapter--modularity' "public/$language/phenom/index.html"
   rg -q 'class="chapter-media chapter-media--image visual-chapter__media"' "public/$language/phenom/index.html"
   rg -q 'class=chapter-media__image' "public/$language/phenom/index.html"
@@ -88,9 +97,10 @@ for language in en ru; do
   test "$(rg -o 'data-key-layout-layer-target' "public/$language/phenom/index.html" | wc -l)" -eq 14
   test "$(rg -o 'data-key-layout-layer-target=function' "public/$language/phenom/index.html" | wc -l)" -eq 2
   test "$(rg -o 'data-key-layout-layer-panel' "public/$language/phenom/index.html" | wc -l)" -eq 14
-  test "$(rg -o 'class="key-layout-diagram__half ' "public/$language/phenom/index.html" | wc -l)" -eq 28
-  test "$(rg -o 'images/products/phenom/layouts/[^ >]*\.svg' "public/$language/phenom/index.html" | wc -l)" -eq 56
-  test "$(rg -o "images/products/phenom/layouts/${language}/[^ >]*\.svg" "public/$language/phenom/index.html" | wc -l)" -eq 56
+  # Includes noscript wrapper classes and matching fallback SVG URLs.
+  test "$(rg -o 'class="key-layout-diagram__half ' "public/$language/phenom/index.html" | wc -l)" -eq 56
+  test "$(rg -o 'images/products/phenom/layouts/[^ >]*\.svg' "public/$language/phenom/index.html" | wc -l)" -eq 112
+  test "$(rg -o "images/products/phenom/layouts/${language}/[^ >]*\.svg" "public/$language/phenom/index.html" | wc -l)" -eq 112
   other_language=$([[ "$language" == en ]] && printf ru || printf en)
   if rg -q "images/products/phenom/layouts/${other_language}/" "public/$language/phenom/index.html"; then
     echo "Phenom $language page must not load $other_language layout artwork" >&2
@@ -126,7 +136,7 @@ for language in en ru; do
   test "$(rg -o 'visual-chapter--split-left' "public/$language/phenom/index.html" | wc -l)" -eq 1
   test "$(rg -o 'visual-chapter--closing' "public/$language/phenom/index.html" | wc -l)" -eq 1
   test "$(rg -o 'class=specs-chapter__group[ >]' "public/$language/phenom/index.html" | wc -l)" -eq 6
-  test "$(rg -o 'class=visual-chapter__action' "public/$language/phenom/index.html" | wc -l)" -eq 2
+  test "$(rg -o 'class="visual-chapter__action ' "public/$language/phenom/index.html" | wc -l)" -eq 2
   for model in Standard Mini Micro; do
     rg -q "<h3>${model}" "public/$language/phenom/index.html"
   done

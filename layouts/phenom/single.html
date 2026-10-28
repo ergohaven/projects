@@ -30,24 +30,33 @@
           {{ if not $source }}
             {{ errorf "Hero image %q declared by %s was not found" $heroImagePath .File.Path }}
           {{ end }}
-          {{ $webp720 := $source.Resize "720x webp q88" }}
+          {{ if .Params.photo_delivery }}
+            {{ partial "phenom/product/delivery-picture.html" (dict "source" $source "picture_class" "product-stage__picture" "image_class" "product-stage__image" "alt" .Params.visual_alt "loading" "eager" "priority" "high") }}
+          {{ else if .Params.photo_originals }}
+            <picture class="product-stage__picture">
+              <img class="product-stage__image" src="{{ $source.RelPermalink }}" width="{{ $source.Width }}" height="{{ $source.Height }}" alt="{{ .Params.visual_alt }}" loading="eager" fetchpriority="high" decoding="async">
+            </picture>
+          {{ else }}
+          {{ $webp720 := $source.Resize "720x webp q90" }}
           {{ $webp1280 := $source.Resize "1280x webp q90" }}
-          {{ $webp1920 := $source.Resize "1920x webp q91" }}
+          {{ $webp1920 := $source.Resize "1920x webp q92" }}
           {{ $webp2560 := $source.Resize "2560x webp q92" }}
-          {{ $jpeg720 := $source.Resize "720x jpg q88" }}
-          {{ $jpeg1280 := $source.Resize "1280x jpg q89" }}
-          {{ $jpeg1920 := $source.Resize "1920x jpg q90" }}
-          {{ $jpeg2560 := $source.Resize "2560x jpg q91" }}
+          {{ $jpeg720 := $source.Resize "720x jpg q90" }}
+          {{ $jpeg1280 := $source.Resize "1280x jpg q90" }}
+          {{ $jpeg1920 := $source.Resize "1920x jpg q92" }}
+          {{ $jpeg2560 := $source.Resize "2560x jpg q92" }}
+          {{ $webp3840 := $source.Resize "3840x webp q92" }}
+          {{ $jpeg3840 := $source.Resize "3840x jpg q92" }}
           <picture class="product-stage__picture">
             <source
               type="image/webp"
-              srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w, {{ $webp2560.RelPermalink }} 2560w"
+              srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w, {{ $webp2560.RelPermalink }} 2560w, {{ $webp3840.RelPermalink }} 3840w"
               sizes="100vw"
             >
             <img
               class="product-stage__image"
               src="{{ $jpeg1920.RelPermalink }}"
-              srcset="{{ $jpeg720.RelPermalink }} 720w, {{ $jpeg1280.RelPermalink }} 1280w, {{ $jpeg1920.RelPermalink }} 1920w, {{ $jpeg2560.RelPermalink }} 2560w"
+              srcset="{{ $jpeg720.RelPermalink }} 720w, {{ $jpeg1280.RelPermalink }} 1280w, {{ $jpeg1920.RelPermalink }} 1920w, {{ $jpeg2560.RelPermalink }} 2560w, {{ $jpeg3840.RelPermalink }} 3840w"
               sizes="100vw"
               width="{{ $source.Width }}"
               height="{{ $source.Height }}"
@@ -57,6 +66,7 @@
               decoding="async"
             >
           </picture>
+          {{ end }}
         {{ else if $renderHeroPlaceholder }}
           {{ partial "phenom/product/chapter-media.html" (dict
             "page" $
@@ -124,13 +134,41 @@
                   {{ if not $source }}
                     {{ errorf "Series image %q declared by %s was not found" $item.image $.File.Path }}
                   {{ end }}
-                  {{ $webp720 := $source.Resize "720x webp q88" }}
-                  {{ $webp1280 := $source.Resize "1280x webp q90" }}
-                  {{ $webp1920 := $source.Resize "1920x webp q91" }}
-                  {{ $jpeg720 := $source.Resize "720x jpg q88" }}
-                  {{ $jpeg1280 := $source.Resize "1280x jpg q89" }}
-                  {{ $jpeg1920 := $source.Resize "1920x jpg q90" }}
+                  {{ if $.Params.photo_delivery }}
+                    {{ partial "phenom/product/delivery-picture.html" (dict "source" $source "dark" $item.image_dark "picture_class" "series-card__picture" "image_class" "series-card__image" "alt" $item.image_alt) }}
+                  {{ else if $.Params.photo_originals }}
+                    <picture class="series-card__picture">
+                      {{ with $item.image_dark }}
+                        {{ $dark := resources.Get . }}
+                        {{ if not $dark }}{{ errorf "Dark series image %q was not found" . }}{{ end }}
+                        <source media="(prefers-color-scheme: dark)" type="image/jpeg" srcset="{{ $dark.RelPermalink }}">
+                      {{ end }}
+                      <img class="series-card__image" src="{{ $source.RelPermalink }}" width="{{ $source.Width }}" height="{{ $source.Height }}" alt="{{ $item.image_alt }}" loading="lazy" decoding="async">
+                    </picture>
+                  {{ else }}
+                  {{ $webp720 := $source.Resize "720x webp q82" }}
+                  {{ $webp1280 := $source.Resize "1280x webp q83" }}
+                  {{ $webp1920 := $source.Resize "1920x webp q84" }}
+                  {{ $jpeg720 := $source.Resize "720x jpg q84" }}
+                  {{ $jpeg1280 := $source.Resize "1280x jpg q84" }}
+                  {{ $jpeg1920 := $source.Resize "1920x jpg q85" }}
                   <picture class="series-card__picture">
+                    {{ if and $isPhenom $item.image_dark }}
+                      {{ $dark := resources.Get $item.image_dark }}
+                      {{ if not $dark }}{{ errorf "Dark series image %q was not found" $item.image_dark }}{{ end }}
+                      {{ $darkWebp720 := $dark.Resize "720x webp q82" }}
+                      {{ $darkWebp1280 := $dark.Resize "1280x webp q83" }}
+                      {{ $darkWebp1920 := $dark.Resize "1920x webp q84" }}
+                      {{ $darkJpeg720 := $dark.Resize "720x jpg q84" }}
+                      {{ $darkJpeg1280 := $dark.Resize "1280x jpg q84" }}
+                      {{ $darkJpeg1920 := $dark.Resize "1920x jpg q85" }}
+                      <source media="(prefers-color-scheme: dark)" type="image/webp"
+                        srcset="{{ $darkWebp720.RelPermalink }} 720w, {{ $darkWebp1280.RelPermalink }} 1280w, {{ $darkWebp1920.RelPermalink }} 1920w"
+                        sizes="(max-width: 700px) 100vw, 33vw">
+                      <source media="(prefers-color-scheme: dark)" type="image/jpeg"
+                        srcset="{{ $darkJpeg720.RelPermalink }} 720w, {{ $darkJpeg1280.RelPermalink }} 1280w, {{ $darkJpeg1920.RelPermalink }} 1920w"
+                        sizes="(max-width: 700px) 100vw, 33vw">
+                    {{ end }}
                     <source
                       type="image/webp"
                       srcset="{{ $webp720.RelPermalink }} 720w, {{ $webp1280.RelPermalink }} 1280w, {{ $webp1920.RelPermalink }} 1920w"
@@ -148,6 +186,7 @@
                       decoding="async"
                     >
                   </picture>
+                  {{ end }}
                 {{ else }}
                   {{ if not $item.id }}
                     {{ errorf "Placeholder series item declared by %s has no id" $.File.Path }}

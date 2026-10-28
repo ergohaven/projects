@@ -10,7 +10,8 @@ import re
 import base64
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
+from collections import Counter
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -45,14 +46,16 @@ class Document(HTMLParser):
 
 def local_resources(document):
     for tag, attrs in document.tags:
-        if tag == 'link' and attrs.get('rel') != 'stylesheet':
+        if tag == 'link' and attrs.get('rel') not in ('stylesheet', 'icon', 'apple-touch-icon', 'preload'):
             continue
-        for key in ('src', 'poster', 'data-src') + (('href',) if tag == 'link' else ()):
+        for key in ('src', 'poster', 'data-src', 'data-poster', 'data-layout-src',
+                    'data-delivery-src', 'data-delivery-fallback') + (('href', 'data-href') if tag == 'link' else ()):
             if attrs.get(key):
                 yield attrs[key]
-        for candidate in attrs.get('srcset', '').split(','):
-            if candidate.strip():
-                yield candidate.split()[0]
+        for key in ('srcset', 'data-delivery-srcset'):
+            for candidate in attrs.get(key, '').split(','):
+                if candidate.strip():
+                    yield candidate.split()[0]
 
 
 def normalize_asset_names(text):
@@ -75,7 +78,7 @@ def check(public, baseline=None, canonical=None):
                        'phenom-entropy-title', 'phenom-wired-title', 'phenom-specs-title', 'phenom-cta-title']
         headings = {
             'en': ['Engineered to perfection', 'Meet the Phenom series', 'Modules for your tasks',
-                   'Explore the default layouts', 'Every key fits for your finger', 'A true ergonomic beauty',
+                   'Choose your layout', 'Every key fits for your finger', 'A true ergonomic beauty',
                    'Made possible only with additive technology', 'Feel the difference',
                    'Best-in-class software', 'Wired, not wireless', 'Phenom at a glance', 'Crafted in every detail'],
             'ru': ['СОВЕРШЕНСТВО В ДЕТАЛЯХ', 'Знакомьтесь с серией Phenom', 'Модули под ваши задачи',
@@ -103,11 +106,35 @@ def check(public, baseline=None, canonical=None):
         assert '3840w' in text and '6000w' in text
         assert not any('data-media-placeholder' in a for _, a in doc.tags)
         assert sum('visual-chapter__action' in a.get('class', '').split() for _, a in doc.tags) == 2
+        # Parse the JS-enabled DOM separately; HTMLParser otherwise counts
+        # noscript fallback children as if they were simultaneously active.
+        active = Document(re.sub(r'<noscript\b[^>]*>.*?</noscript>', '', text, flags=re.S))
+        fallback = Document(''.join(re.findall(r'<noscript\b[^>]*>(.*?)</noscript>', text, flags=re.S)))
+        pending_layouts = [a for t, a in active.tags if t == 'img' and 'data-layout-src' in a]
+        fallback_layouts = [a for t, a in fallback.tags if t == 'img' and '/phenom/layouts/' in a.get('src', '')]
+        assert len(pending_layouts) == len(fallback_layouts) == 56, (lang, 'layout delivery/fallback count')
+        assert Counter(a['data-layout-src'] for a in pending_layouts) == Counter(a['src'] for a in fallback_layouts), (lang, 'layout fallbacks differ')
+        assert all(a.get('alt') in (None, '') and 'alt' in a for a in fallback_layouts), (lang, 'decorative layout fallback')
+        assert sum(t == 'picture' for t, _ in active.tags) == 14
+        assert sum(t == 'picture' for t, _ in fallback.tags) == 15  # Includes the Entropy poster.
+        assert Counter(a['data-delivery-src'] for t, a in active.tags if t == 'img' and 'data-delivery-src' in a) == Counter(a['src'] for t, a in fallback.tags if t == 'img' and '/phenom/layouts/' not in a.get('src', '') and 'chapter-media__video' not in a.get('class', '')), (lang, 'photo fallbacks differ')
+        assert sum('data-phenom-native-style' in a for _, a in active.tags) == 6
+        assert sum('data-phenom-canvas-style' in a for _, a in active.tags) == 6
+        assert sum('data-phenom-runtime' in a for _, a in active.tags) == 8
+        assert Counter(a['data-delivery-srcset'] for _, a in active.tags if 'data-delivery-srcset' in a) == Counter(a['srcset'] for _, a in fallback.tags if 'srcset' in a and a.get('type') in ('image/webp', 'image/jpeg')), (lang, 'photo variant fallbacks differ')
+        assert all(a.get('alt') for t, a in fallback.tags if t == 'img' and '/phenom/layouts/' not in a.get('src', '')), (lang, 'fallback image alt')
+        # Callouts are created by the delayed runtime, not static HTML actions.
+        cta_urls = [a['data-src'] for t, a in active.tags if t == 'script' and '/js/phenom-cta.min.' in a.get('data-src', '')]
+        assert len(cta_urls) == 1, (lang, 'CTA runtime missing/duplicated')
+        cta_runtime = (locale / cta_urls[0].lstrip('/')).read_text()
+        assert re.findall(r'\{id:"([^"]+)",row:', cta_runtime) == ['keys', 'usb', 'controls', 'formats', 'split', 'platform', 'fit'], (lang, 'seven CTA callouts changed')
         entries = list(local_resources(doc))
         assert any('/css/phenom-site.min.' in value for value in entries)
         assert any('/js/phenom-site.min.' in value for value in entries)
         assert not any(re.search(r'/(?:css|js)/site\.min\.', value) for value in entries)
         assert not any('/products/k04/' in value or '/products/macropad/' in value for value in entries)
+        # Follow CSS url()/@import dependencies as well as both DOM branches.
+        visited_css = set()
         for value in entries:
             parsed = urlsplit(value)
             if parsed.scheme or parsed.netloc or not parsed.path.startswith('/'):
@@ -115,9 +142,18 @@ def check(public, baseline=None, canonical=None):
             asset = locale / unquote(parsed.path).lstrip('/')
             assert asset.is_file(), (lang, 'missing resource', value)
             resources += 1
-        for _, attrs in doc.tags:
+            if asset.suffix == '.css' and asset not in visited_css:
+                visited_css.add(asset)
+                css = asset.read_text()
+                dependencies = re.findall(r'url\(\s*[\'\"]?([^\'\"\)\s]+)', css)
+                dependencies += re.findall(r'@import\s+[\'\"]([^\'\"]+)', css)
+                entries.extend(urljoin(value, dependency) for dependency in dependencies)
+        for tag, attrs in doc.tags:
+            if (tag == 'script' and (attrs.get('src') or attrs.get('data-src'))) or (tag == 'link' and attrs.get('rel') == 'stylesheet'):
+                assert attrs.get('integrity'), (lang, 'missing resource integrity', attrs)
             if attrs.get('integrity'):
-                value = attrs.get('src') or attrs.get('href')
+                value = attrs.get('src') or attrs.get('href') or attrs.get('data-src') or attrs.get('data-href')
+                assert value, (lang, 'integrity without resource URL')
                 digest = base64.b64encode(hashlib.sha256((locale / value.lstrip('/')).read_bytes()).digest()).decode()
                 assert attrs['integrity'] == 'sha256-' + digest, (lang, value, 'integrity')
             for key in ('aria-controls', 'aria-labelledby'):

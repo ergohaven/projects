@@ -11,8 +11,9 @@ from pathlib import Path
 
 
 class PageParser(HTMLParser):
-    def __init__(self) -> None:
+    def __init__(self, phenom: bool = False) -> None:
         super().__init__()
+        self.phenom = phenom
         self.h1_count = 0
         self.h2_ids: list[str] = []
         self.images = 0
@@ -61,6 +62,10 @@ class PageParser(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
+        if self.phenom:
+            for target, deferred in (("src", "data-layout-src"), ("poster", "data-poster")):
+                if deferred in values:
+                    values[target] = values[deferred]
         classes = set((values.get("class") or "").split())
         if tag == "h1":
             self.h1_count += 1
@@ -463,8 +468,11 @@ def check_page(
     product: str | None,
 ) -> list[str]:
     source = path.read_text(encoding="utf-8")
-    parser = PageParser()
-    parser.feed(source)
+    parser = PageParser(phenom=product == "phenom")
+    # With scripting enabled noscript children are text, not duplicate DOM.
+    # Isolation checks separately validate every fallback resource and layout half.
+    parsed_source = re.sub(r"<noscript\b[^>]*>.*?</noscript>", "", source, flags=re.S) if product == "phenom" else source
+    parser.feed(parsed_source)
     errors: list[str] = []
     contract = PRODUCT_CONTRACTS.get(product or "")
     is_phenom = product == "phenom"
@@ -474,9 +482,10 @@ def check_page(
     if parser.images != expected_images:
         errors.append(f"{path}: expected {expected_images} img elements, found {parser.images}")
     expected_pictures = contract["pictures"] if contract else 0
-    if parser.pictures != expected_pictures or parser.webp_sources != expected_pictures:
+    expected_webp = 17 if is_phenom else expected_pictures
+    if parser.pictures != expected_pictures or parser.webp_sources != expected_webp:
         errors.append(
-            f"{path}: expected {expected_pictures} picture/WebP pairs, found "
+            f"{path}: expected {expected_pictures}/{expected_webp} picture/WebP elements, found "
             f"{parser.pictures}/{parser.webp_sources}"
         )
     if any(not alt for alt in parser.image_alts):
