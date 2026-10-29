@@ -439,61 +439,61 @@
       {
         "width": 768,
         "height": 512,
-        "file": "04-curves-outer-columns-revision74-768-q95.webp",
-        "bytes": 18530,
-        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-768-q95.webp",
-        "sha256": "a1c9f32772feaa0b8e17041da411822c2e51906fced790e484cd921e0983eeee"
+        "file": "04-curves-outer-columns-768-lossless133.webp",
+        "bytes": 87494,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-768-lossless133.webp",
+        "sha256": "9bbcc3b06fed666dc21620a0507e4cd21e081d41805448d8596b0b6c04d9d765"
       },
       {
         "width": 960,
         "height": 640,
-        "file": "04-curves-outer-columns-revision74-960-q95.webp",
-        "bytes": 26582,
-        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-960-q95.webp",
-        "sha256": "d644203a81cccc5230356bc4a541dcd60f58d8dda218564b311ced33b015889c"
+        "file": "04-curves-outer-columns-960-lossless133.webp",
+        "bytes": 133538,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-960-lossless133.webp",
+        "sha256": "82325447444c551535691bd379e4cb10d464c2221252a6bd4dce5cc3edea0188"
       },
       {
         "width": 1200,
         "height": 800,
-        "file": "04-curves-outer-columns-revision74-1200-q95.webp",
-        "bytes": 36942,
-        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-1200-q95.webp",
-        "sha256": "edb4ff8ba228a9561e80b8ef957b1853fa1fb91d7cc38f094572a30d29bc44e2"
+        "file": "04-curves-outer-columns-1200-lossless133.webp",
+        "bytes": 207304,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-1200-lossless133.webp",
+        "sha256": "1e7a218aac3d39c3b707e43afba76ea033b63d0e67370d69cedb5e8713ccd4fc"
       },
       {
         "width": 1536,
         "height": 1024,
-        "file": "04-curves-outer-columns-revision74-1536-q95.webp",
-        "bytes": 55098,
-        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-1536-q95.webp",
-        "sha256": "1b6fad9341f82385b25e16d9e5b94bef57aec1d4b5fed11bb64154bd455377e6"
+        "file": "04-curves-outer-columns-1536-lossless133.webp",
+        "bytes": 344308,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-1536-lossless133.webp",
+        "sha256": "07d090649173f177f48a1084ec183566604e3c72a4f32eaf73687075ce459465"
       },
       {
         "width": 1920,
         "height": 1280,
-        "file": "04-curves-outer-columns-revision74-1920-q95.webp",
-        "bytes": 81774,
-        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-1920-q95.webp",
-        "sha256": "68a4acbfe03713f8ba7b3490d7535d7f641ba9da32f86c77917c3d42943ad9c5"
+        "file": "04-curves-outer-columns-1920-lossless133.webp",
+        "bytes": 559122,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-1920-lossless133.webp",
+        "sha256": "869e72429939fc8f8d1406ba66c3c0b5d6f3278c52e74ccc47a234358cc1e759"
       },
       {
         "width": 2304,
         "height": 1536,
-        "file": "04-curves-outer-columns-revision74-2304-q95.webp",
-        "bytes": 115406,
-        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-2304-q95.webp",
-        "sha256": "7e05625c0ac2f7de423a3f0a4ce282e36299927ee3f93207f94eff0099360cd8"
+        "file": "04-curves-outer-columns-2304-lossless133.webp",
+        "bytes": 824616,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-2304-lossless133.webp",
+        "sha256": "e4bf58add1246772500b13dbad4dff69dc297cdbf0cb3156c3da202aad27abe6"
       },
       {
         "width": 3072,
         "height": 2048,
-        "file": "04-curves-outer-columns-revision74-3072-q95.webp",
-        "bytes": 231246,
-        "path": "images/products/phenom/delivery47/04-curves-outer-columns-revision74-3072-q95.webp",
-        "sha256": "0fb48903794af4f67cc0a4d941dc535a15c8d98ba50be1087cb6a8466ded239a"
+        "file": "04-curves-outer-columns-3072-lossless133.webp",
+        "bytes": 1583262,
+        "path": "images/products/phenom/delivery47/04-curves-outer-columns-3072-lossless133.webp",
+        "sha256": "42dc2fb9f8f9a88d247f5b3ac4c00d4410de021d59d4c5bb0fdf3b4c2fa9816d"
       }
     ],
-    "masterSHA256": "33f67dfd1df8ea982a12fc90c83256ffdc9dffeb64ee78065aab6c1f2fa537dc"
+    "masterSHA256": "07130c7938b2894f56360f61dca09eb503921d2a0f6c24f06e818766d5009eca"
   },
   "04-curves-thumb-arc.jpg": {
     "sizes": "(max-width: 980px) 70vw, 46vw",
@@ -563,61 +563,61 @@
       {
         "width": 768,
         "height": 512,
-        "file": "04-curves-side-profile-revision74-768-q95.webp",
-        "bytes": 21218,
-        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-768-q95.webp",
-        "sha256": "48fc8d41e603934de7965334e0384ee5b846fce60a218ff3e9db971dc3982681"
+        "file": "04-curves-side-profile-768-lossless133.webp",
+        "bytes": 94840,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-768-lossless133.webp",
+        "sha256": "603e2e78280489a2b1c408a4ca7310bc3e2d0e21d9b6f8becec1d13f5e9308ab"
       },
       {
         "width": 960,
         "height": 640,
-        "file": "04-curves-side-profile-revision74-960-q95.webp",
-        "bytes": 29582,
-        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-960-q95.webp",
-        "sha256": "701c0e9a53af398d69a5a8059ebfaed967f38247efa7545cfc9e1110a1762e27"
+        "file": "04-curves-side-profile-960-lossless133.webp",
+        "bytes": 143040,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-960-lossless133.webp",
+        "sha256": "cf39465d3c3730bf08f2d9439283b9130cd955c3b8ac6bfbe127794023366785"
       },
       {
         "width": 1200,
         "height": 800,
-        "file": "04-curves-side-profile-revision74-1200-q95.webp",
-        "bytes": 43990,
-        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-1200-q95.webp",
-        "sha256": "8d3614418ceaf7db12b6c2e0de733eb11660c3f5576aa747fea7b4b52ed20c3a"
+        "file": "04-curves-side-profile-1200-lossless133.webp",
+        "bytes": 221962,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-1200-lossless133.webp",
+        "sha256": "6034d49633804d22d9638853cb42201b6b378a98157ec5512fced361c6753b43"
       },
       {
         "width": 1536,
         "height": 1024,
-        "file": "04-curves-side-profile-revision74-1536-q95.webp",
-        "bytes": 62612,
-        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-1536-q95.webp",
-        "sha256": "401e89a6fd3f53841226c1dc1d7e0fb07ef45381600e630112058e44813ff5ec"
+        "file": "04-curves-side-profile-1536-lossless133.webp",
+        "bytes": 364752,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-1536-lossless133.webp",
+        "sha256": "e82d01c139090e0be133ed945a3254f588fc7ab6b86405fc99f9b1c1494e1ad5"
       },
       {
         "width": 1920,
         "height": 1280,
-        "file": "04-curves-side-profile-revision74-1920-q95.webp",
-        "bytes": 93758,
-        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-1920-q95.webp",
-        "sha256": "df77cf32d61a9a620143e407ebf0624028ef23dbe57e8ef2a7c5d79a025437ce"
+        "file": "04-curves-side-profile-1920-lossless133.webp",
+        "bytes": 588224,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-1920-lossless133.webp",
+        "sha256": "b61b15965c0a8c49d0a8fdecfe64bd94890f37474941e283deee68d7ebf65877"
       },
       {
         "width": 2304,
         "height": 1536,
-        "file": "04-curves-side-profile-revision74-2304-q95.webp",
-        "bytes": 134754,
-        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-2304-q95.webp",
-        "sha256": "fb1ccc7cf58d2198c0fa06bddec5ab9294e8933cebd82835099a07c7d2d47834"
+        "file": "04-curves-side-profile-2304-lossless133.webp",
+        "bytes": 867814,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-2304-lossless133.webp",
+        "sha256": "64bf93a4bfb97dd61fcda4819721a98df98254bd5671c0d0de3c68cd0e68936e"
       },
       {
         "width": 3072,
         "height": 2048,
-        "file": "04-curves-side-profile-revision74-3072-q95.webp",
-        "bytes": 255554,
-        "path": "images/products/phenom/delivery47/04-curves-side-profile-revision74-3072-q95.webp",
-        "sha256": "e0a0e83cc99495e644c2a9d58a774e79cb4df2e30e3cf4ef97533d0b243d0c34"
+        "file": "04-curves-side-profile-3072-lossless133.webp",
+        "bytes": 1646174,
+        "path": "images/products/phenom/delivery47/04-curves-side-profile-3072-lossless133.webp",
+        "sha256": "57d464b672d66cee1b051746fc5ed25420fcda6f3d974d8763c37e6153ca515f"
       }
     ],
-    "masterSHA256": "fddc516cce85450acfe9d6ce6c9900be4c64b7dd6a3ab7cd3528f23b3880e0c9"
+    "masterSHA256": "9b762a09d8112fe93ff8075aee58427c1e06fa17449452498f9305cfd84baaf6"
   },
   "05-finger-geometry-desktop.jpg": {
     "sizes": "(max-width: 980px) 155vw, max(100vw, 170vh)",
@@ -625,61 +625,61 @@
       {
         "width": 960,
         "height": 640,
-        "file": "05-finger-geometry-desktop-960-q95.webp",
-        "bytes": 79258,
-        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-960-q95.webp",
-        "sha256": "0a8fae103da49b4234460ddc21f9d660f4428abfc383edbdce06cd36f3831b1c"
+        "file": "05-finger-geometry-desktop-960-q92.webp",
+        "bytes": 66130,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-960-q92.webp",
+        "sha256": "2406e7265f41f0555954edd7777dd48d925eaf4b84296f075e4e4ef98a19062d"
       },
       {
         "width": 1536,
         "height": 1024,
-        "file": "05-finger-geometry-desktop-1536-q95.webp",
-        "bytes": 211612,
-        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-1536-q95.webp",
-        "sha256": "92514e46c1f846e271dd8c8faf2c657cd772300a3f528ab3b77b91f7f891368c"
+        "file": "05-finger-geometry-desktop-1536-q92.webp",
+        "bytes": 238856,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-1536-q92.webp",
+        "sha256": "90fc59a10e156d9568c374a84154367f91f3f0746d79e8fef669391bf0eb4731"
       },
       {
         "width": 2304,
         "height": 1536,
-        "file": "05-finger-geometry-desktop-2304-q95.webp",
-        "bytes": 598258,
-        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-2304-q95.webp",
-        "sha256": "be3139e985b7ba487abd4894507b11b6e5c7c661a4b3c96910970d53da2233a7"
+        "file": "05-finger-geometry-desktop-2304-q92.webp",
+        "bytes": 707836,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-2304-q92.webp",
+        "sha256": "14728947eba710dc87e47e3e19a9bf493f736dbc6b1144961ca7817a555e6af8"
       },
       {
         "width": 3072,
         "height": 2048,
-        "file": "05-finger-geometry-desktop-3072-q95.webp",
-        "bytes": 1068706,
-        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-3072-q95.webp",
-        "sha256": "5bf8a1baab8bd7900c0a75ae309fc1196f7144a3f70d583f533ffe8f262f989e"
+        "file": "05-finger-geometry-desktop-3072-q92.webp",
+        "bytes": 1261386,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-3072-q92.webp",
+        "sha256": "25fb5384c94247c6f820bbfbd6774beb3e017cd9b17959f1a04c44d6646c9043"
       },
       {
         "width": 3840,
         "height": 2560,
-        "file": "05-finger-geometry-desktop-3840-q95.webp",
-        "bytes": 1537038,
-        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-3840-q95.webp",
-        "sha256": "4f400ad5a6a54f0e3ab9df2f2638f46935c591970e947ceadde0450fe50298e6"
+        "file": "05-finger-geometry-desktop-3840-q92.webp",
+        "bytes": 1819674,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-3840-q92.webp",
+        "sha256": "670a3d94595deaaa58590ffb031f05515cf35e1d73dd22a969341c35647b9361"
       },
       {
         "width": 4608,
         "height": 3072,
-        "file": "05-finger-geometry-desktop-4608-q95.webp",
-        "bytes": 1996084,
-        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-4608-q95.webp",
-        "sha256": "5a3a32bef5e554428bd9ed277f983a36fa18f7ce22d851171da8a612db34858e"
+        "file": "05-finger-geometry-desktop-4608-q92.webp",
+        "bytes": 2337382,
+        "path": "images/products/phenom/delivery49/05-finger-geometry-desktop-4608-q92.webp",
+        "sha256": "66ba408685ed637d9e866d4f5fcec477e3cb755541699ef320206c9291353d4b"
       },
       {
         "width": 6000,
         "height": 4000,
-        "file": "05-finger-geometry-desktop-6000-q95.webp",
-        "bytes": 2901010,
-        "path": "images/products/phenom/delivery47/05-finger-geometry-desktop-6000-q95.webp",
-        "sha256": "98f8a40691b4ff8bd53be5ae3171d127e75ef884e4c2e96c44be5eef1fe44288"
+        "file": "05-finger-geometry-desktop-6000-q92.webp",
+        "bytes": 3359936,
+        "path": "images/products/phenom/delivery47/05-finger-geometry-desktop-6000-q92.webp",
+        "sha256": "331d326ee4500d27ba18b1e99182a0a6543afb4c07e4b270191fb45a51939b34"
       }
     ],
-    "masterSHA256": "1705a2f60303b8080a179a7d7c2a5efc47ef555456f9732a31d0a4fd0a797890"
+    "masterSHA256": "6bbbf544068bab7eb8bdd82fc719338082c2584d95b7d13616cb1ddbbd08a491"
   },
   "01-hero-detail.jpg": {
     "sizes": "(max-width: 980px) 125vw, max(100vw, 150vh)",
@@ -687,61 +687,61 @@
       {
         "width": 960,
         "height": 640,
-        "file": "01-hero-detail-960-q95-92.webp",
-        "bytes": 31822,
-        "path": "images/products/phenom/delivery56/01-hero-detail-960-q95-92.webp",
-        "sha256": "1957e86d0ec0e5703f54790dad6a28ee0cd0fbf4e476b421f323b3b913bed9b2"
+        "file": "01-hero-detail-960-lossless133.webp",
+        "bytes": 113770,
+        "path": "images/products/phenom/delivery56/01-hero-detail-960-lossless133.webp",
+        "sha256": "9e2fd393656002b8d304e0b410190ed6043feaa1be292e3ad5ffdedbc1be7e94"
       },
       {
         "width": 1536,
         "height": 1024,
-        "file": "01-hero-detail-1536-q95-92.webp",
-        "bytes": 63794,
-        "path": "images/products/phenom/delivery56/01-hero-detail-1536-q95-92.webp",
-        "sha256": "a99866bc5c8631c4f20b3c87657bf25f07bad76da2bc9843f1850c4bd23b13ed"
+        "file": "01-hero-detail-1536-lossless133.webp",
+        "bytes": 290352,
+        "path": "images/products/phenom/delivery56/01-hero-detail-1536-lossless133.webp",
+        "sha256": "985a661127ca99d41bdc06020436d757b7a3cb18ef338947fdd6e2d049507a57"
       },
       {
         "width": 2304,
         "height": 1536,
-        "file": "01-hero-detail-2304-q95-92.webp",
-        "bytes": 131564,
-        "path": "images/products/phenom/delivery56/01-hero-detail-2304-q95-92.webp",
-        "sha256": "e91a4f171fa742dbca4fe5ea179f8e0b41537532831a3089976476816d67c325"
+        "file": "01-hero-detail-2304-lossless133.webp",
+        "bytes": 682174,
+        "path": "images/products/phenom/delivery56/01-hero-detail-2304-lossless133.webp",
+        "sha256": "aa8b11506f0ad7bd94fa63ccb40e48773b1d0784485a22afa61235095e0049eb"
       },
       {
         "width": 3072,
         "height": 2048,
-        "file": "01-hero-detail-3072-q95-92.webp",
-        "bytes": 237592,
-        "path": "images/products/phenom/delivery56/01-hero-detail-3072-q95-92.webp",
-        "sha256": "44673ac5d6c4322724cfb0915dace9a15b282a93f86df23b6affad22f5fab432"
+        "file": "01-hero-detail-3072-lossless133.webp",
+        "bytes": 1238926,
+        "path": "images/products/phenom/delivery56/01-hero-detail-3072-lossless133.webp",
+        "sha256": "cb8a3f6ee0dadc1bc1bb3e70ad5c04cdbed8f1666c1ea70459c3bfaa704a13b1"
       },
       {
         "width": 3840,
         "height": 2560,
-        "file": "01-hero-detail-3840-q95-92.webp",
-        "bytes": 391056,
-        "path": "images/products/phenom/delivery56/01-hero-detail-3840-q95-92.webp",
-        "sha256": "1015ab00b865a371a0ac0ada634df1b4657f57b70b138342e2c7b2bc1eff3440"
+        "file": "01-hero-detail-3840-lossless133.webp",
+        "bytes": 1977912,
+        "path": "images/products/phenom/delivery56/01-hero-detail-3840-lossless133.webp",
+        "sha256": "8a29b3191f95c2156839fe237fc6d767e03fc65566b13cf05dd47d1161414ac7"
       },
       {
         "width": 4608,
         "height": 3072,
-        "file": "01-hero-detail-4608-q95-92.webp",
-        "bytes": 572086,
-        "path": "images/products/phenom/delivery56/01-hero-detail-4608-q95-92.webp",
-        "sha256": "07e10d0c212955706800d0c6d3d93ff7bbf52dfd89863031fd88bc682e8dfd44"
+        "file": "01-hero-detail-4608-lossless133.webp",
+        "bytes": 2824218,
+        "path": "images/products/phenom/delivery56/01-hero-detail-4608-lossless133.webp",
+        "sha256": "3c81829b5613424a7a8c3a7e1eb7583f2188fee18d7c6be5022b5d2aaf441d18"
       },
       {
         "width": 6000,
         "height": 4000,
-        "file": "01-hero-detail-6000-q95-92.webp",
-        "bytes": 958296,
-        "path": "images/products/phenom/delivery56/01-hero-detail-6000-q95-92.webp",
-        "sha256": "51071e6ee1aab37099f72b50333e9bc8e2e0510067b29a03a47a3b959b5d735d"
+        "file": "01-hero-detail-6000-lossless133.webp",
+        "bytes": 4207922,
+        "path": "images/products/phenom/delivery56/01-hero-detail-6000-lossless133.webp",
+        "sha256": "c852c3a4c112c74bd12f5955e334f7ca3c8df4b277380d5389b7c6f8a5ca3099"
       }
     ],
-    "masterSHA256": "b174444488340ce91275a280667c366a4e6b4465128baa4a6373b93f39bced7b"
+    "masterSHA256": "94bfe7901aaed47e2597c8d1afde5152d8109b6a3c3a02847abf58e53f465e9b"
   },
   "01-hero.jpg": {
     "sizes": "(max-width: 980px) 128vw, min(128vw, 192vh)",
@@ -749,61 +749,61 @@
       {
         "width": 960,
         "height": 640,
-        "file": "01-hero-revision74-960-q95.webp",
-        "bytes": 41816,
-        "path": "images/products/phenom/delivery47/01-hero-revision74-960-q95.webp",
-        "sha256": "555f7214d5a05973afa50943023e9aeaeea8d4badf6955378021e7673197304b"
+        "file": "01-hero-960-lossless133.webp",
+        "bytes": 148964,
+        "path": "images/products/phenom/delivery47/01-hero-960-lossless133.webp",
+        "sha256": "6abb05fcc0e57b60cc3822e9c88d20e8869bec147dff39a88410949e573e271b"
       },
       {
         "width": 1536,
         "height": 1024,
-        "file": "01-hero-revision74-1536-q95.webp",
-        "bytes": 88208,
-        "path": "images/products/phenom/delivery47/01-hero-revision74-1536-q95.webp",
-        "sha256": "41419ca2be30ac380803a5258e68315f2927ac6f14fc7921615ffbe495518e3b"
+        "file": "01-hero-1536-lossless133.webp",
+        "bytes": 380814,
+        "path": "images/products/phenom/delivery47/01-hero-1536-lossless133.webp",
+        "sha256": "ae4e136c7890e8073452ce588988c7343ddf1b39b9f25db9131ae8fe9e3f7d21"
       },
       {
         "width": 2304,
         "height": 1536,
-        "file": "01-hero-revision74-2304-q95.webp",
-        "bytes": 181186,
-        "path": "images/products/phenom/delivery47/01-hero-revision74-2304-q95.webp",
-        "sha256": "1103de55ebef582384f761d33f99f4330eb97b2ef983e2a8fe27fa0715733609"
+        "file": "01-hero-2304-lossless133.webp",
+        "bytes": 900532,
+        "path": "images/products/phenom/delivery47/01-hero-2304-lossless133.webp",
+        "sha256": "4818955b7c81e0f124c88aa671d132e05aec4fce8c861e36b42080c5119824cc"
       },
       {
         "width": 3072,
         "height": 2048,
-        "file": "01-hero-revision74-3072-q95.webp",
-        "bytes": 338328,
-        "path": "images/products/phenom/delivery47/01-hero-revision74-3072-q95.webp",
-        "sha256": "ff546dd8e28b45ea737597358657dd71adadca32eaf2bfb2f9d9fc8f36bb47a8"
+        "file": "01-hero-3072-lossless133.webp",
+        "bytes": 1694090,
+        "path": "images/products/phenom/delivery47/01-hero-3072-lossless133.webp",
+        "sha256": "384723978da44131be513e4543cf4be7f9126187a3140bcd9a65f5e7c8fa2d90"
       },
       {
         "width": 3840,
         "height": 2560,
-        "file": "01-hero-revision74-3840-q95.webp",
-        "bytes": 566452,
-        "path": "images/products/phenom/delivery47/01-hero-revision74-3840-q95.webp",
-        "sha256": "5e2be2f9679972eac941e69b3411e1979911bf8988ba1d434767cd4e4288fa8a"
+        "file": "01-hero-3840-lossless133.webp",
+        "bytes": 2757596,
+        "path": "images/products/phenom/delivery47/01-hero-3840-lossless133.webp",
+        "sha256": "7465f6dce797a9aca722612e4d434f1031822e73370009cfe0ff9b3e596c9a0c"
       },
       {
         "width": 4608,
         "height": 3072,
-        "file": "01-hero-revision74-4608-q95.webp",
-        "bytes": 860350,
-        "path": "images/products/phenom/delivery47/01-hero-revision74-4608-q95.webp",
-        "sha256": "b035cd1a7e75068c747c8b4e3bb01b745f6b089694979c8a36b4c4aec85712ab"
+        "file": "01-hero-4608-lossless133.webp",
+        "bytes": 4002078,
+        "path": "images/products/phenom/delivery47/01-hero-4608-lossless133.webp",
+        "sha256": "7be5edea1d53cd406a863b6d7a2627feba8a33b9551aca88d5119923d86cdb39"
       },
       {
         "width": 6000,
         "height": 4000,
-        "file": "01-hero-revision74-6000-q95.webp",
-        "bytes": 1510308,
-        "path": "images/products/phenom/delivery47/01-hero-revision74-6000-q95.webp",
-        "sha256": "b22fcf1b0fc6e4eefbba4b719fede7a1890f259fc413a6d3b99b281db45a993d"
+        "file": "01-hero-6000-lossless133.webp",
+        "bytes": 6174580,
+        "path": "images/products/phenom/delivery47/01-hero-6000-lossless133.webp",
+        "sha256": "c575932f144b19202665338f79903351feaff419df31996aec13c6267faa29b3"
       }
     ],
-    "masterSHA256": "0900ad8658fdb4ef7ce5c01af47b5894c012bd830a8ef1e083cf66e145655635"
+    "masterSHA256": "e4229e834f7dff316193c4b28e27feb434c32e9944f807e9f260ff8f60a22716"
   },
   "03-modularity-trackballs.jpg": {
     "sizes": "(max-width: 980px) 187.5vw, max(115vw, 195.5vh)",
@@ -811,61 +811,61 @@
       {
         "width": 960,
         "height": 640,
-        "file": "03-modularity-trackballs-modularity82-960-q95.webp",
-        "bytes": 21918,
-        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-960-q95.webp",
-        "sha256": "801bdc2f2ae5ad75fa351fb96bcb1eee467388a53df87f98f2d3a1a7220ae534"
+        "file": "03-modularity-trackballs-960-lossless133.webp",
+        "bytes": 110046,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-960-lossless133.webp",
+        "sha256": "9f936f0433cebe0404f4497fe0b686d874a22362a941a6e92833e19785638080"
       },
       {
         "width": 1536,
         "height": 1024,
-        "file": "03-modularity-trackballs-modularity82-1536-q95.webp",
-        "bytes": 47116,
-        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-1536-q95.webp",
-        "sha256": "badace78f5f9856a1906b6d2571a07a6a596114067c0106a081728a9bd8ae333"
+        "file": "03-modularity-trackballs-1536-lossless133.webp",
+        "bytes": 283022,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-1536-lossless133.webp",
+        "sha256": "c64e27ae6def39505c60d6942edb7037a96653b204f15a9be56da96b0cc363e3"
       },
       {
         "width": 2304,
         "height": 1536,
-        "file": "03-modularity-trackballs-modularity82-2304-q95.webp",
-        "bytes": 99100,
-        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-2304-q95.webp",
-        "sha256": "b9fd4e77670ada57bf43dac8622e5573e93ab5658f5038ccf22edf892f28ccdf"
+        "file": "03-modularity-trackballs-2304-lossless133.webp",
+        "bytes": 675234,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-2304-lossless133.webp",
+        "sha256": "23b0a9eda0afccf2708fe9f8ff522b954bc16a27002f6c2373f1018007cd10a9"
       },
       {
         "width": 3072,
         "height": 2048,
-        "file": "03-modularity-trackballs-modularity82-3072-q95.webp",
-        "bytes": 169158,
-        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-3072-q95.webp",
-        "sha256": "ebc67dfb1ae74bfc4838ee23481ff6394e9cdc1ca1dca55ad64554f882b9c88d"
+        "file": "03-modularity-trackballs-3072-lossless133.webp",
+        "bytes": 1226074,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-3072-lossless133.webp",
+        "sha256": "c8135f4ddedd784025134cd355c468824f55b22a3354ebff04a96b5e9331839b"
       },
       {
         "width": 3840,
         "height": 2560,
-        "file": "03-modularity-trackballs-modularity82-3840-q95.webp",
-        "bytes": 262326,
-        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-3840-q95.webp",
-        "sha256": "d6f10886d0dea5a5d9773157aba9c9c88f156d8a53b02cb0493f08208c8584e5"
+        "file": "03-modularity-trackballs-3840-lossless133.webp",
+        "bytes": 1968240,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-3840-lossless133.webp",
+        "sha256": "377ed03234720e4bc0afd007c213c938f215ecb5ae2edd95de42031db76ce75e"
       },
       {
         "width": 4608,
         "height": 3072,
-        "file": "03-modularity-trackballs-modularity82-4608-q95.webp",
-        "bytes": 365360,
-        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-4608-q95.webp",
-        "sha256": "083dfaed703dfe082a5ed1b4de5ceb60ffbeaf66b6b2609a21f28d6110c368e5"
+        "file": "03-modularity-trackballs-4608-lossless133.webp",
+        "bytes": 2769116,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-4608-lossless133.webp",
+        "sha256": "e9fb3bb92bbd418788204faaeac75a59ab962205db0dc781a59a83f7b1651dd4"
       },
       {
         "width": 6000,
         "height": 4000,
-        "file": "03-modularity-trackballs-modularity82-6000-q95.webp",
-        "bytes": 588238,
-        "path": "images/products/phenom/delivery49/03-modularity-trackballs-modularity82-6000-q95.webp",
-        "sha256": "9c6bea1a795b3cb169de478828c21c066eae1019b320a6091958d1604f77f75b"
+        "file": "03-modularity-trackballs-6000-lossless133.webp",
+        "bytes": 4129696,
+        "path": "images/products/phenom/delivery49/03-modularity-trackballs-6000-lossless133.webp",
+        "sha256": "7e47f7f1b495eae3b3c78845e455f45a9db97027d86d9c762e9e471fb1b192e4"
       }
     ],
-    "masterSHA256": "fc6c3d0466df6757c2cdc34450771b26d70f5c5b5d9ae6180b55ee24b61a69f6"
+    "masterSHA256": "cae6bc395e7bb11c909221ecddc29deeda778c6b9b241ebb04171917dca65105"
   },
   "06-additive-manufacturing.jpg": {
     "sizes": "(max-width: 980px) 155vw, max(100vw, 170vh)",
