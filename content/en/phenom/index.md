@@ -253,7 +253,7 @@ story_chapters:
       - title: Modules
         items:
           - label: Trackball
-            value: "38 mm diameter ball"
+            value: "32 mm diameter ball"
           - label: Touchpad
             value: "43 × 40 mm touch surface"
           - label: Encoder
