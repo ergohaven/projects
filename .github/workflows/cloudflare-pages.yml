@@ -9,15 +9,13 @@ on:
         type: string
   push:
     branches: [main]
-    paths: ['.github/workflows/cloudflare-pages.yml', 'scripts/**']
   pull_request:
-    paths: ['.github/workflows/cloudflare-pages.yml', 'scripts/**']
 
 permissions:
   contents: read
 
 concurrency:
-  group: cloudflare-phenom-${{ github.event_name == 'workflow_dispatch' && 'production' || github.ref }}
+  group: cloudflare-phenom-${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && 'production' || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -64,9 +62,10 @@ jobs:
       - name: Install validation dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends ripgrep
+          sudo apt-get install -y --no-install-recommends ripgrep python3-yaml
       - name: Offline helper tests and owning build/check
         run: |
+          /usr/bin/python3 trusted/scripts/test_cloudflare_workflow.py -v
           python3 trusted/scripts/test_cloudflare_pages.py -v
           python3 trusted/scripts/test_stage_production.py -v
           cd source
@@ -94,7 +93,7 @@ jobs:
 
   publish:
     needs: build
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
