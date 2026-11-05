@@ -17,6 +17,9 @@ outputs:
 minify:
   minifyOutput: true
 
+params:
+  defaultLocaleBaseURL: https://projects.eh.industries/
+
 languages:
   en:
     locale: en-US

@@ -35,7 +35,24 @@ The development server renders English at `/` and Russian at `/ru/`.
 - `public/en/` → `https://projects.eh.industries/`
 - `public/ru/` → `https://projects.eh.works/`
 
-## Production deployment: Cloudflare Pages
+## Primary publication: GitHub Pages (Phenom only)
+
+[`pages.yml`](.github/workflows/pages.yml) automatically validates and publishes every push to `main` at **https://ergohaven.github.io/projects/**. English is `/projects/phenom/`; Russian is `/projects/ru/phenom/`. The project root and `/projects/ru/` redirect to their respective Phenom landing. These Pages URLs are primary canonicals, hreflang and locale-navigation destinations. No DNS or custom-domain change is required.
+
+The native multilingual Hugo build retains shared assets at the project root. `stage_production.py --github-pages --pages-base-url <base_url>` reuses the production scoping rules to compose only the two Phenom HTML pages, two localized 404s, two root redirects, shared assets and filtered EN/RU sitemaps. K:04, Macropad and the product menu HTML are not uploaded. Shared head templates generate metadata URLs from Hugo resources and locale configuration; staging copies landing HTML byte-for-byte. Content, CSS and JavaScript are unchanged; ordinary domain-root staging keeps its original behavior.
+
+The workflow runs the full shared product checks, staging regression tests and a Pages-specific inventory/resource/SRI/canonical/hreflang/navigation check **before** uploading `public-pages`, never the unfiltered `public-pages-build`. It preserves pinned Actions, least-privilege build/deploy permissions and non-cancelling publication concurrency. GitHub Pages must use **GitHub Actions** as its source; a green build alone is not proof of successful deployment. Use the existing manual workflow dispatch on an approved revision for explicit republication; normal content updates only need a push/merge to `main`.
+
+Local verification (new staging destination required):
+
+```sh
+bash scripts/hugo.sh --config hugo.yaml,config/github-pages.yaml --baseURL https://ergohaven.github.io/projects/ --destination public-pages-build --environment production --gc --minify --panicOnWarning --printPathWarnings
+python3 scripts/test_stage_production.py -v
+python3 scripts/stage_production.py --github-pages --source public-pages-build --destination public-pages --page phenom --language en --pages-base-url https://ergohaven.github.io/projects/
+python3 scripts/check_github_pages.py --public public-pages --pages-base-url https://ergohaven.github.io/projects/
+```
+
+## Fallback deployment: Cloudflare Pages
 
 Use [`cloudflare-pages.yml`](.github/workflows/cloudflare-pages.yml) in `ergohaven/projects` for durable **Direct Upload via GitHub Actions + Wrangler**. Every push/merge to `main` validates, builds and publishes both languages from that exact commit: RU to `projects.eh.works`, EN to `projects.eh.industries`. Content, assets, templates and configuration updates need no separate deployment action. No dashboard ZIP updates or native Cloudflare Git integration are needed. Pull requests build and validate without Cloudflare credentials and never publish production.
 
@@ -72,12 +89,12 @@ The staging destination must be new. Do not manually run the credentialed `publi
 
 ### Legacy GitHub Pages (retained for rollback)
 
-The existing preview and [`production-pages.yml`](.github/workflows/production-pages.yml) workflows and deployment repositories remain unchanged. The older GitHub Pages path below is retained for rollback, **not the Cloudflare setup procedure**. Source remains in this repository. Two small deployment repositories call the shared, SHA-pinned workflow:
+The existing Pages workflow above is primary. The separate [`production-pages.yml`](.github/workflows/production-pages.yml) workflow and deployment repositories remain unchanged. The older GitHub Pages path below is retained for rollback, **not the Cloudflare setup procedure**. Source remains in this repository. Two small deployment repositories call the shared, SHA-pinned workflow:
 
 - `ergohaven/projects-ru` → `https://projects.eh.works/phenom/`
 - `ergohaven/projects-en` → `https://projects.eh.industries/phenom/`
 
-Production publishes **Phenom only**, its shared assets, a 404 page, and a sitemap containing only the published landing. The domain root redirects to `/phenom/`, so the existing home link remains useful without exposing the draft product menu. K:04 and Macropad remain available in the existing GitHub preview, not in production. No page templates or copy are changed by deployment.
+Production publishes **Phenom only**, its shared assets, a 404 page, and a sitemap containing only the published landing. The domain root redirects to `/phenom/`, so the existing home link remains useful without exposing the draft product menu. K:04 and Macropad remain available in local full-site previews, not in the primary Pages publication. No page templates or copy are changed by deployment.
 
 To publish an approved source commit, run the **Deploy production landing** workflow in both deployment repositories with the same full `source_ref` SHA:
 
@@ -86,7 +103,7 @@ gh workflow run deploy.yml --repo ergohaven/projects-ru -f source_ref=<approved-
 gh workflow run deploy.yml --repo ergohaven/projects-en -f source_ref=<approved-source-sha>
 ```
 
-Publishing is explicit: changing source or the GitHub preview does **not** silently promote a draft to production. Build and deploy run in the target repository with its own GitHub token; no cross-repository deployment secret is stored. Each run records the resolved source SHA in its summary. Re-run with a previous approved SHA to roll back. The pinned reusable-workflow revision must be updated in both deployment repositories when changing deployment logic.
+Publishing to these separate legacy repositories is explicit; this does not change the primary Pages workflow’s automatic `main` publication. Build and deploy run in the target repository with its own GitHub token; no cross-repository deployment secret is stored. Each run records the resolved source SHA in its summary. Re-run with a previous approved SHA to roll back. The pinned reusable-workflow revision must be updated in both deployment repositories when changing deployment logic.
 
 For a local production artifact after `./scripts/check.sh`:
 

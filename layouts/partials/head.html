@@ -29,7 +29,7 @@
 <link rel="canonical" href="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
 <link rel="alternate" hreflang="{{ site.Params.alternateLanguage }}" href="{{ $alternateURL }}">
 <link rel="alternate" hreflang="{{ site.Language.Lang }}" href="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
-<link rel="alternate" hreflang="x-default" href="{{ printf "https://projects.eh.industries/%s" $alternatePath }}">
+<link rel="alternate" hreflang="x-default" href="{{ printf "%s%s" site.Params.defaultLocaleBaseURL $alternatePath }}">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ergohaven Projects">

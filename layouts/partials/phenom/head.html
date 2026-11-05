@@ -30,7 +30,7 @@
 {{ $description := .Params.description | default site.Home.Params.description }}
 {{ $shareSource := resources.Get .Params.hero_image }}
 {{ $shareImage := $shareSource.Fill "1200x630 Center jpg q90" }}
-{{ $shareURL := printf "%s%s" (strings.TrimSuffix "/" site.Params.localeDomain) $shareImage.RelPermalink }}
+{{ $shareURL := $shareImage.Permalink }}
 {{ $favicon := resources.Get "images/brand/favicon.svg" | fingerprint "sha256" }}
 {{ $faviconDark := resources.Get "images/brand/favicon-dark.svg" | fingerprint "sha256" }}
 {{ $touchIcon := resources.Get "images/brand/apple-touch-icon.png" | fingerprint "sha256" }}
@@ -46,7 +46,7 @@
 <link rel="canonical" href="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
 <link rel="alternate" hreflang="{{ site.Params.alternateLanguage }}" href="{{ $alternateURL }}">
 <link rel="alternate" hreflang="{{ site.Language.Lang }}" href="{{ printf "%s%s" site.Params.localeDomain $alternatePath }}">
-<link rel="alternate" hreflang="x-default" href="{{ printf "https://projects.eh.industries/%s" $alternatePath }}">
+<link rel="alternate" hreflang="x-default" href="{{ printf "%s%s" site.Params.defaultLocaleBaseURL $alternatePath }}">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ergohaven Projects">

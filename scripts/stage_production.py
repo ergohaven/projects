@@ -11,7 +11,10 @@ from urllib.parse import urlsplit
 SITEMAP_NS = "http://www.sitemaps.org/schemas/sitemap/0.9"
 
 
-def stage(source: Path, destination: Path, page: str, language: str) -> None:
+def stage(source: Path, destination: Path, page: str, language: str, *,
+          prefix: str = "/", sitemap_file: Path | None = None, excluded_dirs=()) -> None:
+    if not re.fullmatch(r"/(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*", prefix):
+        raise ValueError("prefix must be an absolute safe URL directory")
     source = source.resolve()
     destination = destination.resolve()
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", page):
@@ -25,13 +28,13 @@ def stage(source: Path, destination: Path, page: str, language: str) -> None:
     if any(path.is_symlink() for path in source.rglob("*")):
         raise ValueError("Hugo output must not contain symbolic links")
 
-    sitemap = ET.parse(source / "sitemap.xml")
+    sitemap = ET.parse(sitemap_file or source / "sitemap.xml")
     root = sitemap.getroot()
     canonical = None
     for entry in list(root):
         location = entry.find(f"{{{SITEMAP_NS}}}loc")
         url = urlsplit(location.text or "") if location is not None else None
-        if location is not None and url and url.scheme == "https" and url.hostname and url.path == f"/{page}/":
+        if location is not None and url and url.scheme == "https" and url.hostname and url.path == f"{prefix}{page}/":
             canonical = location.text
         else:
             root.remove(entry)
@@ -40,6 +43,8 @@ def stage(source: Path, destination: Path, page: str, language: str) -> None:
 
     destination.mkdir(parents=True)
     for path in source.iterdir():
+        if path.name in excluded_dirs:
+            continue
         if path.is_dir():
             # Hugo page directories have an index.html; all other directories are assets.
             if path.name == page or not (path / "index.html").is_file():
@@ -54,10 +59,36 @@ def stage(source: Path, destination: Path, page: str, language: str) -> None:
         '<meta charset="utf-8">\n'
         f'<title>{html.escape(page)}</title>\n'
         f'<link rel="canonical" href="{html.escape(canonical, quote=True)}">\n'
-        f'<meta http-equiv="refresh" content="0; url=/{page}/">\n'
-        f'<a href="/{page}/">{html.escape(page)}</a>\n</html>\n',
+        f'<meta http-equiv="refresh" content="0; url={prefix}{page}/">\n'
+        f'<a href="{prefix}{page}/">{html.escape(page)}</a>\n</html>\n',
         encoding="utf-8",
     )
+
+
+def pages_base(base_url: str) -> tuple[str, str]:
+    parsed = urlsplit(base_url)
+    prefix = parsed.path.rstrip("/") + "/"
+    if (parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password
+            or parsed.query or parsed.fragment
+            or not re.fullmatch(r"/(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*", prefix)):
+        raise ValueError("Pages base URL must be an HTTPS origin with a safe directory path")
+    return f"{parsed.scheme}://{parsed.netloc}{prefix}", prefix
+
+
+def stage_github_pages(source: Path, destination: Path, page: str, language: str, *, base_url: str) -> None:
+    """Compose native multilingual output through the existing scoping owner."""
+    base_url, prefix = pages_base(base_url)
+    stage(source, destination, page, language, prefix=prefix,
+          sitemap_file=source / "en/sitemap.xml", excluded_dirs=("en", "ru"))
+    stage(source / "ru", destination / "ru", page, "ru", prefix=prefix + "ru/")
+    (destination / "en").mkdir()
+    shutil.move(destination / "sitemap.xml", destination / "en/sitemap.xml")
+    index = ET.Element(f"{{{SITEMAP_NS}}}sitemapindex")
+    for locale in ("en", "ru"):
+        entry = ET.SubElement(index, f"{{{SITEMAP_NS}}}sitemap")
+        ET.SubElement(entry, f"{{{SITEMAP_NS}}}loc").text = (
+            f"{base_url}{locale}/sitemap.xml")
+    ET.ElementTree(index).write(destination / "sitemap.xml", encoding="utf-8", xml_declaration=True)
 
 
 def main() -> None:
@@ -66,9 +97,16 @@ def main() -> None:
     parser.add_argument("--destination", required=True, type=Path)
     parser.add_argument("--page", required=True)
     parser.add_argument("--language", required=True, choices=("en", "ru"))
+    parser.add_argument("--github-pages", action="store_true", help="Compose native EN/RU output for Pages")
+    parser.add_argument("--pages-base-url", help="Configure Pages base_url output (required with --github-pages)")
     args = parser.parse_args()
+    if args.github_pages != bool(args.pages_base_url):
+        parser.error("--pages-base-url is required exactly when --github-pages is selected")
     try:
-        stage(args.source, args.destination, args.page, args.language)
+        if args.github_pages:
+            stage_github_pages(args.source, args.destination, args.page, args.language, base_url=args.pages_base_url)
+        else:
+            stage(args.source, args.destination, args.page, args.language)
     except (OSError, ValueError, ET.ParseError) as error:
         parser.exit(1, f"Production staging failed: {error}\n")
 
