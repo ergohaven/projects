@@ -196,6 +196,104 @@ class PublishTests(unittest.TestCase):
 
 
 class AdapterTests(unittest.TestCase):
+    def test_cli_en_only_never_reads_creates_or_publishes_ru(self):
+        import sys
+        module, _, expected, deployment_api = PublishTests().public_probe_fixture()
+        for missing in (False, True):
+            with self.subTest(missing=missing), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                for locale in ("ru", "en"):
+                    page = root / locale / "phenom/index.html"
+                    page.parent.mkdir(parents=True)
+                    page.write_text(locale)
+                (root / "manifest.json").write_text(json.dumps(module.manifest(root, SHA)))
+                calls, commands = [], []
+                def api(method, path, payload=None):
+                    calls.append((method, path, payload))
+                    self.assertNotIn("-ru", path)
+                    if payload:
+                        self.assertEqual(payload["name"], module.PROJECTS["en"])
+                    if len(calls) == 1 and missing:
+                        return None
+                    if method == "POST" or len(calls) <= (3 if missing else 1):
+                        return project(module.PROJECTS["en"])
+                    return deployment_api(method, path, payload)
+                response = unittest.mock.MagicMock()
+                response.__enter__.return_value.read.return_value = b"en"
+                argv = ["cloudflare_pages.py", "publish", "--root", tmp,
+                        "--source-sha", SHA, "--locale", "en", "--wrangler", "pinned-wrangler"]
+                with (patch.object(sys, "argv", argv),
+                      patch.dict("os.environ", {}, clear=True),
+                      patch.object(module, "CloudflareAPI", return_value=api),
+                      patch.object(module.subprocess, "run", side_effect=lambda cmd, **kw: commands.append(cmd)),
+                      patch.object(module, "urlopen", return_value=response)):
+                    try:
+                        module.main()
+                    except SystemExit as error:
+                        self.fail("EN CLI selection was rejected: " + str(error))
+                result = json.loads((root / "publication.json").read_text())
+                self.assertEqual(set(result), {"en"})
+                self.assertEqual(result["en"]["source_sha"], SHA)
+                self.assertEqual(len(commands), 1)
+                self.assertEqual(commands[0][0], "pinned-wrangler")
+                self.assertIn("--project-name=" + module.PROJECTS["en"], commands[0])
+                self.assertIn("--commit-hash=" + SHA, commands[0])
+                self.assertEqual([call[0] for call in calls],
+                                 (["GET", "POST", "GET"] if missing else ["GET"]) + ["GET", "GET"])
+
+    def test_en_selection_still_validates_ru_and_source_sha_before_credentials(self):
+        import sys
+        for corruption in ("ru-content", "ru-missing", "manifest-sha", "requested-sha"):
+            with self.subTest(corruption=corruption), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                for locale in ("ru", "en"):
+                    page = root / locale / "phenom/index.html"
+                    page.parent.mkdir(parents=True)
+                    page.write_text(locale)
+                data = cf.manifest(root, SHA)
+                if corruption == "ru-content":
+                    (root / "ru/phenom/index.html").write_text("tampered")
+                elif corruption == "ru-missing":
+                    (root / "ru/phenom/index.html").unlink()
+                elif corruption == "manifest-sha":
+                    data["source_sha"] = "a" * 40
+                (root / "manifest.json").write_text(json.dumps(data))
+                argv = ["cloudflare_pages.py", "publish", "--root", tmp,
+                        "--source-sha", "a" * 40 if corruption == "requested-sha" else SHA,
+                        "--locale", "en"]
+                with (patch.object(sys, "argv", argv), patch.dict("os.environ", {}, clear=True),
+                      patch.object(cf, "CloudflareAPI") as credentials,
+                      patch.object(cf, "urlopen") as network,
+                      patch.object(cf.subprocess, "run") as run):
+                    with self.assertRaisesRegex(ValueError, "mismatch|missing Phenom"):
+                        cf.main()
+                    credentials.assert_not_called()
+                    network.assert_not_called()
+                    run.assert_not_called()
+                self.assertFalse((root / "publication.json").exists())
+
+    def test_invalid_locale_is_rejected_before_bundle_or_credentials(self):
+        import sys
+        import io
+        for locale in ("de", "EN", "both", "en,ru", ""):
+            argv = ["cloudflare_pages.py", "publish", "--source-sha", SHA, "--locale", locale]
+            with (self.subTest(locale=locale), patch.object(sys, "argv", argv),
+                  patch.dict("os.environ", {}, clear=True), patch("sys.stderr", new_callable=io.StringIO) as stderr,
+                  patch.object(cf, "verify_bundle") as bundle,
+                  patch.object(cf, "CloudflareAPI") as credentials):
+                with self.assertRaises(SystemExit) as raised:
+                    cf.main()
+                self.assertEqual(raised.exception.code, 2)
+                self.assertIn("invalid choice", stderr.getvalue())
+                bundle.assert_not_called()
+                credentials.assert_not_called()
+        for selection in (("en", "de"), ()):
+            with self.subTest(selection=selection):
+                api = unittest.mock.Mock()
+                with self.assertRaisesRegex(ValueError, "unsupported locale"):
+                    cf.preflight(api, selection)
+                api.assert_not_called()
+
     def test_public_probe_identifies_publisher_without_api_credentials(self):
         import sys
         from unittest.mock import MagicMock

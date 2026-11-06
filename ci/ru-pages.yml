@@ -1,0 +1,92 @@
+name: Deploy managed RU Pages
+on:
+  push:
+    branches: [gh-pages]
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.repository == 'ergohaven/projects-ru' && github.ref == 'refs/heads/gh-pages'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify immutable publication (no artifact code execution)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, re, stat
+          from pathlib import Path, PurePosixPath
+          def require(ok, message):
+              if not ok:
+                  raise ValueError(message)
+          def safe(name):
+              p = PurePosixPath(name)
+              require(bool(name) and not p.is_absolute() and p.as_posix() == name
+                      and not any(x in ('.', '..', '.git') for x in p.parts)
+                      and not any(ord(c) < 32 or c in '\\\x7f' for c in name), 'unsafe path')
+              require(not name.lower().endswith('.html') or name in
+                      ('index.html', '404.html', 'phenom/index.html'), 'unexpected HTML')
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+          publication = json.loads(Path('publication.json').read_bytes())
+          require(set(publication) == {'source_sha', 'manifest', 'workflow_sha256'}, 'publication shape')
+          require(re.fullmatch('[0-9a-f]{40}', publication['source_sha']), 'source SHA')
+          manifest = publication['manifest']
+          require(set(manifest) == {'source_sha', 'files'} and manifest['source_sha'] == publication['source_sha'], 'manifest SHA')
+          require(set(manifest['files']) == {'ru', 'en'}, 'locale inventory')
+          for inventory in manifest['files'].values():
+              require(isinstance(inventory, dict) and 'phenom/index.html' in inventory, 'Phenom missing')
+              for name, value in inventory.items():
+                  safe(name)
+                  require(isinstance(value, str) and re.fullmatch('[0-9a-f]{64}', value), 'file digest')
+          require(sha(Path('.github/workflows/pages.yml').read_bytes()) == publication['workflow_sha256'], 'template hash')
+          expected = {'site/' + name: value for name, value in manifest['files']['ru'].items()}
+          allowed = set(expected) | {'publication.json', '.github/workflows/pages.yml'}
+          directories = {str(p) for name in allowed for p in PurePosixPath(name).parents if str(p) != '.'}
+          actual = set()
+          for directory, dirs, files in os.walk('.', followlinks=False):
+              if directory == '.':
+                  dirs[:] = [name for name in dirs if name != '.git']
+              for name in dirs + files:
+                  path = Path(directory) / name
+                  require(not path.is_symlink(), 'symlink')
+                  require(path.is_file() or path.is_dir(), 'special entry')
+                  if path.is_dir():
+                      require(path.as_posix() in directories, 'unknown directory')
+                  else:
+                      actual.add(path.as_posix())
+                      require(stat.S_IMODE(path.stat().st_mode) & 0o111 == 0, 'executable payload')
+          require(actual == allowed, 'unknown/missing payload')
+          for name, value in expected.items():
+              require(sha(Path(name).read_bytes()) == value, 'site hash mismatch')
+          PY
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Upload only RU site
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: site
+  deploy:
+    needs: build
+    if: github.repository == 'ergohaven/projects-ru' && github.ref == 'refs/heads/gh-pages'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

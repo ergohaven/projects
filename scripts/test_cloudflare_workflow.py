@@ -119,6 +119,49 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("--page phenom", staging["run"])
         self.assertIn("check_phenom_isolation.py", staging["run"])
 
+    def test_locale_provider_split_and_secret_isolation(self):
+        jobs = self.workflow['jobs']
+        cf = jobs['publish']
+        self.assertIn('--locale en', cf['steps'][-1]['run'])
+        self.assertIn('publish_ru', jobs)
+        ru = jobs['publish_ru']
+        self.assertEqual(ru['needs'], 'build')
+        self.assertEqual(ru['if'], cf['if'])
+        self.assertNotIn('CLOUDFLARE_', json.dumps(ru))
+        self.assertNotIn('RU_PAGES_SSH_KEY', json.dumps(cf))
+        self.assertNotIn('GITHUB_TOKEN_DASH', json.dumps(self.workflow))
+        checkout = ru['steps'][0]
+        self.assertEqual(checkout['with']['ref'], '${{ github.workflow_sha }}')
+        self.assertEqual(checkout['with']['persist-credentials'], 'false')
+        download = next(s for s in ru['steps'] if 'download-artifact@' in s.get('uses', ''))
+        self.assertEqual(download['with']['name'], 'phenom-production')
+        self.assertNotIn('run-id', download['with'])
+        step = ru['steps'][-1]
+        self.assertEqual(step['env']['RU_PAGES_SSH_KEY'], '${{ secrets.RU_PAGES_SSH_KEY }}')
+        for value in ('trusted/scripts/github_pages_branch.py publish',
+                      '--repository ergohaven/projects-ru',
+                      '--workflow-template trusted/ci/ru-pages.yml',
+                      '--known-hosts trusted/ci/github_known_hosts',
+                      'trap', 'umask 077', 'unset RU_PAGES_SSH_KEY'):
+            self.assertIn(value, step['run'])
+
+    def test_ru_publication_has_same_trusted_event_gate(self):
+        self.assertIn('publish_ru', self.workflow['jobs'])
+        gate = self.workflow['jobs']['publish_ru']['if']
+        for event, ref, expected in (
+            ('push', 'refs/heads/main', True),
+            ('push', 'refs/heads/feature', False),
+            ('workflow_dispatch', 'refs/heads/main', True),
+            ('workflow_dispatch', 'refs/heads/feature', False),
+            ('pull_request', 'refs/pull/1/merge', False),
+            ('pull_request_target', 'refs/heads/main', False),
+        ):
+            with self.subTest(event=event, ref=ref):
+                self.assertEqual(bool(expression(gate, event, ref)), expected)
+        tests = next(s for s in self.workflow['jobs']['build']['steps']
+                     if 'test_cloudflare_workflow.py' in s.get('run', ''))
+        self.assertIn('test_github_pages_branch.py', tests['run'])
+
 
 if __name__ == "__main__":
     unittest.main()

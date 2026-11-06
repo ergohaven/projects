@@ -43,6 +43,7 @@ def main():
     parser.add_argument("--root", type=Path, default=Path("production"))
     parser.add_argument("--source-sha", required=True, type=source_sha)
     parser.add_argument("--wrangler", default="wrangler")
+    parser.add_argument("--locale", choices=tuple(PROJECTS), help="publish only this locale (default: both)")
     args = parser.parse_args()
     if args.command == "validate":
         return
@@ -51,7 +52,7 @@ def main():
         return
     expected = verify_bundle(args.root, args.source_sha)
     api = CloudflareAPI(os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""), os.environ.get("CLOUDFLARE_API_TOKEN", ""))
-    projects = preflight(api)
+    projects = preflight(api, (args.locale,)) if args.locale else preflight(api)
     def fetch(url):
         headers = {"Cache-Control": "no-cache",
                    "User-Agent": "Ergohaven-Phenom-Publisher/1.0 (+https://github.com/ergohaven/projects)"}
@@ -146,12 +147,17 @@ def validate_project(data, name):
     return data
 
 
-def preflight(api):
+def preflight(api, locales=None):
+    selected = tuple(PROJECTS) if locales is None else tuple(locales)
+    if not selected or any(locale not in PROJECTS for locale in selected):
+        raise ValueError("unsupported locale selection")
     projects = {}
-    for locale, name in PROJECTS.items():
+    for locale in selected:
+        name = PROJECTS[locale]
         data = api("GET", "/pages/projects/" + name)
         projects[locale] = validate_project(data, name) if data is not None else None
-    for locale, name in PROJECTS.items():
+    for locale in selected:
+        name = PROJECTS[locale]
         if projects[locale] is None:
             created = api("POST", "/pages/projects", {"name": name, "production_branch": "main"})
             readback = validate_project(api("GET", "/pages/projects/" + name), name)
