@@ -18,7 +18,7 @@ pub = __import__('github_pages_branch') if SPEC else None
 
 class PublisherTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(dir=os.environ['TMPDIR'])
+        self.tmp = tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR') or os.environ.get('RUNNER_TEMP'))
         self.addCleanup(self.tmp.cleanup)
         self.base = Path(self.tmp.name)
         self.root = self.base / 'production'
